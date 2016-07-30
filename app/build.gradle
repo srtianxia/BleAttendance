@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
+
+    defaultConfig {
+        applicationId "com.srtianxia.bleattendance"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    compile rootProject.ext.appcompat_v7
+    compile rootProject.ext.android_design
+    compile rootProject.ext.retrofit
+    compile rootProject.ext.retrofitGsonConverer
+    compile rootProject.ext.retrofitRxJavaAdapter
+    compile 'com.jakewharton:butterknife:8.2.1'
+    compile 'com.google.dagger:dagger:2.6'
+    apt 'com.google.dagger:dagger-compiler:2.6'
+    compile 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.orhanobut:logger:1.15'
+    compile 'io.reactivex:rxandroid:1.2.1'
+}

@@ -28,7 +28,11 @@ public class LoginPresenter extends BasePresenter<LoginPresenter.ILoginView> {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Action1<StuEntity>() {
                 @Override public void call(StuEntity stuEntity) {
-                    Logger.d(stuEntity.sessionId);
+                    if (stuEntity.status == 200) {
+                        getView().loginSuccess();
+                    } else {
+                        getView().loginFailure(stuEntity.msg);
+                    }
                 }
             }, new Action1<Throwable>() {
                 @Override public void call(Throwable throwable) {
@@ -40,5 +44,8 @@ public class LoginPresenter extends BasePresenter<LoginPresenter.ILoginView> {
     public interface ILoginView extends BaseView {
         String getStuNum();
         String getPassword();
+
+        void loginSuccess();
+        void loginFailure(String cause);
     }
 }

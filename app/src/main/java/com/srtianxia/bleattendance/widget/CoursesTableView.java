@@ -25,37 +25,43 @@ public class CoursesTableView extends FrameLayout {
     private CourseColorSelector colorSelector = new CourseColorSelector();
     private Context context;
     //二维数组，每一个格子中又包括很多课程，数组的行数为hash_lesson，列数为hash_day
-    public CourseList[][] course = (CourseList[][]) Array.newInstance(CourseList.class, new int[]{7, 7});
+    public CourseList[][] course = (CourseList[][]) Array.newInstance(CourseList.class, new int[] {7, 7});
 
     //每一个课程格子的高度(单个格子，两节课的占两个，三节课的占三个)
     private int height = (int) ScreenUtils.dp2Px(getContext(), 100.0F);
 
     //每一个课程格子的宽度
-    private final int width = (int) ((ScreenUtils.getScreenWidth(getContext()) - ScreenUtils.dp2Px(getContext(), 56.0F)) / 7.0F);
+    private final int width = (int) (
+        (ScreenUtils.getScreenWidth(getContext()) - ScreenUtils.dp2Px(getContext(), 56.0F)) / 7.0F);
 
     private View dialogView;
+
 
     public CoursesTableView(Context paramContext) {
         super(paramContext);
     }
+
 
     public CoursesTableView(Context paramContext, AttributeSet paramAttributeSet) {
         super(paramContext, paramAttributeSet);
         this.context = paramContext;
         //构造方法中进行判断，适配屏幕
         int i = ScreenUtils.getScreenHeight(paramContext);
-        if (ScreenUtils.px2Dp(paramContext, i) > 700.0F)
+        if (ScreenUtils.px2Dp(paramContext, i) > 700.0F) {
             this.height = (i / 6);
+        }
         initCourse();
 
-//        setWillNotDraw(false)   当我们要复写一个ViewGroup的onDraw方法的时候要设置这个属性,这个View没有复写
-//        onDraw()方法，所以就可以不用标记。
-//        setWillNotDraw(false);
+        //        setWillNotDraw(false)   当我们要复写一个ViewGroup的onDraw方法的时候要设置这个属性,这个View没有复写
+        //        onDraw()方法，所以就可以不用标记。
+        //        setWillNotDraw(false);
     }
+
 
     public CoursesTableView(Context paramContext, AttributeSet paramAttributeSet, int paramInt) {
         super(paramContext, paramAttributeSet, paramInt);
     }
+
 
     private void addAnchorView() {
         View localView = new View(getContext());
@@ -66,6 +72,7 @@ public class CoursesTableView extends FrameLayout {
         localView.setLayoutParams(localLayoutParams);
         addView(localView);
     }
+
 
     /**
      * 数据传到每一个格子，这里分两种情况，一种是一个格子只有一节课，另一种是每个格子有很多
@@ -82,7 +89,9 @@ public class CoursesTableView extends FrameLayout {
         int j = this.width * localCourse.hash_day;
         int k = this.width;
         final int l = (int) (this.height * localCourse.period / 2.0F);
-        LayoutParams localLayoutParams1 = new LayoutParams((int) (k - ScreenUtils.dp2Px(getContext(), 1.0F)), (int) (l - ScreenUtils.dp2Px(getContext(), 1.0F)));
+        LayoutParams localLayoutParams1 = new LayoutParams(
+            (int) (k - ScreenUtils.dp2Px(getContext(), 1.0F)),
+            (int) (l - ScreenUtils.dp2Px(getContext(), 1.0F)));
         localLayoutParams1.topMargin = (int) (i + ScreenUtils.dp2Px(getContext(), 1.0F));
         localLayoutParams1.leftMargin = (int) (j + ScreenUtils.dp2Px(getContext(), 1.0F));
         localTextView.setLayoutParams(localLayoutParams1);
@@ -93,7 +102,8 @@ public class CoursesTableView extends FrameLayout {
         GradientDrawable localGradientDrawable = new GradientDrawable();
         localGradientDrawable.setCornerRadius(ScreenUtils.dp2Px(getContext(), 1.0F));
         //根据课程的这两个参数找到一开始设置的颜色信息
-        localGradientDrawable.setColor(this.colorSelector.getCourseColor(localCourse.begin_lesson, localCourse.hash_day));
+        localGradientDrawable.setColor(
+            this.colorSelector.getCourseColor(localCourse.begin_lesson, localCourse.hash_day));
         localTextView.setBackgroundDrawable(localGradientDrawable);
         localTextView.setOnClickListener(new OnClickListener() {
             @Override
@@ -101,14 +111,16 @@ public class CoursesTableView extends FrameLayout {
                 //CourseDialog.newInstance(paramCourseList).show(((AppCompatActivity)context).getSupportFragmentManager(),"");
             }
         });
-//        在这里添加每一个格子的点击事件，将paramCourseList传进去，再处理。
+        //        在这里添加每一个格子的点击事件，将paramCourseList传进去，再处理。
         addView(localTextView);
         //如果一个格子只有一节课，就返回，否则就在右下角添加一个标记
-        if (paramCourseList.list.size() <= 1)
+        if (paramCourseList.list.size() <= 1) {
             return;
+        }
         //添加一个格子有多个课程的标记
         View localView = new View(getContext());
-        localView.setBackgroundDrawable(getResources().getDrawable(R.mipmap.ic_corner_right_bottom));
+        localView.setBackgroundDrawable(
+            getResources().getDrawable(R.mipmap.ic_corner_right_bottom));
         LayoutParams localLayoutParams2 = new LayoutParams(k / 5, k / 5);
         localLayoutParams2.topMargin = (i + l - (k / 5));
         localLayoutParams2.leftMargin = (j + k * 4 / 5);
@@ -116,20 +128,26 @@ public class CoursesTableView extends FrameLayout {
         addView(localView);
     }
 
+
     private void initCourse() {
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 7; i++) {
             this.course[i] = new CourseList[7];
+        }
     }
 
+
     private void loadingContent() {
-        for (int i = 0; i < 7; ++i)
+        for (int i = 0; i < 7; ++i) {
             for (int j = 0; j < 7; ++j) {
-                if (this.course[i][j] == null)
+                if (this.course[i][j] == null) {
                     continue;
+                }
                 createLessonText(this.course[i][j]);
             }
-//        addAnchorView();
+        }
+        //        addAnchorView();
     }
+
 
     public void addContentView(List<CourseEntity.Course> paramList) {
         removeAllViews();
@@ -142,18 +160,21 @@ public class CoursesTableView extends FrameLayout {
                 int i = localCourse.hash_lesson;
                 int j = localCourse.hash_day;
                 //数组的行数和列数，开始时没有格子就new一个，有就直接添加数据
-                if (this.course[i][j] == null)
+                if (this.course[i][j] == null) {
                     this.course[i][j] = new CourseList();
+                }
                 this.course[i][j].list.add(localCourse);
             }
         }
         loadingContent();
     }
 
+
     //颜色选色器
     public static class CourseColorSelector {
         private int[] colors;
         private HashMap<String, Integer> mCourseColorMap;
+
 
         public CourseColorSelector() {
             int[] arrayOfInt = new int[4];
@@ -165,45 +186,51 @@ public class CoursesTableView extends FrameLayout {
             this.mCourseColorMap = new HashMap();
         }
 
+
         /**
          * 颜色选择的策略
          *
          * @param beginLesson 每一节课开始的节数
-         * @param hashDay     周几的表示法，从0开始，0为周一，代表这个课程在周几
+         * @param hashDay 周几的表示法，从0开始，0为周一，代表这个课程在周几
          */
         public void addCourse(int beginLesson, int hashDay) {
             // hashDay >=5 指的是周末
             if (hashDay >= 5) {
-                this.mCourseColorMap.put(beginLesson + "," + hashDay, Integer.valueOf(this.colors[3]));
+                this.mCourseColorMap.put(beginLesson + "," + hashDay,
+                    Integer.valueOf(this.colors[3]));
                 return;
             }
             if (beginLesson < 4) {
-                this.mCourseColorMap.put(beginLesson + "," + hashDay, Integer.valueOf(this.colors[0]));
+                this.mCourseColorMap.put(beginLesson + "," + hashDay,
+                    Integer.valueOf(this.colors[0]));
                 return;
             }
             if (beginLesson < 7) {
-                this.mCourseColorMap.put(beginLesson + "," + hashDay, Integer.valueOf(this.colors[1]));
+                this.mCourseColorMap.put(beginLesson + "," + hashDay,
+                    Integer.valueOf(this.colors[1]));
                 return;
             }
             this.mCourseColorMap.put(beginLesson + "," + hashDay, Integer.valueOf(this.colors[2]));
         }
 
-//        public void addCourse(String paramString) {
-//            Iterator localIterator = this.mCourseColorMap.entrySet().iterator();
-//            while (localIterator.hasNext())
-//                if (((String)((Map.Entry)localIterator.next()).getKey()).equals(paramString))
-//                    return;
-//            this.mCourseColorMap.put(paramString, Integer.valueOf(this.colors[(this.mCourseColorMap.size() % this.colors.length)]));
-//        }
+        //        public void addCourse(String paramString) {
+        //            Iterator localIterator = this.mCourseColorMap.entrySet().iterator();
+        //            while (localIterator.hasNext())
+        //                if (((String)((Map.Entry)localIterator.next()).getKey()).equals(paramString))
+        //                    return;
+        //            this.mCourseColorMap.put(paramString, Integer.valueOf(this.colors[(this.mCourseColorMap.size() % this.colors.length)]));
+        //        }
+
 
         public int getCourseColor(int beginLesson, int hashDay) {
             return ((Integer) this.mCourseColorMap.get(beginLesson + "," + hashDay)).intValue();
         }
 
-//        public int getCourseColor(String paramString) {
-//            return ((Integer)this.mCourseColorMap.get(paramString)).intValue();
-//        }
+        //        public int getCourseColor(String paramString) {
+        //            return ((Integer)this.mCourseColorMap.get(paramString)).intValue();
+        //        }
     }
+
 
     public static class CourseList implements Serializable {
         public ArrayList<CourseEntity.Course> list = new ArrayList();

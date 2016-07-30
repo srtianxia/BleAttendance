@@ -10,9 +10,9 @@ import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.component.DaggerLoginComponent;
 import com.srtianxia.bleattendance.module.LoginModule;
 import com.srtianxia.bleattendance.presenter.LoginPresenter;
-import com.srtianxia.bleattendance.ui.activity.StudentActivity;
 import com.srtianxia.bleattendance.ui.activity.TeacherActivity;
 import com.srtianxia.bleattendance.utils.UiHelper;
+import com.srtianxia.blelibs.utils.ToastUtil;
 import javax.inject.Inject;
 
 /**
@@ -28,20 +28,22 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
     @Inject
     LoginPresenter mPresenter;
 
+
     @Override protected void initView() {
         DaggerLoginComponent.builder().loginModule(new LoginModule(this)).build().inject(this);
     }
 
-    @OnClick(R.id.tv_link_teacher_enter)
-    void clickToTeacher() {
+
+    @OnClick(R.id.tv_link_teacher_enter) void clickToTeacher() {
         UiHelper.startActivity(getActivity(), TeacherActivity.class);
     }
 
-    @OnClick(R.id.btn_login)
-    void clickToStudent() {
-        UiHelper.startActivity(getActivity(), StudentActivity.class);
-        //mPresenter.login();
+
+    @OnClick(R.id.btn_login) void clickToStudent() {
+        //UiHelper.startActivity(getActivity(), StudentActivity.class);
+        mPresenter.login();
     }
+
 
     @Override protected int getLayoutRes() {
         return R.layout.fragment_login;
@@ -55,5 +57,15 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
     @Override public String getPassword() {
         return inputPassword.getText().toString();
+    }
+
+
+    @Override public void loginSuccess() {
+        ToastUtil.show(getActivity(), "success", true);
+    }
+
+
+    @Override public void loginFailure(String cause) {
+        ToastUtil.show(getActivity(), cause, true);
     }
 }

@@ -23,6 +23,8 @@ public class BLEPeripheral extends BaseBlueTooth {
     private BluetoothLeAdvertiser mBluetoothLeAdvertiser;
     private Context mContext;
 
+    private boolean isStartAdvertise = false;
+
     private AdvertiseCallback mAdvertiseCallback = new AdvertiseCallback() {
 
         /**
@@ -31,6 +33,7 @@ public class BLEPeripheral extends BaseBlueTooth {
          */
         @Override public void onStartSuccess(AdvertiseSettings settingsInEffect) {
             super.onStartSuccess(settingsInEffect);
+            isStartAdvertise = true;
             ToastUtil.show(mContext, "ADVERTISE_SUCCESS", true);
         }
 
@@ -40,6 +43,7 @@ public class BLEPeripheral extends BaseBlueTooth {
          */
         @Override public void onStartFailure(int errorCode) {
             super.onStartFailure(errorCode);
+            isStartAdvertise = false;
             if(errorCode == ADVERTISE_FAILED_DATA_TOO_LARGE){
                 ToastUtil.show(mContext, "ADVERTISE_FAILED_DATA_TOO_LARGE", true);
                 //Log.d(TAG,"Failed to start advertising as the advertise data to be broadcasted is larger than 31 bytes.");
@@ -86,7 +90,13 @@ public class BLEPeripheral extends BaseBlueTooth {
      * @param connectable
      */
     public void startAdvertise(String advData, int advertiseMode, int txPowerLevel, boolean connectable) {
-        mBluetoothLeAdvertiser.startAdvertising(createAdvSettings(advertiseMode, txPowerLevel, connectable), createAdvData(advData), mAdvertiseCallback);
+        if (!isStartAdvertise) {
+            mBluetoothLeAdvertiser.startAdvertising(
+                createAdvSettings(advertiseMode, txPowerLevel, connectable), createAdvData(advData),
+                mAdvertiseCallback);
+        } else {
+            ToastUtil.show(mContext, "已经开始广播", true);
+        }
     }
 
     public void startAdvertise(String davData) {

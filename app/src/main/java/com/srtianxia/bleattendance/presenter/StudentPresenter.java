@@ -44,6 +44,9 @@ public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentVie
         mBlePeripheral.startAdvertise(advData);
     }
 
+    public void stopAdvertise() {
+        mBlePeripheral.stopAdvertise();
+    }
 
     public interface IStudentView extends BaseView {
         void setCourseTable(CourseEntity courses);

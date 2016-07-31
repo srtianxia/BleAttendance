@@ -80,24 +80,7 @@ public class BLECentral extends BaseBlueTooth {
         mBluetoothLeScanner.startScan(scanFilters, scanSettings, mScanCallback);
     }
 
-
-    //public static ScanFilter createScanFilter() {
-    //
-    //}
-    //
-    //public static ScanSettings createScanSettings() {
-    //
-    //}
-
-    //private BLECentral() {
-    //
-    //}
-    //
-    //public static BLECentral getCentral() {
-    //    return SingleHolder.mBLECentral;
-    //}
-    //
-    //private static class SingleHolder {
-    //    private static final BLECentral mBLECentral = new BLECentral();
-    //}
+    public void stopScan() {
+        mBluetoothLeScanner.stopScan(mScanCallback);
+    }
 }

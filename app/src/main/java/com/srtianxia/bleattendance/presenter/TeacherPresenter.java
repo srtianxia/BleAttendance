@@ -3,7 +3,6 @@ package com.srtianxia.bleattendance.presenter;
 import android.annotation.TargetApi;
 import android.bluetooth.le.ScanResult;
 import android.os.Build;
-import com.orhanobut.logger.Logger;
 import com.srtianxia.bleattendance.App;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
@@ -27,7 +26,7 @@ public class TeacherPresenter extends BasePresenter<TeacherPresenter.ITeacherVie
         mBleCentral.setOnScanCallback(new OnScanCallback() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override public void onScanResult(int callbackType, ScanResult result) {
-                Logger.d(Thread.currentThread().getName() + result);
+                getView().addDeviceInfo(result);
             }
 
 
@@ -37,12 +36,17 @@ public class TeacherPresenter extends BasePresenter<TeacherPresenter.ITeacherVie
 
 
             @Override public void onScanFailed(int errorCode) {
-                Logger.d(Thread.currentThread().getName() + "ERROR " + errorCode);
+
             }
         });
     }
 
-    public interface ITeacherView extends BaseView {
+    public void stopScan() {
+        mBleCentral.stopScan();
+    }
 
+    public interface ITeacherView extends BaseView {
+        void addDeviceInfo(ScanResult scanResult);
+        void showScanFailure(int errorCode);
     }
 }

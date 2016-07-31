@@ -105,6 +105,9 @@ public class BLEPeripheral extends BaseBlueTooth {
         return data;
     }
 
+    public void stopAdvertise() {
+        mBluetoothLeAdvertiser.stopAdvertising(mAdvertiseCallback);
+    }
 
     public static AdvertiseSettings createAdvSettings(int advertiseMode, int txPowerLevel, boolean connectable) {
         AdvertiseSettings advSettings = new AdvertiseSettings.Builder()

@@ -5,22 +5,20 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
-import com.srtianxia.bleattendance.component.DaggerTeacherComponent;
-import com.srtianxia.bleattendance.module.TeacherModule;
-import com.srtianxia.bleattendance.presenter.TeacherPresenter;
-import javax.inject.Inject;
+import com.srtianxia.bleattendance.ui.fragment.TeacherFragment;
 
 /**
  * Created by srtianxia on 2016/7/30.
  */
-public class TeacherActivity extends BaseActivity implements TeacherPresenter.ITeacherView {
-    @BindView(R.id.fab) FloatingActionButton fabShift;
+public class TeacherActivity extends BaseActivity {
+    @BindView(R.id.fab) FloatingActionButton fab;
 
-    @Inject
-    TeacherPresenter mPresenter;
+    private TeacherFragment mTeacherFragment;
 
     @Override protected void initView() {
-        DaggerTeacherComponent.builder().teacherModule(new TeacherModule(this)).build().inject(this);
+        mTeacherFragment = TeacherFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+            .add(R.id.fragment_container, mTeacherFragment).commit();
     }
 
 
@@ -30,7 +28,6 @@ public class TeacherActivity extends BaseActivity implements TeacherPresenter.IT
 
     @OnClick(R.id.fab)
     void clickToScan() {
-        mPresenter.startScan();
+        mTeacherFragment.startScanDevice();
     }
-
 }

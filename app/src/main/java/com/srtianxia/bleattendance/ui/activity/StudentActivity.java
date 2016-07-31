@@ -103,4 +103,11 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
     void clickToAttendance() {
         mPresenter.startAdvertise("2014211819");
     }
+
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.stopAdvertise();
+        mPresenter.detachView();
+    }
 }

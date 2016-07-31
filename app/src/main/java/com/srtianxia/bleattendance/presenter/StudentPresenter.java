@@ -1,11 +1,13 @@
 package com.srtianxia.bleattendance.presenter;
 
 import com.orhanobut.logger.Logger;
+import com.srtianxia.bleattendance.App;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.entity.CourseEntity;
 import com.srtianxia.bleattendance.http.ApiUtil;
 import com.srtianxia.bleattendance.http.api.Api;
+import com.srtianxia.blelibs.BLEPeripheral;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -15,10 +17,12 @@ import rx.schedulers.Schedulers;
  */
 public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentView> {
     private Api mApi;
+    private BLEPeripheral mBlePeripheral;
 
     public StudentPresenter(IStudentView baseView) {
         super(baseView);
         mApi = ApiUtil.createApi(Api.class, ApiUtil.getBaseUrl());
+        mBlePeripheral = new BLEPeripheral(App.getContext());
     }
 
     public void loadCourse(String stuNum) {
@@ -34,6 +38,10 @@ public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentVie
                     Logger.d(throwable.getMessage());
                 }
             });
+    }
+
+    public void startAdvertise(String advData) {
+        mBlePeripheral.startAdvertise(advData);
     }
 
 

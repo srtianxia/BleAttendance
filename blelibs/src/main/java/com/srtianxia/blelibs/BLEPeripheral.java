@@ -11,6 +11,7 @@ import android.os.ParcelUuid;
 import android.util.Log;
 import com.srtianxia.blelibs.config.BLEProfile;
 import com.srtianxia.blelibs.utils.BytesUtil;
+import com.srtianxia.blelibs.utils.ToastUtil;
 
 /**
  * Created by srtianxia on 2016/7/14.
@@ -20,6 +21,7 @@ import com.srtianxia.blelibs.utils.BytesUtil;
 public class BLEPeripheral extends BaseBlueTooth {
     private static final String TAG = "BLEPeripheral";
     private BluetoothLeAdvertiser mBluetoothLeAdvertiser;
+    private Context mContext;
 
     private AdvertiseCallback mAdvertiseCallback = new AdvertiseCallback() {
 
@@ -29,7 +31,7 @@ public class BLEPeripheral extends BaseBlueTooth {
          */
         @Override public void onStartSuccess(AdvertiseSettings settingsInEffect) {
             super.onStartSuccess(settingsInEffect);
-
+            ToastUtil.show(mContext, "ADVERTISE_SUCCESS", true);
         }
 
         /**
@@ -39,15 +41,20 @@ public class BLEPeripheral extends BaseBlueTooth {
         @Override public void onStartFailure(int errorCode) {
             super.onStartFailure(errorCode);
             if(errorCode == ADVERTISE_FAILED_DATA_TOO_LARGE){
-                Log.d(TAG,"Failed to start advertising as the advertise data to be broadcasted is larger than 31 bytes.");
+                ToastUtil.show(mContext, "ADVERTISE_FAILED_DATA_TOO_LARGE", true);
+                //Log.d(TAG,"Failed to start advertising as the advertise data to be broadcasted is larger than 31 bytes.");
             }else if(errorCode == ADVERTISE_FAILED_TOO_MANY_ADVERTISERS){
-                Log.d(TAG,"Failed to start advertising because no advertising instance is available.");
+                ToastUtil.show(mContext, "ADVERTISE_FAILED_TOO_MANY_ADVERTISERS", true);
+                //Log.d(TAG,"Failed to start advertising because no advertising instance is available.");
             }else if(errorCode == ADVERTISE_FAILED_ALREADY_STARTED){
-                Log.d(TAG,"Failed to start advertising as the advertising is already started");
+                ToastUtil.show(mContext, "ADVERTISE_FAILED_ALREADY_STARTED", true);
+                //Log.d(TAG,"Failed to start advertising as the advertising is already started");
             }else if(errorCode == ADVERTISE_FAILED_INTERNAL_ERROR){
-                Log.d(TAG,"Operation failed due to an internal error");
+                ToastUtil.show(mContext, "ADVERTISE_FAILED_INTERNAL_ERROR", true);
+                //Log.d(TAG,"Operation failed due to an internal error");
             }else if(errorCode == ADVERTISE_FAILED_FEATURE_UNSUPPORTED){
-                Log.d(TAG,"This feature is not supported on this platform");
+                ToastUtil.show(mContext, "ADVERTISE_FAILED_FEATURE_UNSUPPORTED", true);
+                //Log.d(TAG,"This feature is not supported on this platform");
             }
         }
     };
@@ -55,6 +62,7 @@ public class BLEPeripheral extends BaseBlueTooth {
 
     public BLEPeripheral(Context context) {
         super(context);
+        this.mContext = context;
         mBluetoothLeAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
     }
 
@@ -81,6 +89,9 @@ public class BLEPeripheral extends BaseBlueTooth {
         mBluetoothLeAdvertiser.startAdvertising(createAdvSettings(advertiseMode, txPowerLevel, connectable), createAdvData(advData), mAdvertiseCallback);
     }
 
+    public void startAdvertise(String davData) {
+        startAdvertise(davData, AdvertiseSettings.ADVERTISE_MODE_BALANCED, AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM, true);
+    }
 
     /**
      * 创建跟随BLE广播发送的数据
@@ -103,17 +114,4 @@ public class BLEPeripheral extends BaseBlueTooth {
             .build();
         return advSettings;
     }
-
-
-    //private BLEPeripheral() {
-    //
-    //}
-    //
-    //public static BLEPeripheral getPeripheral() {
-    //    return SingleHolder.mBLEPeripheral;
-    //}
-    //
-    //private static class SingleHolder {
-    //    private static final BLEPeripheral mBLEPeripheral = new BLEPeripheral();
-    //}
 }

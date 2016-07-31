@@ -1,11 +1,13 @@
 package com.srtianxia.bleattendance.ui.activity;
 
+import android.support.design.widget.FloatingActionButton;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.BindView;
+import butterknife.OnClick;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.component.DaggerStudentComponent;
@@ -28,28 +30,35 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
     @BindView(R.id.container_course_time) LinearLayout containerCourseTime;
     @BindView(R.id.view_course_table) CoursesTableView viewCourseTable;
     @BindView(R.id.pb_course) ProgressBar pbCourse;
+    @BindView(R.id.fab) FloatingActionButton fabShift;
+
 
     @Inject
     StudentPresenter mPresenter;
 
-
     //本周的周数
     private int week = 12;
 
+
     @Override protected void initView() {
-        DaggerStudentComponent.builder().studentModule(new StudentModule(this)).build().inject(this);
+        DaggerStudentComponent.builder()
+            .studentModule(new StudentModule(this))
+            .build()
+            .inject(this);
 
         pbCourse.setVisibility(View.VISIBLE);
 
         mPresenter.loadCourse("2014211819");
     }
 
+
     private void initCourseTextView() {
         tvMonth.setText("5月");
         String[] arrayOfString = getResources().getStringArray(R.array.week);
         int i = ScreenUtils.getScreenHeight(this);
         if (ScreenUtils.px2Dp(this, i) > 700.0F) {
-            containerCourseTime.setLayoutParams(new LinearLayout.LayoutParams((int) ScreenUtils.dp2Px(this, 40.0F), i));
+            containerCourseTime.setLayoutParams(
+                new LinearLayout.LayoutParams((int) ScreenUtils.dp2Px(this, 40.0F), i));
             //            viewCourseTable.setLayoutParams(new LinearLayout.LayoutParams(-1, i));
         }
         //添加星期行和那一行上面的日期行
@@ -84,10 +93,14 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
         return R.layout.activity_student;
     }
 
-
     @Override public void setCourseTable(CourseEntity courses) {
         pbCourse.setVisibility(View.GONE);
         initCourseTextView();
         viewCourseTable.addContentView(courses.data);
+    }
+
+    @OnClick(R.id.fab)
+    void clickToAttendance() {
+        mPresenter.startAdvertise("2014211819");
     }
 }

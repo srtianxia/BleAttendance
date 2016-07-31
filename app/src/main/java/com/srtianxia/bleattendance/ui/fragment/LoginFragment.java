@@ -10,6 +10,7 @@ import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.component.DaggerLoginComponent;
 import com.srtianxia.bleattendance.module.LoginModule;
 import com.srtianxia.bleattendance.presenter.LoginPresenter;
+import com.srtianxia.bleattendance.ui.activity.StudentActivity;
 import com.srtianxia.bleattendance.ui.activity.TeacherActivity;
 import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.blelibs.utils.ToastUtil;
@@ -40,8 +41,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
 
     @OnClick(R.id.btn_login) void clickToStudent() {
-        //UiHelper.startActivity(getActivity(), StudentActivity.class);
-        mPresenter.login();
+        UiHelper.startActivity(getActivity(), StudentActivity.class);
+        //mPresenter.login();
     }
 
 

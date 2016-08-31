@@ -62,16 +62,16 @@ public class CoursesTableView extends FrameLayout {
         super(paramContext, paramAttributeSet, paramInt);
     }
 
-
-    private void addAnchorView() {
-        View localView = new View(getContext());
-        LayoutParams localLayoutParams = new LayoutParams(1, 1);
-        localLayoutParams.topMargin = 0;
-        localLayoutParams.leftMargin = (-1 + 7 * this.width);
-        localView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        localView.setLayoutParams(localLayoutParams);
-        addView(localView);
-    }
+    //
+    //private void addAnchorView() {
+    //    View localView = new View(getContext());
+    //    LayoutParams localLayoutParams = new LayoutParams(1, 1);
+    //    localLayoutParams.topMargin = 0;
+    //    localLayoutParams.leftMargin = (-1 + 7 * this.width);
+    //    localView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+    //    localView.setLayoutParams(localLayoutParams);
+    //    addView(localView);
+    //}
 
 
     /**

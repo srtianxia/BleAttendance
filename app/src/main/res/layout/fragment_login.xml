@@ -1,57 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical"
+<RelativeLayout android:orientation="vertical"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="56dp"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
+    android:layout_height="match_parent"
+    android:background="@mipmap/material01"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:src="@mipmap/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="72dp"
-        android:layout_marginBottom="24dp"
-        android:layout_gravity="center_horizontal" />
+    <LinearLayout
+        android:id="@+id/llt_container"
+        android:layout_width="260dp"
+        android:layout_height="320dp"
+        android:elevation="10dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:background="@drawable/bg_llt_login"
+        android:padding="8dp">
+        
+        <LinearLayout
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="12dp">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-        <EditText android:id="@+id/input_username"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/username_img"/>
+
+
+            <EditText
+                android:layout_marginLeft="2dp"
+                android:id="@+id/input_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="username" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/password_img"/>
+
+            <EditText
+                android:layout_marginLeft="2dp"
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="password"/>
+        </LinearLayout>
+
+
+        <com.srtianxia.bleattendance.widget.LoginButton
+            android:layout_marginTop="20dp"
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"/>
+
+        <TextView
+            android:id="@+id/tv_link_teacher_enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="StuNumber" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="24dp"
+            android:text="teacher entrance"
+            android:gravity="center"
+            android:textSize="16dip"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-        <EditText android:id="@+id/input_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Password"/>
-    </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_login"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:padding="12dp"
-        android:text="Login"/>
 
-    <TextView android:id="@+id/tv_link_teacher_enter"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="teacher entrance"
-        android:gravity="center"
-        android:textSize="16dip"/>
-</LinearLayout>
+</RelativeLayout>

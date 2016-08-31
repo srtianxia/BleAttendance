@@ -1,9 +1,20 @@
 package com.srtianxia.bleattendance.ui.fragment;
 
-import android.support.v7.widget.AppCompatButton;
+import android.animation.Animator;
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
@@ -13,6 +24,7 @@ import com.srtianxia.bleattendance.presenter.LoginPresenter;
 import com.srtianxia.bleattendance.ui.activity.StudentActivity;
 import com.srtianxia.bleattendance.ui.activity.TeacherActivity;
 import com.srtianxia.bleattendance.utils.UiHelper;
+import com.srtianxia.bleattendance.widget.LoginButton;
 import com.srtianxia.blelibs.utils.ToastUtil;
 import javax.inject.Inject;
 
@@ -20,11 +32,12 @@ import javax.inject.Inject;
  * Created by srtianxia on 2016/7/23.
  */
 public class LoginFragment extends BaseFragment implements LoginPresenter.ILoginView {
-
+    @BindView(R.id.container) RelativeLayout container;
     @BindView(R.id.input_username) EditText inputUsername;
     @BindView(R.id.input_password) EditText inputPassword;
-    @BindView(R.id.btn_login) AppCompatButton btnLogin;
+    @BindView(R.id.btn_login) LoginButton btnLogin;
     @BindView(R.id.tv_link_teacher_enter) TextView tvLinkTeacherEnter;
+    @BindView(R.id.llt_container) LinearLayout lltContainer;
 
     @Inject
     LoginPresenter mPresenter;
@@ -41,8 +54,13 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
 
     @OnClick(R.id.btn_login) void clickToStudent() {
-        UiHelper.startActivity(getActivity(), StudentActivity.class);
-        //mPresenter.login();
+        //UiHelper.startActivity(getActivity(), StudentActivity.class);
+        btnLogin.executeLogin();
+        btnLogin.postDelayed(new Runnable() {
+            @Override public void run() {
+                handleSuccess();
+            }
+        }, 2000);
     }
 
 
@@ -69,4 +87,53 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
     @Override public void loginFailure(String cause) {
         ToastUtil.show(getActivity(), cause, true);
     }
+
+
+    private void handleSuccess() {
+        float finalRadius = (float) Math.hypot(container.getWidth(), container.getHeight());
+        int[] location = new int[2];
+        btnLogin.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        Animator animator = ViewAnimationUtils.createCircularReveal(container,
+            x + btnLogin.getMeasuredWidth() / 2, y - btnLogin.getMeasuredHeight(), 100,
+            finalRadius);
+        container.setBackgroundColor(0xff6abad3);
+        animator.setDuration(500);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override public void onAnimationStart(Animator animator) {
+
+            }
+
+
+            @Override public void onAnimationEnd(Animator animator) {
+                startActivity(new Intent(getActivity(), StudentActivity.class),
+                    ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                getActivity().finishAfterTransition();
+            }
+
+
+            @Override public void onAnimationCancel(Animator animator) {
+
+            }
+
+
+            @Override public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animator.start();
+        hideAllView();
+    }
+
+
+    private void hideAllView() {
+        //inputUsername.setVisibility(View.GONE);
+        //inputPassword.setVisibility(View.GONE);
+        //tvLinkTeacherEnter.setVisibility(View.GONE);
+        //btnLogin.setVisibility(View.GONE);
+        lltContainer.setVisibility(View.GONE);
+    }
+
 }

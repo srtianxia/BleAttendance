@@ -6,4 +6,10 @@ package com.srtianxia.bleattendance.entity;
 public class DeviceEntity {
     public String name;
     public String address;
+
+
+    public DeviceEntity(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
 }

@@ -45,6 +45,6 @@ public class TeacherPresenter extends BasePresenter<TeacherPresenter.ITeacherVie
     public interface ITeacherView extends BaseView {
         void addDeviceInfo(ScanResult scanResult);
 
-        void showScanFailure(int errorCode);
+        void showScanFailure(String errorResult);
     }
 }

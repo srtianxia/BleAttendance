@@ -13,6 +13,7 @@ import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.text.TextUtils;
 import com.srtianxia.blelibs.callback.OnScanCallback;
+import com.srtianxia.blelibs.utils.LogUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ import java.util.Map;
  */
 public class BLECentral extends BaseBlueTooth {
     private BluetoothLeScanner mBluetoothLeScanner;
-    private BluetoothGatt mBluetoothGatt;
+    //private BluetoothGatt mBluetoothGatt;
 
     private OnScanCallback mOnScanCallback;
     private Map<String, BluetoothGatt> mGattMap = new HashMap<>();
@@ -32,6 +33,7 @@ public class BLECentral extends BaseBlueTooth {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             super.onConnectionStateChange(gatt, status, newState);
+            LogUtil.logGattDetail(gatt);
         }
 
 
@@ -73,12 +75,6 @@ public class BLECentral extends BaseBlueTooth {
         }
 
 
-        @Override public void onBatchScanResults(List<ScanResult> results) {
-            super.onBatchScanResults(results);
-            mOnScanCallback.onBatchScanResults(results);
-        }
-
-
         @Override public void onScanFailed(int errorCode) {
             super.onScanFailed(errorCode);
             mOnScanCallback.onScanFailed(errorCode);
@@ -107,11 +103,12 @@ public class BLECentral extends BaseBlueTooth {
     }
 
 
-    public void  connectRemoteDevice(String macAddress) {
+    public void connectRemoteDevice(String macAddress) {
         if (!TextUtils.isEmpty(macAddress)) {
             if (!mGattMap.containsKey(macAddress)) {
                 BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(macAddress);
                 BluetoothGatt gatt = device.connectGatt(mContext, true, mGattCallback);
+                mGattMap.put(macAddress, gatt);
             }
         }
     }

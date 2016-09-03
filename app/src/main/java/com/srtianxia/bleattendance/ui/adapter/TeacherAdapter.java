@@ -1,13 +1,15 @@
 package com.srtianxia.bleattendance.ui.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
-import com.srtianxia.bleattendance.base.view.BaseItemView;
-import com.srtianxia.bleattendance.base.viewholder.BaseViewHolder;
 import com.srtianxia.bleattendance.entity.DeviceEntity;
-import com.srtianxia.bleattendance.ui.itemview.TeacherItemView;
 import java.util.List;
 
 /**
@@ -15,17 +17,18 @@ import java.util.List;
  */
 public class TeacherAdapter extends BaseAdapter<DeviceEntity> {
 
-    public TeacherAdapter(Context mContext) {
-        super(mContext);
-    }
-
     @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        if (holder instanceof TeacherViewHolder) {
+            TeacherViewHolder viewHolder = (TeacherViewHolder) holder;
+            viewHolder.setData(getDataController().getData(position));
+        }
     }
 
 
-    @Override protected BaseViewHolder createHolder(ViewGroup parent, int viewType) {
-        return new TeacherViewHolder(new TeacherItemView(parent.getContext(), parent));
+    @Override protected RecyclerView.ViewHolder createHolder(ViewGroup parent, int viewType) {
+        return new TeacherViewHolder(
+            LayoutInflater.from(parent.getContext()).inflate(R.layout.item_teacher, parent, false
+            ));
     }
 
 
@@ -39,9 +42,20 @@ public class TeacherAdapter extends BaseAdapter<DeviceEntity> {
     }
 
 
-    public static class TeacherViewHolder extends BaseViewHolder<TeacherItemView> {
-        public TeacherViewHolder(BaseItemView baseItemView) {
-            super(baseItemView);
+    public static class TeacherViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_device_name) TextView tvDeviceName;
+        @BindView(R.id.tv_device_address) TextView tvDeviceAddress;
+
+
+        public TeacherViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+
+        public void setData(DeviceEntity entity) {
+            tvDeviceName.setText(entity.name);
+            tvDeviceAddress.setText(entity.address);
         }
     }
 }

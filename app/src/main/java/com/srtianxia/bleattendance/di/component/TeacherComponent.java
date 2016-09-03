@@ -1,6 +1,6 @@
-package com.srtianxia.bleattendance.component;
+package com.srtianxia.bleattendance.di.component;
 
-import com.srtianxia.bleattendance.module.TeacherModule;
+import com.srtianxia.bleattendance.di.module.TeacherModule;
 import com.srtianxia.bleattendance.ui.fragment.TeacherFragment;
 import dagger.Component;
 

@@ -2,19 +2,16 @@ package com.srtianxia.bleattendance.ui.fragment;
 
 import android.bluetooth.le.ScanResult;
 import android.os.Bundle;
-import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
-import com.srtianxia.bleattendance.base.view.BaseListFragment;
-import com.srtianxia.bleattendance.component.DaggerTeacherComponent;
-import com.srtianxia.bleattendance.entity.DeviceEntity;
-import com.srtianxia.bleattendance.module.TeacherModule;
+import com.srtianxia.bleattendance.base.view.BaseFragment;
+import com.srtianxia.bleattendance.di.component.DaggerTeacherComponent;
+import com.srtianxia.bleattendance.di.module.TeacherModule;
 import com.srtianxia.bleattendance.presenter.TeacherPresenter;
-import com.srtianxia.bleattendance.ui.adapter.TeacherAdapter;
 import javax.inject.Inject;
 
 /**
  * Created by srtianxia on 2016/7/31.
  */
-public class TeacherFragment extends BaseListFragment<DeviceEntity>
+public class TeacherFragment extends BaseFragment
     implements TeacherPresenter.ITeacherView {
 
     @Inject
@@ -22,11 +19,15 @@ public class TeacherFragment extends BaseListFragment<DeviceEntity>
 
 
     @Override protected void initView() {
-        super.initView();
         DaggerTeacherComponent.builder()
             .teacherModule(new TeacherModule(this))
             .build()
             .inject(this);
+    }
+
+
+    @Override protected int getLayoutRes() {
+        return 0;
     }
 
 
@@ -43,9 +44,6 @@ public class TeacherFragment extends BaseListFragment<DeviceEntity>
     }
 
 
-    @Override protected BaseAdapter getAdapter() {
-        return new TeacherAdapter(getActivity());
-    }
 
 
     @Override public void addDeviceInfo(ScanResult scanResult) {

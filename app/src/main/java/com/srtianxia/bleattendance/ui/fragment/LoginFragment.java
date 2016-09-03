@@ -3,23 +3,19 @@ package com.srtianxia.bleattendance.ui.fragment;
 import android.animation.Animator;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
-import com.srtianxia.bleattendance.component.DaggerLoginComponent;
-import com.srtianxia.bleattendance.module.LoginModule;
+import com.srtianxia.bleattendance.di.component.DaggerLoginComponent;
+import com.srtianxia.bleattendance.di.module.LoginModule;
 import com.srtianxia.bleattendance.presenter.LoginPresenter;
 import com.srtianxia.bleattendance.ui.activity.StudentActivity;
 import com.srtianxia.bleattendance.ui.activity.TeacherActivity;
@@ -54,11 +50,11 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
 
     @OnClick(R.id.btn_login) void clickToStudent() {
-        //UiHelper.startActivity(getActivity(), StudentActivity.class);
         btnLogin.executeLogin();
         btnLogin.postDelayed(new Runnable() {
             @Override public void run() {
-                handleSuccess();
+                mPresenter.login();
+                //handleSuccess();
             }
         }, 2000);
     }
@@ -80,7 +76,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
 
     @Override public void loginSuccess() {
-        ToastUtil.show(getActivity(), "success", true);
+        handleSuccess();
+        //ToastUtil.show(getActivity(), "success", true);
     }
 
 

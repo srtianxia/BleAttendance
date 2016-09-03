@@ -1,6 +1,6 @@
-package com.srtianxia.bleattendance.component;
+package com.srtianxia.bleattendance.di.component;
 
-import com.srtianxia.bleattendance.module.LoginModule;
+import com.srtianxia.bleattendance.di.module.LoginModule;
 import com.srtianxia.bleattendance.ui.fragment.LoginFragment;
 import dagger.Component;
 

@@ -7,10 +7,10 @@ import java.util.List;
  * Created by srtianxia on 2016/7/15.
  * ScanCallback的回调
  */
-public interface OnScanCallback {
-    void onScanResult(int callbackType, ScanResult result);
+public abstract class OnScanCallback {
+    public abstract void onScanResult(int callbackType, ScanResult result);
 
-    void onBatchScanResults(List<ScanResult> results);
+    public void onBatchScanResults(List<ScanResult> results) {}
 
-    void onScanFailed(int errorCode);
+    public abstract void onScanFailed(int errorCode);
 }

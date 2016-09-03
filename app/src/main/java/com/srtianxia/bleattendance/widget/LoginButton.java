@@ -30,6 +30,8 @@ public class LoginButton extends View {
 
     private boolean isPressed = false;
 
+    private boolean isOnceClick = false;
+
     private String mText = "LOGIN IN";
 
 
@@ -46,7 +48,6 @@ public class LoginButton extends View {
     @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mButtonWidth = DensityUtil.dp2px(getContext(), 180);
-        //mButtonHeight = DensityUtil.dp2px(getContext(), 80);
     }
 
 
@@ -151,7 +152,6 @@ public class LoginButton extends View {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 360);
         valueAnimator.setDuration(800);
         valueAnimator.setInterpolator(new LinearInterpolator());
-        //valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 angle = (float) valueAnimator.getAnimatedValue();
@@ -164,6 +164,7 @@ public class LoginButton extends View {
 
 
     public void executeLogin() {
+        isOnceClick = true;
         startTranslation();
     }
 

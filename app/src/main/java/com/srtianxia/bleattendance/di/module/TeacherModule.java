@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.module;
+package com.srtianxia.bleattendance.di.module;
 
 import com.srtianxia.bleattendance.presenter.TeacherPresenter;
 import dagger.Module;

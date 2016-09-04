@@ -1,6 +1,5 @@
 package com.srtianxia.bleattendance.base.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import java.util.List;
@@ -30,7 +29,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     //addData
     public void addData(T data) {
         mDataController.addData(data);
-        notifyDataSetChanged();
+        notifyItemInserted(mDataController.getDataSize() - 1);
     }
 
     public DataController<T> getDataController() {

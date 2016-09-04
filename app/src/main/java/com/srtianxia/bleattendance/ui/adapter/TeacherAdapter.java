@@ -15,12 +15,26 @@ import java.util.List;
 /**
  * Created by srtianxia on 2016/7/31.
  */
-public class TeacherAdapter extends BaseAdapter<DeviceEntity> {
+public class TeacherAdapter extends BaseAdapter<DeviceEntity> implements View.OnClickListener{
+    private OnItemClickListener mOnItemClickListener;
 
-    @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
+
+
+    @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof TeacherViewHolder) {
             TeacherViewHolder viewHolder = (TeacherViewHolder) holder;
             viewHolder.setData(getDataController().getData(position));
+            if (mOnItemClickListener != null) {
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View view) {
+                        mOnItemClickListener.onClick(position);
+                    }
+                });
+            }
         }
     }
 
@@ -39,6 +53,11 @@ public class TeacherAdapter extends BaseAdapter<DeviceEntity> {
 
     @Override public void addData(DeviceEntity data) {
         super.addData(data);
+    }
+
+
+    @Override public void onClick(View view) {
+
     }
 
 

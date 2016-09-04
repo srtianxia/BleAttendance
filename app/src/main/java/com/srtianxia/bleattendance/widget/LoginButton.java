@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -128,7 +127,6 @@ public class LoginButton extends View {
                 mButtonWidth = progress;
                 invalidate();
                 if (progress == 0) {
-                    Log.d("progress == 0", "progress == 0");
                     isPressed = true;
                     startRotate();
                 }
@@ -170,6 +168,6 @@ public class LoginButton extends View {
 
 
     private float getTextDatumLine() {
-        return (mTextPaint.descent() + mTextPaint.ascent()) / 2f;
+        return mTextPaint.getFontMetrics().descent - (mTextPaint.getFontMetrics().bottom - mTextPaint.getFontMetrics().top) / 2;
     }
 }

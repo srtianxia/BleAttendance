@@ -4,20 +4,17 @@ import android.bluetooth.le.ScanResult;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.di.component.DaggerTeacherComponent;
 import com.srtianxia.bleattendance.di.module.TeacherModule;
 import com.srtianxia.bleattendance.entity.DeviceEntity;
 import com.srtianxia.bleattendance.presenter.TeacherPresenter;
+import com.srtianxia.bleattendance.ui.adapter.OnItemClickListener;
 import com.srtianxia.bleattendance.ui.adapter.TeacherAdapter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -29,7 +26,10 @@ public class TeacherFragment extends BaseFragment
     @Inject
     TeacherPresenter mPresenter;
     @BindView(R.id.rv_teacher) RecyclerView rvTeacher;
+    @BindView(R.id.btn_connect) Button btnConnect;
     private TeacherAdapter mAdapter;
+
+    private int i = 1;
 
 
     @Override protected void initView() {
@@ -41,12 +41,11 @@ public class TeacherFragment extends BaseFragment
         rvTeacher.setAdapter(mAdapter = new TeacherAdapter());
         rvTeacher.setLayoutManager(
             new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
-        List<DeviceEntity> entities = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            entities.add(new DeviceEntity("name" + i , "address" + i));
-        }
-        mAdapter.loadData(entities);
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override public void onClick(int position) {
+                mPresenter.startConnect(mAdapter.getDataController().getData(position).address);
+            }
+        });
     }
 
 
@@ -69,8 +68,9 @@ public class TeacherFragment extends BaseFragment
 
 
     @Override public void addDeviceInfo(ScanResult scanResult) {
-        mAdapter.addData(new DeviceEntity(scanResult.getDevice().getName(),
+        mAdapter.addData(new DeviceEntity("name" + i,
             scanResult.getDevice().getAddress()));
+        i++;
     }
 
 
@@ -85,4 +85,8 @@ public class TeacherFragment extends BaseFragment
         mPresenter.detachView();
     }
 
+    @OnClick(R.id.btn_connect)
+    void connect() {
+
+    }
 }

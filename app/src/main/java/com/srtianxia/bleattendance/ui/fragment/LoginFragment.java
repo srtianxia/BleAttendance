@@ -53,8 +53,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
         btnLogin.executeLogin();
         btnLogin.postDelayed(new Runnable() {
             @Override public void run() {
-                mPresenter.login();
-                //handleSuccess();
+                //mPresenter.login();
+                handleSuccess();
             }
         }, 2000);
     }
@@ -77,7 +77,6 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
     @Override public void loginSuccess() {
         handleSuccess();
-        //ToastUtil.show(getActivity(), "success", true);
     }
 
 
@@ -126,10 +125,6 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
 
     private void hideAllView() {
-        //inputUsername.setVisibility(View.GONE);
-        //inputPassword.setVisibility(View.GONE);
-        //tvLinkTeacherEnter.setVisibility(View.GONE);
-        //btnLogin.setVisibility(View.GONE);
         lltContainer.setVisibility(View.GONE);
     }
 

@@ -2,6 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:text="一键连接"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_teacher"
         android:layout_width="match_parent"

@@ -71,7 +71,9 @@ public class BLECentral extends BaseBlueTooth {
          */
         @Override public void onScanResult(int callbackType, ScanResult result) {
             super.onScanResult(callbackType, result);
-            mOnScanCallback.onScanResult(callbackType, result);
+            if (mOnScanCallback != null) {
+                mOnScanCallback.onScanResult(callbackType, result);
+            }
         }
 
 

@@ -41,6 +41,13 @@ public class TeacherPresenter extends BasePresenter<TeacherPresenter.ITeacherVie
         mBleCentral.stopScan();
     }
 
+    public void startConnect(String macAddress) {
+        mBleCentral.connectRemoteDevice(macAddress);
+    }
+
+    public void connectListAllDevice() {
+
+    }
 
     public interface ITeacherView extends BaseView {
         void addDeviceInfo(ScanResult scanResult);

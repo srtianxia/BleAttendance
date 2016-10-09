@@ -1,6 +1,5 @@
 package com.srtianxia.bleattendance.presenter;
 
-import com.orhanobut.logger.Logger;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.config.Constant;
@@ -36,7 +35,7 @@ public class LoginPresenter extends BasePresenter<LoginPresenter.ILoginView> {
                 }
             }, new Action1<Throwable>() {
                 @Override public void call(Throwable throwable) {
-                    Logger.d(throwable.getMessage());
+
                 }
             });
     }

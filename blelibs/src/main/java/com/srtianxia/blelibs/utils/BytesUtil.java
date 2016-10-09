@@ -15,4 +15,8 @@ public class BytesUtil {
         }
         return bytes;
     }
+
+    //public static String byte2String(byte[] src){
+    //    return
+    //}
 }

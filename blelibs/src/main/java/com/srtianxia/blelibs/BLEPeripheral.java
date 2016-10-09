@@ -1,21 +1,24 @@
 package com.srtianxia.blelibs;
 
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattServer;
 import android.bluetooth.BluetoothGattServerCallback;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
 import android.bluetooth.le.AdvertiseCallback;
 import android.bluetooth.le.AdvertiseData;
 import android.bluetooth.le.AdvertiseSettings;
 import android.bluetooth.le.BluetoothLeAdvertiser;
 import android.content.Context;
 import android.os.ParcelUuid;
+
+import com.srtianxia.blelibs.callback.OnConnectListener;
 import com.srtianxia.blelibs.config.BLEProfile;
 import com.srtianxia.blelibs.utils.BytesUtil;
 import com.srtianxia.blelibs.utils.ToastUtil;
+
 import java.util.UUID;
 
 /**
@@ -30,6 +33,14 @@ public class BLEPeripheral extends BaseBlueTooth {
     private Context mContext;
 
     private boolean isStartAdvertise = false;
+
+    private OnConnectListener mOnConnectListener;
+
+    public void setOnConnectListener(OnConnectListener mOnConnectListener) {
+        this.mOnConnectListener = mOnConnectListener;
+    }
+
+
 
     //连接的回调
     private BluetoothGattServerCallback mGattServerCallback = new BluetoothGattServerCallback() {
@@ -63,6 +74,16 @@ public class BLEPeripheral extends BaseBlueTooth {
         @Override
         public void onConnectionStateChange(BluetoothDevice device, int status, int newState) {
             super.onConnectionStateChange(device, status, newState);
+
+            if (newState == BluetoothProfile.STATE_CONNECTED){
+                if (mOnConnectListener != null) {
+                    mOnConnectListener.onConnect();
+                }
+           }else if (newState == BluetoothProfile.STATE_DISCONNECTED){
+               if (mOnConnectListener!= null) {
+                   mOnConnectListener.onDisConnect();
+               }
+            }
         }
     };
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<tabs>
+    <tab
+        id="@+id/tab_scan"
+        icon="@mipmap/ic_scan"
+        barColorWhenSelected="#63c1ff"
+        activeColor="#ffffff"
+        title="扫描" />
+    <tab
+        id="@+id/tab_attend"
+        icon="@mipmap/ic_attend"
+        barColorWhenSelected="#6dd6df"
+        activeColor="#ffffff"
+        title="查看" />
+</tabs>

@@ -35,5 +35,6 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.6'
     compile 'org.glassfish:javax.annotation:10.0-b28'
     compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.roughike:bottom-bar:2.0.2'
     compile project(':blelibs')
 }

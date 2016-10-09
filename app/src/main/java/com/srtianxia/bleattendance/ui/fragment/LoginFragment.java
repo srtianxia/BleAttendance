@@ -10,8 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
+
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.di.component.DaggerLoginComponent;
@@ -22,7 +21,11 @@ import com.srtianxia.bleattendance.ui.activity.TeacherActivity;
 import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.widget.LoginButton;
 import com.srtianxia.blelibs.utils.ToastUtil;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by srtianxia on 2016/7/23.
@@ -53,8 +56,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
         btnLogin.executeLogin();
         btnLogin.postDelayed(new Runnable() {
             @Override public void run() {
-                //mPresenter.login();
-                handleSuccess();
+                mPresenter.login();
+//                handleSuccess();
             }
         }, 2000);
     }

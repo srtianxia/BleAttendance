@@ -1,24 +1,32 @@
 package com.srtianxia.bleattendance.ui.activity;
 
+import android.content.Intent;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
+import android.widget.Toast;
+
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.di.component.DaggerStudentComponent;
-import com.srtianxia.bleattendance.entity.CourseEntity;
 import com.srtianxia.bleattendance.di.module.StudentModule;
+import com.srtianxia.bleattendance.entity.CourseEntity;
 import com.srtianxia.bleattendance.presenter.StudentPresenter;
+import com.srtianxia.bleattendance.utils.LockUtil;
 import com.srtianxia.bleattendance.utils.SchoolCalendar;
 import com.srtianxia.bleattendance.utils.ScreenUtils;
 import com.srtianxia.bleattendance.widget.CoursesTableView;
+
 import java.util.Calendar;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by srtianxia on 2016/7/30.
@@ -49,6 +57,7 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
         pbCourse.setVisibility(View.VISIBLE);
 
         mPresenter.loadCourse("2014211819");
+        openUsageAccess();
     }
 
 
@@ -109,5 +118,14 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
         super.onDestroy();
         mPresenter.stopAdvertise();
         mPresenter.detachView();
+    }
+
+    private void openUsageAccess(){
+        if (LockUtil.isPermissionForTest(StudentActivity.this) == false){
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            Toast.makeText(StudentActivity.this,"权限不够\n请打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾", Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -1,13 +1,20 @@
 package com.srtianxia.bleattendance.presenter;
 
+import android.content.Intent;
+import android.util.Log;
+
 import com.orhanobut.logger.Logger;
-import com.srtianxia.bleattendance.App;
+import com.srtianxia.bleattendance.Service.LockService;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.entity.CourseEntity;
 import com.srtianxia.bleattendance.http.ApiUtil;
 import com.srtianxia.bleattendance.http.api.Api;
+import com.srtianxia.bleattendance.ui.activity.StudentActivity;
 import com.srtianxia.blelibs.BLEPeripheral;
+import com.srtianxia.blelibs.callback.OnConnectListener;
+import com.srtianxia.blelibs.utils.ToastUtil;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -19,25 +26,41 @@ public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentVie
     private Api mApi;
     private BLEPeripheral mBlePeripheral;
 
-    public StudentPresenter(IStudentView baseView) {
+    public StudentPresenter(final IStudentView baseView) {
         super(baseView);
         mApi = ApiUtil.createApi(Api.class, ApiUtil.getBaseUrl());
-        mBlePeripheral = new BLEPeripheral(App.getContext());
+        mBlePeripheral = new BLEPeripheral(((StudentActivity) baseView));
+        mBlePeripheral.setOnConnectListener(new OnConnectListener() {
+            @Override
+            public void onConnect() {
+                Log.i("aaaaaaaaa","连接成功");
+                ToastUtil.show((StudentActivity) baseView,"连接成功",true);
+                Intent intent = new Intent((StudentActivity) baseView, LockService.class);
+                ((StudentActivity) baseView).startService(intent);
+            }
+
+            @Override
+            public void onDisConnect() {
+
+            }
+        });
     }
 
     public void loadCourse(String stuNum) {
         mApi.loadCourseTable(stuNum).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Action1<CourseEntity>() {
-                @Override public void call(CourseEntity courseEntity) {
-                    Logger.d(courseEntity);
-                    getView().setCourseTable(courseEntity);
-                }
-            }, new Action1<Throwable>() {
-                @Override public void call(Throwable throwable) {
-                    Logger.d(throwable.getMessage());
-                }
-            });
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<CourseEntity>() {
+                    @Override
+                    public void call(CourseEntity courseEntity) {
+                        Logger.d(courseEntity);
+                        getView().setCourseTable(courseEntity);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Logger.d(throwable.getMessage());
+                    }
+                });
     }
 
     public void startAdvertise(String advData) {

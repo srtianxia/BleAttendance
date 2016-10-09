@@ -2,11 +2,12 @@ package com.srtianxia.bleattendance.ui.fragment;
 
 import android.bluetooth.le.ScanResult;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
-import butterknife.BindView;
-import butterknife.OnClick;
+
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.di.component.DaggerTeacherComponent;
@@ -15,7 +16,11 @@ import com.srtianxia.bleattendance.entity.DeviceEntity;
 import com.srtianxia.bleattendance.presenter.TeacherPresenter;
 import com.srtianxia.bleattendance.ui.adapter.OnItemClickListener;
 import com.srtianxia.bleattendance.ui.adapter.TeacherAdapter;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by srtianxia on 2016/7/31.
@@ -27,6 +32,7 @@ public class TeacherFragment extends BaseFragment
     TeacherPresenter mPresenter;
     @BindView(R.id.rv_teacher) RecyclerView rvTeacher;
     @BindView(R.id.btn_connect) Button btnConnect;
+    @BindView(R.id.fab) FloatingActionButton fab;
     private TeacherAdapter mAdapter;
 
     private int i = 1;
@@ -46,6 +52,13 @@ public class TeacherFragment extends BaseFragment
                 mPresenter.startConnect(mAdapter.getDataController().getData(position).address);
             }
         });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startScanDevice();
+            }
+        });
+
     }
 
 
@@ -89,4 +102,6 @@ public class TeacherFragment extends BaseFragment
     void connect() {
 
     }
+
+
 }

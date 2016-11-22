@@ -8,4 +8,8 @@
     <color name="TextColorBlack">#000000</color>
     <color name="colorGrey_content">#888888</color>
     <color name="colorBlack_title">#333333</color>
+
+
+    <color name="lollipop_status_bar_grey">#616161</color>
+
 </resources>

@@ -12,7 +12,7 @@ import com.srtianxia.bleattendance.Service.LockService;
 public class LockReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent i = new Intent(context, LockService.class);
-        context.startService(i);
+        Intent startService = new Intent(context, LockService.class);
+        context.startService(startService);
     }
 }

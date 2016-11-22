@@ -19,44 +19,49 @@ import butterknife.ButterKnife;
 /**
  * Created by 梅梅 on 2016/9/13.
  */
-public class AttendAdapter extends BaseAdapter{
+public class AttendAdapter extends BaseAdapter {
     private final String TAG = "AttendAdapter";
     List<AttendEntity.Absences> absences;
+
 
     public AttendAdapter(List<AttendEntity.Absences> absences) {
         this.absences = absences;
         loadData(absences);
-        Log.i(TAG,absences.size()+"");
+        Log.i(TAG, absences.size() + "");
     }
+
 
     @Override
     protected RecyclerView.ViewHolder createHolder(ViewGroup parent, int viewType) {
-        Log.i(TAG,"createHolder");
+        Log.i(TAG, "createHolder");
 
         return new AttendViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_attend,parent,false));
+            .inflate(R.layout.item_attend, parent, false));
     }
+
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.i(TAG,"onBindViewHolder");
+        Log.i(TAG, "onBindViewHolder");
         AttendViewHolder viewHolder = (AttendViewHolder) holder;
         viewHolder.setData(absences.get(position));
     }
 
 
-    public static class AttendViewHolder extends RecyclerView.ViewHolder{
+    public static class AttendViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_attend_name) TextView tvattendname;
         @BindView(R.id.tv_attend_num) TextView tvattendnum;
 
+
         public AttendViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
 
-        public void setData(AttendEntity.Absences absences){
+
+        public void setData(AttendEntity.Absences absences) {
             tvattendname.setText(absences.stuName);
-            tvattendnum.setText(""+absences.stuNum);
+            tvattendnum.setText("" + absences.stuNum);
         }
     }
 }

@@ -40,7 +40,6 @@ public class BLECentral extends BaseBlueTooth {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             super.onConnectionStateChange(gatt, status, newState);
-            LogUtil.logGattDetail(gatt);
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 gatt.discoverServices();
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
@@ -140,11 +139,11 @@ public class BLECentral extends BaseBlueTooth {
 
     public void connectRemoteDevice(String macAddress) {
         if (!TextUtils.isEmpty(macAddress)) {
-            if (!mGattMap.containsKey(macAddress)) {
+            //if (!mGattMap.containsKey(macAddress)) {
                 BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(macAddress);
-                BluetoothGatt gatt = device.connectGatt(mContext, false, mGattCallback);
+                BluetoothGatt gatt = device.connectGatt(mContext, true, mGattCallback);
                 mGattMap.put(macAddress, gatt);
-            }
+            //}
         }
     }
 }

@@ -40,7 +40,6 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
     @BindView(R.id.pb_course) ProgressBar pbCourse;
     @BindView(R.id.fab) FloatingActionButton fabShift;
 
-
     @Inject
     StudentPresenter mPresenter;
 
@@ -54,9 +53,9 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
             .build()
             .inject(this);
 
-        pbCourse.setVisibility(View.VISIBLE);
-
-        mPresenter.loadCourse("2014211819");
+        //pbCourse.setVisibility(View.VISIBLE);
+        //
+        //mPresenter.loadCourse("2014211819");
         openUsageAccess();
     }
 
@@ -102,11 +101,13 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
         return R.layout.activity_student;
     }
 
+
     @Override public void setCourseTable(CourseEntity courses) {
         pbCourse.setVisibility(View.GONE);
         initCourseTextView();
         viewCourseTable.addContentView(courses.data);
     }
+
 
     @OnClick(R.id.fab)
     void clickToAttendance() {
@@ -120,12 +121,14 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
         mPresenter.detachView();
     }
 
-    private void openUsageAccess(){
-        if (LockUtil.isPermissionForTest(StudentActivity.this) == false){
+
+    private void openUsageAccess() {
+        if (LockUtil.isPermissionForTest(StudentActivity.this) == false) {
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            Toast.makeText(StudentActivity.this,"权限不够\n请打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾", Toast.LENGTH_LONG).show();
+            Toast.makeText(StudentActivity.this, "权限不够\n请打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾",
+                Toast.LENGTH_LONG).show();
         }
     }
 }

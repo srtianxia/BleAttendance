@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.srtianxia.bleattendance.R;
 
 /**
- *  随便一个用于跳转的界面
+ * 随便一个用于跳转的界面
  */
 public class LockActivity extends BaseLockActivity {
 
@@ -28,6 +28,5 @@ public class LockActivity extends BaseLockActivity {
             }
         });
     }
-
 
 }

@@ -12,4 +12,10 @@ public class DeviceEntity {
         this.name = name;
         this.address = address;
     }
+
+
+    @Override public boolean equals(Object obj) {
+        DeviceEntity entity = (DeviceEntity) obj;
+        return entity.address.equals(address);
+    }
 }

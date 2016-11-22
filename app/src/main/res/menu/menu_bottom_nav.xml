@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/bottom_nav_scan"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="扫描"
+        android:icon="@mipmap/ic_scan"/>
+
+    <item android:id="@+id/bottom_nav_attendance"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="考勤"
+        android:icon="@mipmap/ic_attend"/>
+
+    <item android:id="@+id/bottom_na"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="其他"
+        android:icon="@mipmap/ic_search"/>
+</menu>

@@ -22,14 +22,17 @@ public class LoginButton extends View {
 
     private int mColor = 0xff6abad3;
     private int mProgressColor = 0xffffffff;
-    private float mButtonWidth = 300;
+    private float mButtonWidth;
     private int mButtonHeight = 120;
+    private float mInitWidth;
 
     private float angle = 0;
 
     private boolean isPressed = false;
 
     private boolean isOnceClick = false;
+
+    private boolean isFailure = false;
 
     private String mText = "LOGIN IN";
 
@@ -46,12 +49,17 @@ public class LoginButton extends View {
 
     @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mButtonWidth = DensityUtil.dp2px(getContext(), 180);
+        mInitWidth = mButtonWidth = DensityUtil.dp2px(getContext(), 180);
     }
 
 
     public LoginButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initPaint();
+    }
+
+
+    private void initPaint() {
         mRectPaint = new Paint();
         mRectPaint.setColor(mColor);
         mRectPaint.setStyle(Paint.Style.FILL);
@@ -80,7 +88,7 @@ public class LoginButton extends View {
         super.onDraw(canvas);
         drawRect(canvas);
         drawCircle(canvas);
-        if (isPressed) {
+        if (isPressed && !isFailure) {
             drawArcProgress(canvas);
         } else {
             drawText(canvas);
@@ -112,11 +120,6 @@ public class LoginButton extends View {
     }
 
 
-    public void get() {
-
-    }
-
-
     private void startTranslation() {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(mButtonWidth, 0);
         valueAnimator.setDuration(800);
@@ -130,6 +133,20 @@ public class LoginButton extends View {
                     isPressed = true;
                     startRotate();
                 }
+            }
+        });
+        valueAnimator.start();
+    }
+
+
+    private void startTranslationFailure() {
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, mInitWidth);
+        valueAnimator.setDuration(800);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override public void onAnimationUpdate(ValueAnimator animation) {
+                float progress = (float) animation.getAnimatedValue();
+                mButtonWidth = progress;
+                invalidate();
             }
         });
         valueAnimator.start();
@@ -163,11 +180,19 @@ public class LoginButton extends View {
 
     public void executeLogin() {
         isOnceClick = true;
+        isFailure = false;
         startTranslation();
     }
 
 
     private float getTextDatumLine() {
-        return mTextPaint.getFontMetrics().descent - (mTextPaint.getFontMetrics().bottom - mTextPaint.getFontMetrics().top) / 2;
+        return mTextPaint.getFontMetrics().descent -
+            (mTextPaint.getFontMetrics().bottom - mTextPaint.getFontMetrics().top) / 2;
+    }
+
+
+    public void executeLoginFailure() {
+        isFailure = true;
+        startTranslationFailure();
     }
 }

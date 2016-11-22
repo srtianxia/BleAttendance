@@ -24,5 +24,5 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("StudentKaoQin")
-    Observable<AttendEntity> queryAttend(@Field("cid") String classid);
+    Observable<AttendEntity> queryAttend(@Field("cid") String classId);
 }

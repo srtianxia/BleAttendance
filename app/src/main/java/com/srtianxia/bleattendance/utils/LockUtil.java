@@ -1,6 +1,5 @@
 package com.srtianxia.bleattendance.utils;
 
-import android.annotation.TargetApi;
 import android.app.AppOpsManager;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
@@ -8,14 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.util.Log;
-
 import com.srtianxia.bleattendance.ui.activity.Lockactivity.LockActivity;
 import com.srtianxia.bleattendance.ui.activity.Lockactivity.LockActivity1;
 import com.srtianxia.bleattendance.ui.activity.Lockactivity.LockActivity2;
 import com.srtianxia.bleattendance.ui.activity.Lockactivity.LockActivity3;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,8 +21,6 @@ import java.util.Random;
  * Created by 梅梅 on 2016/9/5.
  */
 public class LockUtil {
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static boolean queryUsageStats(Context context){
         final String TAG = "queryUsageStats";
 
@@ -64,7 +58,7 @@ public class LockUtil {
 
             int ran_num = new Random().nextInt(4);   //生成一个0-3的随机数,随机选择lockactivity
             Intent intent = null;
-            switch (ran_num){
+            /*switch (ran_num){
                 case 0:
                     intent = new Intent(context,LockActivity.class);
                     break;
@@ -77,7 +71,7 @@ public class LockUtil {
                 case 3:
                     intent = new Intent(context,LockActivity3.class);
                     break;
-            }
+            }*/
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
@@ -90,7 +84,6 @@ public class LockUtil {
      * @param context
      * @return
      */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static boolean isPermissionForTest(Context context){
         try {
             PackageManager packageManager = context.getPackageManager();

@@ -19,7 +19,7 @@ import butterknife.BindView;
 /**
  * Created by 梅梅 on 2016/9/13.
  */
-public class AttendFragment extends BaseFragment implements QuertAttendPresenter.IQueryView{
+public class AttendanceFragment extends BaseFragment implements QuertAttendPresenter.IQueryView{
 
     @BindView(R.id.rv_attend) RecyclerView rvAttend;
     @BindView(R.id.btn_attend_query) Button btnquery;
@@ -47,9 +47,9 @@ public class AttendFragment extends BaseFragment implements QuertAttendPresenter
         return R.layout.fragment_attend;
     }
 
-    public static AttendFragment newInstance(){
+    public static AttendanceFragment newInstance(){
         Bundle args = new Bundle();
-        AttendFragment fragment = new AttendFragment();
+        AttendanceFragment fragment = new AttendanceFragment();
         fragment.setArguments(args);
         return fragment;
     }

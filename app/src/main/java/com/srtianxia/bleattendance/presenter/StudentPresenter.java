@@ -26,6 +26,7 @@ public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentVie
     private Api mApi;
     private BLEPeripheral mBlePeripheral;
 
+
     public StudentPresenter(final IStudentView baseView) {
         super(baseView);
         mApi = ApiUtil.createApi(Api.class, ApiUtil.getBaseUrl());
@@ -33,11 +34,12 @@ public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentVie
         mBlePeripheral.setOnConnectListener(new OnConnectListener() {
             @Override
             public void onConnect() {
-                Log.i("aaaaaaaaa","连接成功");
-                ToastUtil.show((StudentActivity) baseView,"连接成功",true);
+                Log.i("aaaaaaaaa", "连接成功");
+                ToastUtil.show((StudentActivity) baseView, "连接成功", true);
                 Intent intent = new Intent((StudentActivity) baseView, LockService.class);
                 ((StudentActivity) baseView).startService(intent);
             }
+
 
             @Override
             public void onDisConnect() {
@@ -46,30 +48,33 @@ public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentVie
         });
     }
 
+
     public void loadCourse(String stuNum) {
         mApi.loadCourseTable(stuNum).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<CourseEntity>() {
-                    @Override
-                    public void call(CourseEntity courseEntity) {
-                        Logger.d(courseEntity);
-                        getView().setCourseTable(courseEntity);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Logger.d(throwable.getMessage());
-                    }
-                });
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Action1<CourseEntity>() {
+                @Override
+                public void call(CourseEntity courseEntity) {
+                    getView().setCourseTable(courseEntity);
+                }
+            }, new Action1<Throwable>() {
+                @Override
+                public void call(Throwable throwable) {
+                    Logger.d(throwable.getMessage());
+                }
+            });
     }
+
 
     public void startAdvertise(String advData) {
         mBlePeripheral.startAdvertise(advData);
     }
 
+
     public void stopAdvertise() {
         mBlePeripheral.stopAdvertise();
     }
+
 
     public interface IStudentView extends BaseView {
         void setCourseTable(CourseEntity courses);

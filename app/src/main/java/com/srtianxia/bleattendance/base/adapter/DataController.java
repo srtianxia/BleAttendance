@@ -39,4 +39,12 @@ public class DataController<T> {
     public int getDataSize() {
         return mDataList.size();
     }
+
+    public boolean isContains(T data) {
+        if (mDataList.contains(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

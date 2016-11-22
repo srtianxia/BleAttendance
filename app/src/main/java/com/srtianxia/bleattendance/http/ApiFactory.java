@@ -10,7 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiFactory {
 
     public static <T> T createApi(Class clazz, String baseUrl) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build();

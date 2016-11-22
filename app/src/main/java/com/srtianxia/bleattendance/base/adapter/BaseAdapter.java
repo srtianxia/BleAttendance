@@ -28,8 +28,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     //addData
     public void addData(T data) {
-        mDataController.addData(data);
-        notifyItemInserted(mDataController.getDataSize() - 1);
+        if (!mDataController.isContains(data)){
+            mDataController.addData(data);
+            notifyItemInserted(mDataController.getDataSize() - 1);
+        }
     }
 
     public DataController<T> getDataController() {

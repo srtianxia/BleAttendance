@@ -56,8 +56,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
         btnLogin.executeLogin();
         btnLogin.postDelayed(new Runnable() {
             @Override public void run() {
-                mPresenter.login();
-//                handleSuccess();
+//                mPresenter.login();
+                handleSuccess();
             }
         }, 2000);
     }

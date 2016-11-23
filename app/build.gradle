@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 
 android {
@@ -19,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -36,5 +41,7 @@ dependencies {
     compile 'org.glassfish:javax.annotation:10.0-b28'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile "com.polidea.rxandroidble:rxandroidble:1.1.0"
+    compile 'com.trello:rxlifecycle-android:1.0'
+    compile 'com.trello:rxlifecycle-components:1.0'
     compile project(':blelibs')
 }

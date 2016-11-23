@@ -1,7 +1,7 @@
 package com.srtianxia.bleattendance.http;
 
 import android.content.res.Resources;
-import com.srtianxia.bleattendance.App;
+import com.srtianxia.bleattendance.BleApplication;
 import com.srtianxia.bleattendance.R;
 
 /**
@@ -10,7 +10,7 @@ import com.srtianxia.bleattendance.R;
 public class ApiUtil {
 
     public static String getBaseUrl() {
-        Resources resources = App.getContext().getResources();
+        Resources resources = BleApplication.getContext().getResources();
         return resources.getString(R.string.base_url);
     }
 

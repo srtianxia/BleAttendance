@@ -2,7 +2,7 @@ package com.srtianxia.bleattendance.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.srtianxia.bleattendance.App;
+import com.srtianxia.bleattendance.BleApplication;
 
 /**
  * Created by srtianxia on 2016/7/30.
@@ -18,7 +18,7 @@ public class SharePreferenceManager {
     }
 
     private SharePreferenceManager() {
-        this.mContext = App.getContext();
+        this.mContext = BleApplication.getContext();
         mPackName = mContext.getPackageName();
         mSettings = mContext.getSharedPreferences(mPackName, 0);
     }

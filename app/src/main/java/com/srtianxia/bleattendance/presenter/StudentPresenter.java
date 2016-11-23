@@ -1,8 +1,6 @@
 package com.srtianxia.bleattendance.presenter;
 
 import android.content.Intent;
-import android.util.Log;
-
 import com.orhanobut.logger.Logger;
 import com.srtianxia.bleattendance.Service.LockService;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
@@ -14,7 +12,6 @@ import com.srtianxia.bleattendance.ui.activity.StudentActivity;
 import com.srtianxia.blelibs.BLEPeripheral;
 import com.srtianxia.blelibs.callback.OnConnectListener;
 import com.srtianxia.blelibs.utils.ToastUtil;
-
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -34,7 +31,6 @@ public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentVie
         mBlePeripheral.setOnConnectListener(new OnConnectListener() {
             @Override
             public void onConnect() {
-                Log.i("aaaaaaaaa", "连接成功");
                 ToastUtil.show((StudentActivity) baseView, "连接成功", true);
                 Intent intent = new Intent((StudentActivity) baseView, LockService.class);
                 ((StudentActivity) baseView).startService(intent);
@@ -46,6 +42,11 @@ public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentVie
 
             }
         });
+    }
+
+
+    @Override public StudentActivity getViewType() {
+        return ((StudentActivity) getView());
     }
 
 

@@ -64,7 +64,7 @@ public class CoursesTableView extends FrameLayout {
 
     //
     //private void addAnchorView() {
-    //    View localView = new View(getContext());
+    //    View localView = new View(getViewType());
     //    LayoutParams localLayoutParams = new LayoutParams(1, 1);
     //    localLayoutParams.topMargin = 0;
     //    localLayoutParams.leftMargin = (-1 + 7 * this.width);

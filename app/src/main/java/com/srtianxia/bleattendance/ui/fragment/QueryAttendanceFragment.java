@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.entity.AttendEntity;
-import com.srtianxia.bleattendance.presenter.QuertAttendPresenter;
+import com.srtianxia.bleattendance.presenter.QueryAttendancePresenter;
 import com.srtianxia.bleattendance.ui.adapter.AttendAdapter;
 import com.srtianxia.blelibs.utils.ToastUtil;
 
@@ -19,7 +19,7 @@ import butterknife.BindView;
 /**
  * Created by 梅梅 on 2016/9/13.
  */
-public class AttendanceFragment extends BaseFragment implements QuertAttendPresenter.IQueryView{
+public class QueryAttendanceFragment extends BaseFragment implements QueryAttendancePresenter.IQueryView{
 
     @BindView(R.id.rv_attend) RecyclerView rvAttend;
     @BindView(R.id.btn_attend_query) Button btnquery;
@@ -28,12 +28,12 @@ public class AttendanceFragment extends BaseFragment implements QuertAttendPrese
     @BindView(R.id.tv_attend) TextView tvattend;
     @BindView(R.id.tv_absences) TextView tvabsences;
 
-    QuertAttendPresenter mPresenter;
+    QueryAttendancePresenter mPresenter;
     AttendAdapter mAdapter;
 
     @Override
     protected void initView() {
-        mPresenter = new QuertAttendPresenter(this);
+        mPresenter = new QueryAttendancePresenter(this);
         btnquery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,9 +47,9 @@ public class AttendanceFragment extends BaseFragment implements QuertAttendPrese
         return R.layout.fragment_attend;
     }
 
-    public static AttendanceFragment newInstance(){
+    public static QueryAttendanceFragment newInstance(){
         Bundle args = new Bundle();
-        AttendanceFragment fragment = new AttendanceFragment();
+        QueryAttendanceFragment fragment = new QueryAttendanceFragment();
         fragment.setArguments(args);
         return fragment;
     }

@@ -1,6 +1,5 @@
 package com.srtianxia.bleattendance.base.presenter;
 
-import android.content.Context;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import java.lang.ref.WeakReference;
 
@@ -21,7 +20,9 @@ public abstract class BasePresenter<T extends BaseView> {
         return null;
     }
 
-    //public Context getContext() {
+    public abstract T getViewType();
+
+    //public Context getViewType() {
     //    return T(mReference.get());
     //}
 

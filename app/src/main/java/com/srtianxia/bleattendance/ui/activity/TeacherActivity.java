@@ -6,8 +6,8 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
-import com.srtianxia.bleattendance.ui.fragment.AttendanceFragment;
-import com.srtianxia.bleattendance.ui.fragment.TeacherFragment;
+import com.srtianxia.bleattendance.ui.fragment.QueryAttendanceFragment;
+import com.srtianxia.bleattendance.ui.fragment.TeacherScanScanFragment;
 
 /**
  * Created by srtianxia on 2016/7/30.
@@ -16,18 +16,18 @@ public class TeacherActivity extends BaseActivity
     implements BottomNavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.bottom_view) BottomNavigationView mBottomView;
 
-    private TeacherFragment mTeacherFragment;
-    private AttendanceFragment mAttendanceFragment;
+    private TeacherScanScanFragment mTeacherScanFragment;
+    private QueryAttendanceFragment mQueryAttendanceFragment;
 
 
     @Override protected void initView() {
-        mTeacherFragment = TeacherFragment.newInstance();
-        mAttendanceFragment = AttendanceFragment.newInstance();
+        mTeacherScanFragment = TeacherScanScanFragment.newInstance();
+        mQueryAttendanceFragment = QueryAttendanceFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
-            .add(R.id.fragment_container, mTeacherFragment)
-            .add(R.id.fragment_container, mAttendanceFragment)
-            .show(mTeacherFragment)
-            .hide(mAttendanceFragment)
+            .add(R.id.fragment_container, mTeacherScanFragment)
+            .add(R.id.fragment_container, mQueryAttendanceFragment)
+            .show(mTeacherScanFragment)
+            .hide(mQueryAttendanceFragment)
             .commit();
 
         mBottomView.setOnNavigationItemSelectedListener(this);
@@ -42,11 +42,11 @@ public class TeacherActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.bottom_nav_scan:
                 getSupportFragmentManager().beginTransaction()
-                    .hide(mAttendanceFragment).show(mTeacherFragment).commit();
+                    .hide(mQueryAttendanceFragment).show(mTeacherScanFragment).commit();
                 break;
             case R.id.bottom_nav_attendance:
                 getSupportFragmentManager().beginTransaction()
-                    .hide(mTeacherFragment).show(mAttendanceFragment).commit();
+                    .hide(mTeacherScanFragment).show(mQueryAttendanceFragment).commit();
                 break;
         }
         return true;

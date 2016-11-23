@@ -6,7 +6,7 @@ import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.entity.AttendEntity;
 import com.srtianxia.bleattendance.http.ApiUtil;
 import com.srtianxia.bleattendance.http.api.Api;
-
+import com.srtianxia.bleattendance.ui.fragment.QueryAttendanceFragment;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -14,13 +14,20 @@ import rx.schedulers.Schedulers;
 /**
  * Created by srtianxia on 2016/7/31.
  */
-public class QuertAttendPresenter extends BasePresenter<QuertAttendPresenter.IQueryView> {
+public class QueryAttendancePresenter extends BasePresenter<QueryAttendancePresenter.IQueryView> {
     private Api mApi;
 
-    public QuertAttendPresenter(IQueryView baseView) {
+
+    public QueryAttendancePresenter(IQueryView baseView) {
         super(baseView);
         mApi = ApiUtil.createApi(Api.class, ApiUtil.getBaseUrl());
     }
+
+
+    @Override public QueryAttendanceFragment getViewType() {
+        return (QueryAttendanceFragment) getView();
+    }
+
 
     public void queryAttend() {
         mApi.queryAttend("040200")
@@ -42,6 +49,7 @@ public class QuertAttendPresenter extends BasePresenter<QuertAttendPresenter.IQu
                 }
             });
     }
+
 
     public interface IQueryView extends BaseView {
 

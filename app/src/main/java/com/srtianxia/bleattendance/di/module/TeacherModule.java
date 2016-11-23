@@ -1,6 +1,6 @@
 package com.srtianxia.bleattendance.di.module;
 
-import com.srtianxia.bleattendance.presenter.TeacherPresenter;
+import com.srtianxia.bleattendance.presenter.TeacherScanPresenter;
 import dagger.Module;
 import dagger.Provides;
 
@@ -9,19 +9,19 @@ import dagger.Provides;
  */
 @Module
 public class TeacherModule {
-    private TeacherPresenter.ITeacherView mView;
+    private TeacherScanPresenter.ITeacherScanView mView;
 
-    public TeacherModule(TeacherPresenter.ITeacherView mView) {
+    public TeacherModule(TeacherScanPresenter.ITeacherScanView mView) {
         this.mView = mView;
     }
 
     @Provides
-    TeacherPresenter providePresenter(TeacherPresenter.ITeacherView view) {
-        return new TeacherPresenter(view);
+    TeacherScanPresenter providePresenter(TeacherScanPresenter.ITeacherScanView view) {
+        return new TeacherScanPresenter(view);
     }
 
     @Provides
-    TeacherPresenter.ITeacherView provideView() {
+    TeacherScanPresenter.ITeacherScanView provideView() {
         return mView;
     }
 

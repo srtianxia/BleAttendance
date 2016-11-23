@@ -7,11 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
+import com.trello.rxlifecycle.components.support.RxAppCompatDialogFragment;
 
 /**
  * Created by srtianxia on 2016/7/23.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends RxAppCompatDialogFragment {
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater,

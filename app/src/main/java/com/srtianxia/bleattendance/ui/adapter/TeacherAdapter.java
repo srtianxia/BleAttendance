@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.polidea.rxandroidble.RxBleDevice;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
 import com.srtianxia.bleattendance.entity.DeviceEntity;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by srtianxia on 2016/7/31.
  */
-public class TeacherAdapter extends BaseAdapter<DeviceEntity> implements View.OnClickListener{
+public class TeacherAdapter extends BaseAdapter<RxBleDevice> implements View.OnClickListener{
     private OnItemClickListener mOnItemClickListener;
 
 
@@ -46,12 +47,12 @@ public class TeacherAdapter extends BaseAdapter<DeviceEntity> implements View.On
     }
 
 
-    @Override public void loadData(List<DeviceEntity> mData) {
+    @Override public void loadData(List<RxBleDevice> mData) {
         super.loadData(mData);
     }
 
 
-    @Override public void addData(DeviceEntity data) {
+    @Override public void addData(RxBleDevice data) {
         super.addData(data);
     }
 
@@ -72,9 +73,9 @@ public class TeacherAdapter extends BaseAdapter<DeviceEntity> implements View.On
         }
 
 
-        public void setData(DeviceEntity entity) {
-            tvDeviceName.setText(entity.name);
-            tvDeviceAddress.setText(entity.address);
+        public void setData(RxBleDevice device) {
+            tvDeviceName.setText(device.getName());
+            tvDeviceAddress.setText(device.getMacAddress());
         }
     }
 }

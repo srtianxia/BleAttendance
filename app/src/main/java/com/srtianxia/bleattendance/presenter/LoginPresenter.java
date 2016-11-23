@@ -1,11 +1,13 @@
 package com.srtianxia.bleattendance.presenter;
 
+import android.content.Context;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.config.Constant;
 import com.srtianxia.bleattendance.entity.StuEntity;
 import com.srtianxia.bleattendance.http.ApiUtil;
 import com.srtianxia.bleattendance.http.api.Api;
+import com.srtianxia.bleattendance.ui.fragment.LoginFragment;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -16,10 +18,17 @@ import rx.schedulers.Schedulers;
 public class LoginPresenter extends BasePresenter<LoginPresenter.ILoginView> {
     private Api mApi;
 
+
     public LoginPresenter(ILoginView baseView) {
         super(baseView);
         mApi = ApiUtil.createApi(Api.class, ApiUtil.getBaseUrl());
     }
+
+
+    @Override public LoginFragment getViewType() {
+        return ((LoginFragment) getView());
+    }
+
 
     public void login() {
         mApi.login(getView().getStuNum(), getView().getPassword(), Constant.TYPE_STU)
@@ -39,6 +48,7 @@ public class LoginPresenter extends BasePresenter<LoginPresenter.ILoginView> {
                 }
             });
     }
+
 
     public interface ILoginView extends BaseView {
         String getStuNum();

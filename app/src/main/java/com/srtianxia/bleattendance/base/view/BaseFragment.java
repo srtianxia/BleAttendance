@@ -28,7 +28,6 @@ public abstract class BaseFragment extends RxAppCompatDialogFragment {
         initView();
     }
 
-
     protected abstract void initView();
 
     protected abstract int getLayoutRes();

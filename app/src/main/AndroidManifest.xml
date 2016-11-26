@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.srtianxia.bleattendance">
+    xmlns:tools="http://schemas.android.com/tools" package="com.srtianxia.bleattendance">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
-
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
         android:name=".BleApplication"
@@ -24,7 +26,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.TeacherActivity"/>
+        <activity android:name=".ui.activity.TeacherHomeActivity"/>
+        <activity android:name=".ui.activity.StudentHomeActivity"/>
         <activity android:name=".ui.activity.StudentActivity"/>
 
         <service android:name=".Service.LockService"></service>

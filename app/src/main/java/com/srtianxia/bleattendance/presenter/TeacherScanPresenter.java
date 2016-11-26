@@ -7,11 +7,11 @@ import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.config.BleUUID;
-import com.srtianxia.bleattendance.config.Constant;
 import com.srtianxia.bleattendance.model.TeacherScanModel;
 import com.srtianxia.bleattendance.ui.fragment.TeacherScanFragment;
 import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 import com.srtianxia.blelibs.utils.ToastUtil;
+import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import rx.Observable;
@@ -107,7 +107,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
         if (isConnected()) {
             mRxBleConnection.flatMap(
                 rxBleConnection -> rxBleConnection.setupNotification(
-                    BleUUID.ATTENDANCE_NOTIFY_WRITE))
+                    UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE)))
                 .doOnNext(notificationObservable -> getViewType().getActivity()
                     .runOnUiThread(this::notificationHasBeenSetUp))
                 .flatMap(notificationObservable -> notificationObservable)
@@ -126,7 +126,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
         if (isConnected()) {
             mRxBleConnection
                 .flatMap(rxBleConnection -> rxBleConnection.writeCharacteristic(
-                    BleUUID.ATTENDANCE_NOTIFY_WRITE,
+                    UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE),
                     "1".getBytes()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onWrite, this::onWriteError);

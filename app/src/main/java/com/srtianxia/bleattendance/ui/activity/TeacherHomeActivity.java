@@ -12,7 +12,7 @@ import com.srtianxia.bleattendance.ui.fragment.TeacherScanFragment;
 /**
  * Created by srtianxia on 2016/7/30.
  */
-public class TeacherActivity extends BaseActivity
+public class TeacherHomeActivity extends BaseActivity
     implements BottomNavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.bottom_view) BottomNavigationView mBottomView;
 
@@ -35,7 +35,7 @@ public class TeacherActivity extends BaseActivity
 
 
     @Override protected int getLayoutRes() {
-        return R.layout.activity_teacher;
+        return R.layout.activity_teacher_home;
     }
 
     @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {

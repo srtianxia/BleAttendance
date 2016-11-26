@@ -31,9 +31,8 @@ public class BleUUID {
     public static final UUID HEART_RATE_CONTROL_POINT_UUID = UUID
         .fromString("00002A39-0000-1000-8000-00805f9b34fb");
 
-    public static final UUID ATTENDANCE_SERVICE_UUID = UUID
-        .fromString("0000080F-0000-1000-8000-00805f9b34fb");
+    public static final String ATTENDANCE_SERVICE_UUID = "0000080F-0000-1000-8000-00805f9b34fb";
 
-    public static final UUID ATTENDANCE_NOTIFY_WRITE = UUID.fromString(
-        "00001A37-0000-1000-8000-00805f9b34fb");
+    public static final String ATTENDANCE_NOTIFY_WRITE =
+        "00001A37-0000-1000-8000-00805f9b34fb";
 }

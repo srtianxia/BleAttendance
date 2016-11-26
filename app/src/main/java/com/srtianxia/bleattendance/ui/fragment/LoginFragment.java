@@ -17,7 +17,8 @@ import com.srtianxia.bleattendance.di.component.DaggerLoginComponent;
 import com.srtianxia.bleattendance.di.module.LoginModule;
 import com.srtianxia.bleattendance.presenter.LoginPresenter;
 import com.srtianxia.bleattendance.ui.activity.StudentActivity;
-import com.srtianxia.bleattendance.ui.activity.TeacherActivity;
+import com.srtianxia.bleattendance.ui.activity.StudentHomeActivity;
+import com.srtianxia.bleattendance.ui.activity.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.widget.LoginButton;
 import com.srtianxia.blelibs.utils.ToastUtil;
@@ -48,18 +49,13 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
 
     @OnClick(R.id.tv_link_teacher_enter) void clickToTeacher() {
-        UiHelper.startActivity(getActivity(), TeacherActivity.class);
+        UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
     }
 
 
     @OnClick(R.id.btn_login) void clickToStudent() {
         btnLogin.executeLogin();
-        btnLogin.postDelayed(new Runnable() {
-            @Override public void run() {
-//                mPresenter.login();
-                handleSuccess();
-            }
-        }, 2000);
+        btnLogin.postDelayed(this::handleSuccess, 2000);
     }
 
 
@@ -107,7 +103,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
 
             @Override public void onAnimationEnd(Animator animator) {
-                startActivity(new Intent(getActivity(), StudentActivity.class),
+                startActivity(new Intent(getActivity(), StudentHomeActivity.class),
                     ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
                 getActivity().finishAfterTransition();
             }

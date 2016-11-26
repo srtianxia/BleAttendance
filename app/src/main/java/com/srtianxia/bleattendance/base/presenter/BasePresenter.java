@@ -22,10 +22,6 @@ public abstract class BasePresenter<T extends BaseView> {
 
     public abstract T getViewType();
 
-    //public Context getViewType() {
-    //    return T(mReference.get());
-    //}
-
     public void detachView() {
         mReference.clear();
         mReference = null;

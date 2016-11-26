@@ -32,6 +32,7 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile rootProject.ext.appcompat_v7
     compile rootProject.ext.android_design
+    compile rootProject.ext.android_recyclerView
     compile rootProject.ext.retrofit
     compile rootProject.ext.retrofitGsonConverer
     compile rootProject.ext.retrofitRxJavaAdapter

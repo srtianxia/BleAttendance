@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by srtianxia on 2016/7/31.
  */
-public class TeacherAdapter extends BaseAdapter<RxBleDevice> implements View.OnClickListener{
+public class TeacherAdapter extends BaseAdapter<RxBleDevice> implements View.OnClickListener {
     private OnItemClickListener mOnItemClickListener;
 
 
@@ -30,11 +30,7 @@ public class TeacherAdapter extends BaseAdapter<RxBleDevice> implements View.OnC
             TeacherViewHolder viewHolder = (TeacherViewHolder) holder;
             viewHolder.setData(getDataController().getData(position));
             if (mOnItemClickListener != null) {
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override public void onClick(View view) {
-                        mOnItemClickListener.onClick(position);
-                    }
-                });
+                viewHolder.itemView.setOnClickListener(v -> mOnItemClickListener.onClick(position));
             }
         }
     }
@@ -42,8 +38,7 @@ public class TeacherAdapter extends BaseAdapter<RxBleDevice> implements View.OnC
 
     @Override protected RecyclerView.ViewHolder createHolder(ViewGroup parent, int viewType) {
         return new TeacherViewHolder(
-            LayoutInflater.from(parent.getContext()).inflate(R.layout.item_teacher, parent, false
-            ));
+            LayoutInflater.from(parent.getContext()).inflate(R.layout.item_teacher, parent, false));
     }
 
 

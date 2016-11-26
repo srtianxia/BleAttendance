@@ -7,7 +7,7 @@ import butterknife.BindView;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.ui.fragment.QueryAttendanceFragment;
-import com.srtianxia.bleattendance.ui.fragment.TeacherScanScanFragment;
+import com.srtianxia.bleattendance.ui.fragment.TeacherScanFragment;
 
 /**
  * Created by srtianxia on 2016/7/30.
@@ -16,12 +16,12 @@ public class TeacherActivity extends BaseActivity
     implements BottomNavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.bottom_view) BottomNavigationView mBottomView;
 
-    private TeacherScanScanFragment mTeacherScanFragment;
+    private TeacherScanFragment mTeacherScanFragment;
     private QueryAttendanceFragment mQueryAttendanceFragment;
 
 
     @Override protected void initView() {
-        mTeacherScanFragment = TeacherScanScanFragment.newInstance();
+        mTeacherScanFragment = TeacherScanFragment.newInstance();
         mQueryAttendanceFragment = QueryAttendanceFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
             .add(R.id.fragment_container, mTeacherScanFragment)

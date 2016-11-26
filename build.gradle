@@ -47,6 +47,7 @@ def retrofitVersion = "2.1.0"
 ext {
     appcompat_v7 = "com.android.support:appcompat-v7:${supportVersion}";
     android_design = "com.android.support:design:${supportVersion}"
+    android_recyclerView = "com.android.support:recyclerview-v7:${supportVersion}"
     retrofit = "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     retrofitGsonConverer = "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     retrofitRxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"

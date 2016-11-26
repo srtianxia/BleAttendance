@@ -1,7 +1,7 @@
 package com.srtianxia.bleattendance.di.component;
 
 import com.srtianxia.bleattendance.di.module.TeacherModule;
-import com.srtianxia.bleattendance.ui.fragment.TeacherScanScanFragment;
+import com.srtianxia.bleattendance.ui.fragment.TeacherScanFragment;
 import dagger.Component;
 
 /**
@@ -9,5 +9,5 @@ import dagger.Component;
  */
 @Component(modules = {TeacherModule.class})
 public interface TeacherComponent {
-    void inject(TeacherScanScanFragment fragment);
+    void inject(TeacherScanFragment fragment);
 }

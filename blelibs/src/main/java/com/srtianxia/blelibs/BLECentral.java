@@ -75,6 +75,12 @@ public class BLECentral extends BaseBlueTooth {
             super.onCharacteristicChanged(gatt, characteristic);
             Logger.d(new String(characteristic.getValue()));
         }
+
+
+        @Override
+        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            super.onCharacteristicWrite(gatt, characteristic, status);
+        }
     };
 
 

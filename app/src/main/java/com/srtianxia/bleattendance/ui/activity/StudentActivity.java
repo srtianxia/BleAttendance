@@ -16,7 +16,7 @@ import com.srtianxia.bleattendance.di.component.DaggerStudentComponent;
 import com.srtianxia.bleattendance.di.module.StudentModule;
 import com.srtianxia.bleattendance.entity.CourseEntity;
 import com.srtianxia.bleattendance.presenter.StudentPresenter;
-import com.srtianxia.bleattendance.utils.LockUtil;
+import com.srtianxia.bleattendance.utils.ProcessUtil;
 import com.srtianxia.bleattendance.utils.SchoolCalendar;
 import com.srtianxia.bleattendance.utils.ScreenUtils;
 import com.srtianxia.bleattendance.widget.CoursesTableView;
@@ -123,7 +123,7 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
 
 
     private void openUsageAccess() {
-        if (LockUtil.isPermissionForTest(StudentActivity.this) == false) {
+        if (!ProcessUtil.isPermission(this)) {
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

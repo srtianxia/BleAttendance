@@ -17,7 +17,6 @@ import javax.inject.Singleton;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
 import static com.trello.rxlifecycle.android.FragmentEvent.DESTROY;
@@ -62,6 +61,11 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
     private void scanResult(RxBleScanResult rxBleScanResult) {
         getView().addScanResult(rxBleScanResult);
+    }
+
+    //
+    public void queueToConnect() {
+
     }
 
 

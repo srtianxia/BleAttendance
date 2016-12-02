@@ -2,7 +2,7 @@ package com.srtianxia.bleattendance.presenter;
 
 import android.content.Intent;
 import com.orhanobut.logger.Logger;
-import com.srtianxia.bleattendance.Service.LockService;
+import com.srtianxia.bleattendance.service.LockService;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.entity.CourseEntity;

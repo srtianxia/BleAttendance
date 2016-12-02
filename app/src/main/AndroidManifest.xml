@@ -30,9 +30,9 @@
         <activity android:name=".ui.activity.StudentHomeActivity"/>
         <activity android:name=".ui.activity.StudentActivity"/>
 
-        <service android:name=".Service.LockService"></service>
+        <service android:name=".service.LockService"></service>
 
-        <receiver android:name=".Receiver.LockReceiver"/>
+        <receiver android:name=".receiver.LockReceiver"/>
 
         <activity
             android:theme="@style/AppThemeNoActionbar"

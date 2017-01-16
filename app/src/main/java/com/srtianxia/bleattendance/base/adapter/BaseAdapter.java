@@ -8,7 +8,7 @@ import java.util.List;
  * Created by srtianxia on 2016/7/31.
  */
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    protected DataController<T> mDataController = new DataController<>();
+    public DataController<T> mDataController = new DataController<>();
 
     @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return createHolder(parent, viewType);
@@ -33,6 +33,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
             notifyItemInserted(mDataController.getDataSize() - 1);
         }
     }
+
+    public List<T> getDataList() {
+        return mDataController.getDataList();
+    }
+
 
     public DataController<T> getDataController() {
         return mDataController;

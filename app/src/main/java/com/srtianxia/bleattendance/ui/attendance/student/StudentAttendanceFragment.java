@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.ui.fragment;
+package com.srtianxia.bleattendance.ui.attendance.student;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -6,7 +6,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
-import com.srtianxia.bleattendance.presenter.StuAttendancePresenter;
 import com.srtianxia.bleattendance.rx.RxPeripheralClient;
 
 /**
@@ -28,7 +27,6 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     }
 
 
-
     public static StudentAttendanceFragment newInstance() {
         Bundle args = new Bundle();
         StudentAttendanceFragment fragment = new StudentAttendanceFragment();
@@ -39,5 +37,11 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     @OnClick(R.id.btn_advertiser)
     void advertiser() {
         mPresenter.startAdv();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mPresenter.stopAdv();
     }
 }

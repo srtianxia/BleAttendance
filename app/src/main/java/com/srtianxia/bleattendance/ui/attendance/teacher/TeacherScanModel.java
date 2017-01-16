@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.model;
+package com.srtianxia.bleattendance.ui.attendance.teacher;
 
 import android.content.Context;
 import com.polidea.rxandroidble.RxBleClient;

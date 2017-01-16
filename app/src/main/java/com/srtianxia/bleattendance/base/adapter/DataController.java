@@ -43,4 +43,8 @@ public class DataController<T> {
     public boolean isContains(T data) {
         return mDataList.contains(data);
     }
+
+    public List<T> getDataList() {
+        return mDataList;
+    }
 }

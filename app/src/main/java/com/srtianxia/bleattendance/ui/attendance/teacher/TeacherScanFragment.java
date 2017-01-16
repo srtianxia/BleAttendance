@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.ui.fragment;
+package com.srtianxia.bleattendance.ui.attendance.teacher;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -6,13 +6,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.RxBleScanResult;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.di.component.DaggerTeacherComponent;
 import com.srtianxia.bleattendance.di.module.TeacherModule;
-import com.srtianxia.bleattendance.presenter.TeacherScanPresenter;
 import com.srtianxia.bleattendance.ui.adapter.TeacherAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -87,5 +92,14 @@ public class TeacherScanFragment extends BaseFragment implements TeacherScanPres
     @OnClick(R.id.btn_disconnect)
     void disconnect() {
         mPresenter.disconnect();
+    }
+
+    @OnClick(R.id.btn_connect_all)
+    void connectAll() {
+        List<String> address_list = new ArrayList<>();
+        for (RxBleDevice device : mAdapter.getDataController().getDataList()) {
+            address_list.add(device.getMacAddress());
+        }
+        mPresenter.queueToConnect(address_list);
     }
 }

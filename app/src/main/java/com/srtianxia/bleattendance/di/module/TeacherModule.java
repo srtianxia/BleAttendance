@@ -1,6 +1,6 @@
 package com.srtianxia.bleattendance.di.module;
 
-import com.srtianxia.bleattendance.presenter.TeacherScanPresenter;
+import com.srtianxia.bleattendance.ui.attendance.teacher.TeacherScanPresenter;
 import dagger.Module;
 import dagger.Provides;
 

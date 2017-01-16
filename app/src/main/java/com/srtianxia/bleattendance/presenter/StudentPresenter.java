@@ -19,6 +19,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by srtianxia on 2016/7/31.
  */
+@Deprecated
 public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentView> {
     private Api mApi;
     private BLEPeripheral mBlePeripheral;

@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.presenter;
+package com.srtianxia.bleattendance.ui.attendance.teacher;
 
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
@@ -7,13 +7,15 @@ import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.config.BleUUID;
-import com.srtianxia.bleattendance.model.TeacherScanModel;
-import com.srtianxia.bleattendance.ui.fragment.TeacherScanFragment;
 import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 import com.srtianxia.blelibs.utils.ToastUtil;
+
+import java.util.List;
 import java.util.UUID;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -33,7 +35,6 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     private PublishSubject<Void> mDisconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice mRxBleDevice;
 
-
     @Inject
     public TeacherScanPresenter(ITeacherScanView baseView) {
         super(baseView);
@@ -41,7 +42,8 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     }
 
 
-    @Override public TeacherScanFragment getViewType() {
+    @Override
+    public TeacherScanFragment getViewType() {
         return (TeacherScanFragment) getView();
     }
 
@@ -51,10 +53,10 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
             mScanSubscription.unsubscribe();
         } else {
             mScanSubscription = mTeacherScanModel
-                .startScan()
-                .compose(getViewType().bindUntilEvent(DESTROY))
-                .compose(RxSchedulersHelper.io2main())
-                .subscribe(this::scanResult, this::handleScanError);
+                    .startScan()
+                    .compose(getViewType().bindUntilEvent(DESTROY))
+                    .compose(RxSchedulersHelper.io2main())
+                    .subscribe(this::scanResult, this::handleScanError);
         }
     }
 
@@ -64,8 +66,12 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     }
 
     //
-    public void queueToConnect() {
-
+    public void queueToConnect(List<String> addressList) {
+        for (String s : addressList) {
+            prepareConnection(s);
+            registerConnectStateCallBack();
+            connect();
+        }
     }
 
 
@@ -84,39 +90,40 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     private void prepareConnection(String macAddress) {
         mRxBleDevice = mTeacherScanModel.getBleDevice(macAddress);
         mRxBleConnection = mRxBleDevice.establishConnection(getViewType().getActivity(), false)
-            .takeUntil(mDisconnectTriggerSubject)
-            .compose(getViewType().bindUntilEvent(PAUSE))
-            .compose(new ConnectionSharingAdapter());
+                .takeUntil(mDisconnectTriggerSubject)
+                .compose(getViewType().bindUntilEvent(PAUSE))
+                .compose(new ConnectionSharingAdapter());
     }
 
 
     private void connect() {
         mRxBleConnection.subscribe(
-            rxBleConnection -> {
-                getViewType().getActivity().runOnUiThread(this::onConnect);
-                registerNotification();
-            }, this::onConnectFailure);
+                rxBleConnection -> {
+//                    mSemaphore.release();
+                    getViewType().getActivity().runOnUiThread(this::onConnect);
+                    registerNotification();
+                }, this::onConnectFailure);
     }
 
 
     private void registerConnectStateCallBack() {
         mRxBleDevice.observeConnectionStateChanges()
-            .compose(getViewType().bindUntilEvent(DESTROY))
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::onConnectionStateCallBack);
+                .compose(getViewType().bindUntilEvent(DESTROY))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onConnectionStateCallBack);
     }
 
 
     private void registerNotification() {
         if (isConnected()) {
             mRxBleConnection.flatMap(
-                rxBleConnection -> rxBleConnection.setupNotification(
-                    UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE)))
-                .doOnNext(notificationObservable -> getViewType().getActivity()
-                    .runOnUiThread(this::notificationHasBeenSetUp))
-                .flatMap(notificationObservable -> notificationObservable)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onNotificationReceived, this::onNotificationSetupFailure);
+                    rxBleConnection -> rxBleConnection.setupNotification(
+                            UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE)))
+                    .doOnNext(notificationObservable -> getViewType().getActivity()
+                            .runOnUiThread(this::notificationHasBeenSetUp))
+                    .flatMap(notificationObservable -> notificationObservable)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::onNotificationReceived, this::onNotificationSetupFailure);
         }
     }
 
@@ -129,11 +136,11 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     public void write() {
         if (isConnected()) {
             mRxBleConnection
-                .flatMap(rxBleConnection -> rxBleConnection.writeCharacteristic(
-                    UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE),
-                    "1".getBytes()))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onWrite, this::onWriteError);
+                    .flatMap(rxBleConnection -> rxBleConnection.writeCharacteristic(
+                            UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE),
+                            "1".getBytes()))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::onWrite, this::onWriteError);
         }
     }
 
@@ -174,6 +181,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
 
     private void onConnectFailure(Throwable throwable) {
+//        mSemaphore.release();
         ToastUtil.show(getViewType().getActivity(), throwable.toString(), true);
     }
 
@@ -185,8 +193,8 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
     private boolean isConnected() {
         return mRxBleDevice != null
-               ? mRxBleDevice.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED
-               : false;
+                ? mRxBleDevice.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED
+                : false;
     }
 
 

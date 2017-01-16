@@ -1,6 +1,5 @@
 package com.srtianxia.bleattendance.presenter;
 
-import android.content.Context;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.config.Constant;
@@ -8,6 +7,7 @@ import com.srtianxia.bleattendance.entity.StuEntity;
 import com.srtianxia.bleattendance.http.ApiUtil;
 import com.srtianxia.bleattendance.http.api.Api;
 import com.srtianxia.bleattendance.ui.fragment.LoginFragment;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;

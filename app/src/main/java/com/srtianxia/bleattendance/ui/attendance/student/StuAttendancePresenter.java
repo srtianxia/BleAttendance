@@ -1,29 +1,33 @@
-package com.srtianxia.bleattendance.presenter;
+package com.srtianxia.bleattendance.ui.attendance.student;
 
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
-import com.srtianxia.bleattendance.model.StuAttendanceModel;
-import com.srtianxia.bleattendance.ui.fragment.StudentAttendanceFragment;
 
 /**
  * Created by srtianxia on 2016/11/26.
  */
 
 public class StuAttendancePresenter extends BasePresenter<StuAttendancePresenter.IStuAttendanceView> {
-    private StuAttendanceModel mStuAttendanceModel;
+    private IStuAttModel mStuAttendanceModel;
 
     public StuAttendancePresenter(IStuAttendanceView baseView) {
         super(baseView);
-        mStuAttendanceModel = new StuAttendanceModel();
+        mStuAttendanceModel = StuMidModel.getModel(getViewType().getActivity());
     }
 
 
-    @Override public StudentAttendanceFragment getViewType() {
+    @Override
+    public StudentAttendanceFragment getViewType() {
         return (StudentAttendanceFragment) getView();
     }
 
     public void startAdv() {
         mStuAttendanceModel.startAdvertise();
+    }
+
+
+    public void stopAdv() {
+        mStuAttendanceModel.stopAdvertise();
     }
 
     public interface IStuAttendanceView extends BaseView {

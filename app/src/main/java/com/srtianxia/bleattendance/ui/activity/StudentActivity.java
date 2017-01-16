@@ -31,6 +31,7 @@ import butterknife.OnClick;
 /**
  * Created by srtianxia on 2016/7/30.
  */
+@Deprecated
 public class StudentActivity extends BaseActivity implements StudentPresenter.IStudentView {
     @BindView(R.id.tv_month) TextView tvMonth;
     @BindView(R.id.container_course_number) LinearLayout containerCourseNumber;

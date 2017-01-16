@@ -15,7 +15,6 @@ import android.bluetooth.le.BluetoothLeAdvertiser;
 import android.content.Context;
 import android.os.ParcelUuid;
 import com.srtianxia.blelibs.callback.OnConnectListener;
-import com.srtianxia.blelibs.callback.OnConnectionStateListener;
 import com.srtianxia.blelibs.config.BLEProfile;
 import com.srtianxia.blelibs.utils.BytesUtil;
 import com.srtianxia.blelibs.utils.ToastUtil;
@@ -38,13 +37,13 @@ public class BLEPeripheral extends BaseBlueTooth {
 
     private boolean isStartAdvertise = false;
 
-    private OnConnectionStateListener mConnectionStateListener;
+//    private OnConnectionStateListener mConnectionStateListener;
 
     private OnConnectListener mOnConnectListener;
 
-    public void setConnectionStateListener(OnConnectionStateListener mConnectionStateListener) {
-        this.mConnectionStateListener = mConnectionStateListener;
-    }
+//    public void setConnectionStateListener(OnConnectionStateListener mConnectionStateListener) {
+//        this.mConnectionStateListener = mConnectionStateListener;
+//    }
 
 
     //连接的回调
@@ -91,14 +90,14 @@ public class BLEPeripheral extends BaseBlueTooth {
         @Override
         public void onConnectionStateChange(BluetoothDevice device, int status, int newState) {
             super.onConnectionStateChange(device, status, newState);
-            if (mConnectionStateListener != null) {
-                if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    mConnectionStateListener.onConnect(device);
-                    mRemoteDevice = device;
-                } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                    mConnectionStateListener.onDisConnect(device);
-                }
-            }
+//            if (mConnectionStateListener != null) {
+//                if (newState == BluetoothProfile.STATE_CONNECTED) {
+//                    mConnectionStateListener.onConnect(device);
+//                    mRemoteDevice = device;
+//                } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+//                    mConnectionStateListener.onDisConnect(device);
+//                }
+//            }
 
         }
     };

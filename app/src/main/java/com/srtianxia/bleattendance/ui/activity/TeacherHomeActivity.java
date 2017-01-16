@@ -7,7 +7,7 @@ import butterknife.BindView;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.ui.fragment.QueryAttendanceFragment;
-import com.srtianxia.bleattendance.ui.fragment.TeacherScanFragment;
+import com.srtianxia.bleattendance.ui.attendance.teacher.TeacherScanFragment;
 
 /**
  * Created by srtianxia on 2016/7/30.

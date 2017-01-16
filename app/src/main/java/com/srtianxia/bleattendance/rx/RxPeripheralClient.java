@@ -15,4 +15,6 @@ public abstract class RxPeripheralClient {
     }
 
     public abstract Observable<RxPeripheralAdvResult> advertise(String uuid);
+
+    public abstract Observable<RxPeripheralConnection> observeConnectionStateChanges();
 }

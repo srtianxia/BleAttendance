@@ -41,8 +41,9 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.6'
     compile 'org.glassfish:javax.annotation:10.0-b28'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile "com.polidea.rxandroidble:rxandroidble:1.1.0"
+    compile 'com.polidea.rxandroidble:rxandroidble:1.1.0'
     compile 'com.trello:rxlifecycle-android:1.0'
     compile 'com.trello:rxlifecycle-components:1.0'
-    compile project(':blelibs')
+    compile 'com.orhanobut:logger:1.15'
+    compile project(':rxperipheral')
 }

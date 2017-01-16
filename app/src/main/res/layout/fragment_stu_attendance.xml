@@ -4,9 +4,15 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/btn_advertiser"
+        android:id="@+id/btn_advertise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Advertiser"/>
+        android:text="Advertise"/>
+
+    <Button
+        android:id="@+id/btn_dis_adv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="disAdvertise"/>
 
 </LinearLayout>

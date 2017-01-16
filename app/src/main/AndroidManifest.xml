@@ -26,9 +26,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.TeacherHomeActivity"/>
-        <activity android:name=".ui.activity.StudentHomeActivity"/>
-        <activity android:name=".ui.activity.StudentActivity"/>
+        <activity android:name=".ui.teacher.home.TeacherHomeActivity"/>
+        <activity android:name=".ui.student.home.StudentHomeActivity"/>
+        <activity android:name=".ui.home.StudentActivity"/>
 
         <service android:name=".service.LockService"></service>
 

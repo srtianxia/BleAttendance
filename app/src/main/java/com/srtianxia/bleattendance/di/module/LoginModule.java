@@ -1,6 +1,6 @@
 package com.srtianxia.bleattendance.di.module;
 
-import com.srtianxia.bleattendance.presenter.LoginPresenter;
+import com.srtianxia.bleattendance.ui.enter.LoginPresenter;
 import dagger.Module;
 import dagger.Provides;
 

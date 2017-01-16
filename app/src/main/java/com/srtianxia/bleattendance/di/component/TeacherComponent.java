@@ -1,7 +1,7 @@
 package com.srtianxia.bleattendance.di.component;
 
 import com.srtianxia.bleattendance.di.module.TeacherModule;
-import com.srtianxia.bleattendance.ui.attendance.teacher.TeacherScanFragment;
+import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import dagger.Component;
 
 /**

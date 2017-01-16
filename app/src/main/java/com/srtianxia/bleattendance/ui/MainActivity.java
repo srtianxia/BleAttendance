@@ -2,17 +2,13 @@ package com.srtianxia.bleattendance.ui;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
-import android.widget.Toast;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.config.Constant;
-import com.srtianxia.bleattendance.service.LockService;
-import com.srtianxia.bleattendance.ui.fragment.LoginFragment;
-import com.srtianxia.bleattendance.utils.ProcessUtil;
-import com.srtianxia.blelibs.utils.ToastUtil;
+import com.srtianxia.bleattendance.ui.enter.LoginFragment;
+import com.srtianxia.bleattendance.utils.ToastUtil;
 
 public class MainActivity extends BaseActivity {
 

@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BleAttendance.iml" filepath="$PROJECT_DIR$/BleAttendance.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/blelibs/blelibs.iml" filepath="$PROJECT_DIR$/blelibs/blelibs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rxperipheral/rxperipheral.iml" filepath="$PROJECT_DIR$/rxperipheral/rxperipheral.iml" />
     </modules>
   </component>
 </project>

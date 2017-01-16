@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 
 import com.srtianxia.bleattendance.receiver.LockReceiver;
 import com.srtianxia.bleattendance.utils.ProcessUtil;
-import com.srtianxia.blelibs.utils.ToastUtil;
+import com.srtianxia.bleattendance.utils.ToastUtil;
 
 /**
  * Created by 梅梅 on 2016/9/5.

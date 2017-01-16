@@ -9,7 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/blelibs" />
+            <option value="$PROJECT_DIR$/rxperipheral" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

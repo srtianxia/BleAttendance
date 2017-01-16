@@ -1,7 +1,7 @@
 package com.srtianxia.bleattendance.di.component;
 
 import com.srtianxia.bleattendance.di.module.StudentModule;
-import com.srtianxia.bleattendance.ui.activity.StudentActivity;
+import com.srtianxia.bleattendance.ui.home.StudentActivity;
 import dagger.Component;
 
 /**

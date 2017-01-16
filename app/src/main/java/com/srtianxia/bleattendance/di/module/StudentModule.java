@@ -1,6 +1,6 @@
 package com.srtianxia.bleattendance.di.module;
 
-import com.srtianxia.bleattendance.presenter.StudentPresenter;
+import com.srtianxia.bleattendance.ui.student.table.StudentPresenter;
 import dagger.Module;
 import dagger.Provides;
 

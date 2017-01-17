@@ -21,8 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_view"
         android:layout_width="match_parent"
@@ -32,6 +30,8 @@
         app:itemIconTint="#FFFFFF"
         app:itemTextColor="#FFFFFF"
         app:menu="@menu/menu_bottom_teacher"></android.support.design.widget.BottomNavigationView>
+
+    <include layout="@layout/content_main" />
 
 </android.support.design.widget.CoordinatorLayout>
 

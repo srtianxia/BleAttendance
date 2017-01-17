@@ -2,6 +2,12 @@
     <string name="app_name">BleAttendance</string>
     <string name="action_settings">Settings</string>
 
+    <!--toolbar-->
+    <string name="action_scan">scan</string>
+    <string name="action_write">write</string>
+    <string name="action_disconnect">disConnect</string>
+    <string name="action_connect_all">connectAll</string>
+
     <string name="base_url">http://119.29.155.240:8080/bluetooth/</string>
 
     <!-- Adv -->
@@ -12,4 +18,7 @@
     <string name="status_advFeatureUnsupported">Not Advertising. Advertising not supported.</string>
     <string name="status_advInternalError">Not Advertising. Internal error occurred.</string>
     <string name="status_advTooManyAdvertisers">Not Advertising. No advertising instance is available.</string>
+
+
+    <string name="teacher_page_toolbar">Teacher Scan</string>
 </resources>

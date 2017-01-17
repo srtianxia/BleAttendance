@@ -47,11 +47,10 @@ public class TeacherScanAdapter extends BaseAdapter<RxBleDevice> implements View
         super.loadData(mData);
     }
 
-
-    @Override public void addData(RxBleDevice data) {
+    @Override
+    public void addData(RxBleDevice data) {
         super.addData(data);
     }
-
 
     @Override public void onClick(View view) {
 

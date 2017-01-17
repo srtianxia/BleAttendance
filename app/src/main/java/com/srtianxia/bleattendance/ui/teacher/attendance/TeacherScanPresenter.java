@@ -73,9 +73,10 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     }
 
 
-    public void queueToConnect(List<String> addressList) {
-        for (String s : addressList) {
-            prepareConnection(s);
+    //一次性连接列表中的设备
+    public void queueToConnect(List<RxBleDevice> deviceList) {
+        for (RxBleDevice device : deviceList) {
+            prepareConnection(device.getMacAddress());
             registerConnectStateCallBack();
             connect();
         }

@@ -11,12 +11,12 @@ import com.srtianxia.bleattendance.ui.enter.LoginFragment;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 
 public class MainActivity extends BaseActivity {
-
     private LoginFragment mLoginFragment;
     private FragmentManager mFragmentManager;
 
 
-    @Override protected void initView() {
+    @Override
+    protected void initView() {
         openBlueTooth();
         mFragmentManager = getSupportFragmentManager();
         initFragment();
@@ -46,12 +46,14 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @Override protected int getLayoutRes() {
+    @Override
+    protected int getLayoutRes() {
         return R.layout.activity_main;
     }
 
 
-    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.REQUEST_CODE_BLUE_OPEN) {
             if (resultCode == RESULT_OK) {

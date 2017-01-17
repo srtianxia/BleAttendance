@@ -57,7 +57,7 @@ public class StuAttendanceModel implements IStuAttModel {
         public void onStartSuccess(AdvertiseSettings settingsInEffect) {
             super.onStartSuccess(settingsInEffect);
             ToastUtil.show(BleApplication.getContext(),
-                    "adv success", true);
+                    "Advertise Success", true);
         }
 
 
@@ -127,12 +127,7 @@ public class StuAttendanceModel implements IStuAttModel {
             mGattServer.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS,
                     offset, characteristic.getValue());
             Observable.just("").observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<String>() {
-                        @Override
-                        public void call(String s) {
-                            ToastUtil.show(BleApplication.getContext(), "onCharacteristicReadRequest", true);
-                        }
-                    });
+                    .subscribe(s -> ToastUtil.show(BleApplication.getContext(), "onCharacteristicReadRequest", true));
         }
 
 
@@ -154,12 +149,7 @@ public class StuAttendanceModel implements IStuAttModel {
                         0, null);
             }
             Observable.just("").observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<String>() {
-                        @Override
-                        public void call(String s) {
-                            ToastUtil.show(BleApplication.getContext(), "onCharacteristicWriteRequest", true);
-                        }
-                    });
+                    .subscribe(s -> ToastUtil.show(BleApplication.getContext(), "onCharacteristicWriteRequest", true));
         }
 
 

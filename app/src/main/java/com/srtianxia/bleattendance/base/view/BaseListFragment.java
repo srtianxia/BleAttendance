@@ -8,15 +8,13 @@ import com.paginate.Paginate;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
 
-import java.util.List;
-
 import butterknife.BindView;
 
 /**
  * Created by srtianxia on 2017/1/16.
  */
 
-public abstract class BaseListFragment<T extends BaseAdapter, E> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, Paginate.Callbacks {
+public abstract class BaseListFragment<E, T extends BaseAdapter<E>> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, Paginate.Callbacks {
     @BindView(R.id.base_recycler_view)
     RecyclerView baseRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
@@ -35,9 +33,9 @@ public abstract class BaseListFragment<T extends BaseAdapter, E> extends BaseFra
         baseRecyclerView.setAdapter(getAdapter());
         baseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-        if (needLoadMore()) {
-            mPaginate = Paginate.with(baseRecyclerView, this).build();
-        }
+//        if (needLoadMore()) {
+//            mPaginate = Paginate.with(baseRecyclerView, this).build();
+//        }
     }
 
     @Override
@@ -49,6 +47,11 @@ public abstract class BaseListFragment<T extends BaseAdapter, E> extends BaseFra
     @Override
     public void onLoadMore() {
 
+    }
+
+    // 添加一个item数据
+    public void addData(E data) {
+        getAdapter().addData(data);
     }
 
     @Override
@@ -63,12 +66,9 @@ public abstract class BaseListFragment<T extends BaseAdapter, E> extends BaseFra
     }
 
 
-    public void setDataList(List<E> dataList) {
-        getAdapter().loadData(dataList);
-    }
-
     public abstract T getAdapter();
 
+    // 从数据源读取数据加载进来  一个列表
     protected abstract void loadListData();
 
     protected boolean needRefresh() {
@@ -80,8 +80,6 @@ public abstract class BaseListFragment<T extends BaseAdapter, E> extends BaseFra
     }
 
     public void loadFinished() {
-        if (swipeRefreshLayout != null) {
-            swipeRefreshLayout.setRefreshing(false);
-        }
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

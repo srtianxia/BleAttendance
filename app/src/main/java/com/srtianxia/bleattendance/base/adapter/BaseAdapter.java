@@ -38,6 +38,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         return mDataController.getDataList();
     }
 
+    public void clearData() {
+        mDataController.clearData();
+    }
+
 
     public DataController<T> getDataController() {
         return mDataController;

@@ -20,6 +20,7 @@ import rx.subjects.BehaviorSubject;
 
 /**
  * Created by srtianxia on 2016/11/26.
+ * todo disconnection
  */
 
 public class RxPeripheralAdvResult implements RxPeripheralConnection {

@@ -30,6 +30,10 @@ public class StuAttendancePresenter extends BasePresenter<StuAttendancePresenter
         mStuAttendanceModel.stopAdvertise();
     }
 
+    public void notifyCenter() {
+        mStuAttendanceModel.notifyCenter(null);
+    }
+
     public interface IStuAttendanceView extends BaseView {
 
     }

@@ -15,8 +15,8 @@ import com.srtianxia.bleattendance.R;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     @Override protected void onCreate(Bundle savedInstanceState) {
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        initStatusBarColor();
+//        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//        initStatusBarColor();
         super.onCreate(savedInstanceState);
         setContentView(getLayoutRes());
         ButterKnife.bind(this);

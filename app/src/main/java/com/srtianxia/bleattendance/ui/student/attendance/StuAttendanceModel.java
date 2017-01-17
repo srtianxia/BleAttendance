@@ -29,6 +29,9 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
+import static android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT32;
+import static com.srtianxia.bleattendance.config.Constant.NOTIFY_OFFSET;
+
 /**
  * Created by srtianxia on 2016/11/26.
  */
@@ -92,17 +95,20 @@ public class StuAttendanceModel implements IStuAttModel {
         public void onConnectionStateChange(BluetoothDevice device, final int status, int newState) {
             super.onConnectionStateChange(device, status, newState);
             if (status == BluetoothGatt.GATT_SUCCESS) {
+                String s = "";
+                if (newState == BluetoothGatt.STATE_CONNECTED) {
+                    mBluetoothDevices.add(device);
+                    s = "connected";
+                } else if (newState == BluetoothGatt.STATE_DISCONNECTED) {
+                    mBluetoothDevices.remove(device);
+                    s = "disconnected";
+                }
                 Observable.just("").compose(RxSchedulersHelper.io2main()).subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
-                        ToastUtil.show(BleApplication.getContext(), "connect success" , true);
+                        ToastUtil.show(BleApplication.getContext(), s, true);
                     }
                 });
-                if (newState == BluetoothGatt.STATE_CONNECTED) {
-                    mBluetoothDevices.add(device);
-                } else if (newState == BluetoothGatt.STATE_DISCONNECTED) {
-                    mBluetoothDevices.remove(device);
-                }
             } else {
                 mBluetoothDevices.remove(device);
             }
@@ -120,6 +126,13 @@ public class StuAttendanceModel implements IStuAttModel {
             }
             mGattServer.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS,
                     offset, characteristic.getValue());
+            Observable.just("").observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<String>() {
+                        @Override
+                        public void call(String s) {
+                            ToastUtil.show(BleApplication.getContext(), "onCharacteristicReadRequest", true);
+                        }
+                    });
         }
 
 
@@ -140,6 +153,13 @@ public class StuAttendanceModel implements IStuAttModel {
                 mGattServer.sendResponse(device, requestId, status,
                         0, null);
             }
+            Observable.just("").observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<String>() {
+                        @Override
+                        public void call(String s) {
+                            ToastUtil.show(BleApplication.getContext(), "onCharacteristicWriteRequest", true);
+                        }
+                    });
         }
 
 
@@ -155,6 +175,13 @@ public class StuAttendanceModel implements IStuAttModel {
                 mGattServer.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS,
                         0, null);
             }
+            Observable.just("").observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<String>() {
+                        @Override
+                        public void call(String s) {
+                            ToastUtil.show(BleApplication.getContext(), "onDescriptorWriteRequest", true);
+                        }
+                    });
         }
     };
 
@@ -219,6 +246,25 @@ public class StuAttendanceModel implements IStuAttModel {
             });
         }
         return BluetoothGatt.GATT_SUCCESS;
+    }
+
+    @Override
+    public void notifyCenter(BluetoothGattCharacteristic characteristic) {
+        if (mBluetoothDevices.isEmpty()) {
+//            Toast.makeText(this, R.string.bluetoothDeviceNotConnected, Toast.LENGTH_SHORT).show();
+        } else {
+            boolean indicate = (mWriteCharacteristic.getProperties()
+                    & BluetoothGattCharacteristic.PROPERTY_INDICATE)
+                    == BluetoothGattCharacteristic.PROPERTY_INDICATE;
+            for (BluetoothDevice device : mBluetoothDevices) {
+                // true for indication (acknowledge) and false for notification (unacknowledge).
+                int newEnergyExpended = Integer.parseInt("2014211819");
+
+                ToastUtil.show(BleApplication.getContext(), String.valueOf(newEnergyExpended), true);
+                mWriteCharacteristic.setValue(newEnergyExpended, FORMAT_UINT32, NOTIFY_OFFSET);
+                mGattServer.notifyCharacteristicChanged(device, mWriteCharacteristic, indicate);
+            }
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.config.BleUUID;
 import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 import com.srtianxia.bleattendance.utils.ToastUtil;
+import com.srtianxia.bleattendance.utils.TransformUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +22,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.PublishSubject;
 
+import static android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT32;
+import static com.srtianxia.bleattendance.config.Constant.NOTIFY_OFFSET;
 import static com.trello.rxlifecycle.android.FragmentEvent.DESTROY;
 import static com.trello.rxlifecycle.android.FragmentEvent.PAUSE;
 
@@ -34,6 +37,10 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     private Observable<RxBleConnection> mRxBleConnection;
     private PublishSubject<Void> mDisconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice mRxBleDevice;
+
+
+    private static final String UUID_SETUP_NOTIFY = BleUUID.ATTENDANCE_NOTIFY_WRITE;
+    private static final String UUID_WRITE = BleUUID.ATTENDANCE_NOTIFY_WRITE;
 
     @Inject
     public TeacherScanPresenter(ITeacherScanView baseView) {
@@ -117,7 +124,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
         if (isConnected()) {
             mRxBleConnection.flatMap(
                     rxBleConnection -> rxBleConnection.setupNotification(
-                            UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE)))
+                            UUID.fromString(UUID_SETUP_NOTIFY)))
                     .doOnNext(notificationObservable -> getViewType().getActivity()
                             .runOnUiThread(this::notificationHasBeenSetUp))
                     .flatMap(notificationObservable -> notificationObservable)
@@ -136,7 +143,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
         if (isConnected()) {
             mRxBleConnection
                     .flatMap(rxBleConnection -> rxBleConnection.writeCharacteristic(
-                            UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE),
+                            UUID.fromString(UUID_WRITE),
                             "1".getBytes()))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::onWrite, this::onWriteError);
@@ -160,7 +167,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
 
     private void onNotificationReceived(byte[] bytes) {
-        ToastUtil.show(getViewType().getActivity(), new String(bytes), true);
+        ToastUtil.show(getViewType().getActivity(), String.valueOf(TransformUtils.bytes2int(bytes, FORMAT_UINT32, NOTIFY_OFFSET)), true);
     }
 
 
@@ -180,7 +187,6 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
 
     private void onConnectFailure(Throwable throwable) {
-//        mSemaphore.release();
         ToastUtil.show(getViewType().getActivity(), throwable.toString(), true);
     }
 

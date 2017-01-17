@@ -44,7 +44,6 @@ public class ProcessUtil {
         if (usageStats.size() != 0) {
             currentTopPackage = usageStats.get(0).getPackageName();
         }
-
         //包名的最后一段
         String[] str = currentTopPackage.split("\\.");
         currentTopPackage = str[str.length - 1].toString();

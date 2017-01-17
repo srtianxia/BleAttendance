@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.student.attendance;
 
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 
 /**
@@ -12,4 +13,6 @@ public interface IStuAttModel {
     void startAdvertise();
 
     void stopAdvertise();
+
+    void notifyCenter(BluetoothGattCharacteristic characteristic);
 }

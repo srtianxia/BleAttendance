@@ -45,5 +45,6 @@ dependencies {
     compile 'com.trello:rxlifecycle-android:1.0'
     compile 'com.trello:rxlifecycle-components:1.0'
     compile 'com.orhanobut:logger:1.15'
+    compile 'com.github.markomilos:paginate:0.5.1'
     compile project(':rxperipheral')
 }

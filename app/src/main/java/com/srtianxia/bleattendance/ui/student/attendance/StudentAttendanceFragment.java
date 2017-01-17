@@ -49,6 +49,11 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
         mPresenter.stopAdv();
     }
 
+    @OnClick(R.id.btn_notify)
+    void notify_center() {
+        mPresenter.notifyCenter();
+    }
+
     @Override
     public void onStop() {
         super.onStop();

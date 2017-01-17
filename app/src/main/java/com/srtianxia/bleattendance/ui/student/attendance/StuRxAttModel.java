@@ -1,14 +1,14 @@
 package com.srtianxia.bleattendance.ui.student.attendance;
 
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 
 import com.srtianxia.bleattendance.BleApplication;
+import com.srtianxia.bleattendance.utils.ToastUtil;
 import com.srtianxia.rxperipheral.RxPeripheralAdvResult;
 import com.srtianxia.rxperipheral.RxPeripheralClient;
 import com.srtianxia.rxperipheral.RxPeripheralConnection;
-import com.srtianxia.bleattendance.utils.ToastUtil;
 
-import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
 /**
@@ -35,25 +35,27 @@ public class StuRxAttModel implements IStuAttModel {
     public void startAdvertise() {
         mPeripheralClient.advertise("")
                 .takeUntil(mDisconnectTriggerSubject)
-                .subscribe(new Action1<RxPeripheralAdvResult>() {
-                    @Override
-                    public void call(RxPeripheralAdvResult rxPeripheralAdvResult) {
-                        ToastUtil.show(BleApplication.getContext(), "3232", true);
-                        mAdvResult = rxPeripheralAdvResult;
-                        mAdvResult.initConnection();
-                        mAdvResult.observeConnectionStateChanges().subscribe(new Action1<RxPeripheralConnection.ConnectionState>() {
-                            @Override
-                            public void call(RxPeripheralConnection.ConnectionState connectionState) {
-                                ToastUtil.show(BleApplication.getContext(), connectionState.toString(), true);
-                            }
-                        });
-                    }
-                });
+                .subscribe(this::advertiseResult);
     }
 
 
     @Override
     public void stopAdvertise() {
         mDisconnectTriggerSubject.onNext(null);
+    }
+
+    @Override
+    public void notifyCenter(BluetoothGattCharacteristic characteristic) {
+
+    }
+
+    private void advertiseResult(RxPeripheralAdvResult rxPeripheralAdvResult) {
+        mAdvResult = rxPeripheralAdvResult;
+        mAdvResult.initConnection();
+        mAdvResult.observeConnectionStateChanges().subscribe(this::observeConnectionStateChanges);
+    }
+
+    private void observeConnectionStateChanges(RxPeripheralConnection.ConnectionState connectionState) {
+        ToastUtil.show(BleApplication.getContext(), connectionState.toString(), true);
     }
 }

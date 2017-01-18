@@ -20,6 +20,7 @@ import com.orhanobut.logger.Logger;
 import com.srtianxia.bleattendance.BleApplication;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.config.BleUUID;
+import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 
 import java.util.HashSet;
@@ -103,7 +104,6 @@ public class StuAttendanceModel implements IStuAttModel {
                 String s = "";
                 if (newState == BluetoothGatt.STATE_CONNECTED) {
                     mBluetoothDevices.add(device);
-//                    notifyCenter(null);
                 } else if (newState == BluetoothGatt.STATE_DISCONNECTED) {
                     mBluetoothDevices.remove(device);
                 }
@@ -150,7 +150,7 @@ public class StuAttendanceModel implements IStuAttModel {
         public void onNotificationSent(BluetoothDevice device, int status) {
             super.onNotificationSent(device, status);
             Logger.d("callback --->" + "onNotificationSent");
-
+            //todo notify发送后 就可以实施锁屏等操作了
             Observable.just("").observeOn(AndroidSchedulers.mainThread())
                     .subscribe(s -> ToastUtil.show(BleApplication.getContext(), "onNotificationSent", true));
         }
@@ -273,8 +273,10 @@ public class StuAttendanceModel implements IStuAttModel {
                     & BluetoothGattCharacteristic.PROPERTY_INDICATE)
                     == BluetoothGattCharacteristic.PROPERTY_INDICATE;
             for (BluetoothDevice device : mBluetoothDevices) {
-                int newEnergyExpended = Integer.parseInt("2014211819");
-                mWriteCharacteristic.setValue(newEnergyExpended, FORMAT_UINT32, NOTIFY_OFFSET);
+                // todo 这边是采用sp存数据
+//                int number = Integer.parseInt("2014211819");
+                int number = PreferenceManager.getInstance().getInteger(PreferenceManager.SP_STUDENT_NUMBER);
+                mWriteCharacteristic.setValue(number, FORMAT_UINT32, NOTIFY_OFFSET);
                 mGattServer.notifyCharacteristicChanged(device, mWriteCharacteristic, indicate);
             }
         }

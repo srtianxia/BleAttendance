@@ -15,9 +15,9 @@ import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.di.component.DaggerLoginComponent;
 import com.srtianxia.bleattendance.di.module.LoginModule;
-import com.srtianxia.bleattendance.ui.enter.LoginPresenter;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
+import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.widget.LoginButton;
@@ -31,54 +31,75 @@ import butterknife.OnClick;
  * Created by srtianxia on 2016/7/23.
  */
 public class LoginFragment extends BaseFragment implements LoginPresenter.ILoginView {
-    @BindView(R.id.container) RelativeLayout container;
-    @BindView(R.id.input_username) EditText inputUsername;
-    @BindView(R.id.input_password) EditText inputPassword;
-    @BindView(R.id.btn_login) LoginButton btnLogin;
-    @BindView(R.id.tv_link_teacher_enter) TextView tvLinkTeacherEnter;
-    @BindView(R.id.llt_container) LinearLayout lltContainer;
+    @BindView(R.id.container)
+    RelativeLayout container;
+    @BindView(R.id.input_username)
+    EditText inputUsername;
+    @BindView(R.id.input_password)
+    EditText inputPassword;
+    @BindView(R.id.btn_login)
+    LoginButton btnLogin;
+    @BindView(R.id.tv_link_teacher_enter)
+    TextView tvLinkTeacherEnter;
+    @BindView(R.id.llt_container)
+    LinearLayout lltContainer;
 
     @Inject
     LoginPresenter mPresenter;
 
 
-    @Override protected void initView() {
+    @Override
+    protected void initView() {
         DaggerLoginComponent.builder().loginModule(new LoginModule(this)).build().inject(this);
     }
 
 
-    @OnClick(R.id.tv_link_teacher_enter) void clickToTeacher() {
+    @OnClick(R.id.tv_link_teacher_enter)
+    void clickToTeacher() {
         UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
     }
 
 
-    @OnClick(R.id.btn_login) void clickToStudent() {
+    @OnClick(R.id.btn_login)
+    void clickToStudent() {
+        // todo 先放在这儿 这里保存的逻辑应该移动到model层
+        if ("".equals(getStuNum())) {
+            ToastUtil.show(getActivity(), "not allow null", true);
+            return;
+        }
+        PreferenceManager.getInstance().setInteger(PreferenceManager.SP_STUDENT_NUMBER, Integer.parseInt(getStuNum()));
         btnLogin.executeLogin();
         btnLogin.postDelayed(this::handleSuccess, 2000);
     }
 
 
-    @Override protected int getLayoutRes() {
+    @Override
+    protected int getLayoutRes() {
         return R.layout.fragment_login;
     }
 
 
-    @Override public String getStuNum() {
+    //todo 要加上格式处理
+    @Override
+    public String getStuNum() {
         return inputUsername.getText().toString();
     }
 
 
-    @Override public String getPassword() {
+    @Override
+    public String getPassword() {
         return inputPassword.getText().toString();
     }
 
 
-    @Override public void loginSuccess() {
+    @Override
+    public void loginSuccess() {
         handleSuccess();
     }
 
 
-    @Override public void loginFailure(String cause) {
+    @Override
+    public void loginFailure(String cause) {
         ToastUtil.show(getActivity(), cause, true);
     }
 
@@ -90,30 +111,34 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
         int x = location[0];
         int y = location[1];
         Animator animator = ViewAnimationUtils.createCircularReveal(container,
-            x + btnLogin.getMeasuredWidth() / 2, y - btnLogin.getMeasuredHeight(), 100,
-            finalRadius);
+                x + btnLogin.getMeasuredWidth() / 2, y - btnLogin.getMeasuredHeight(), 100,
+                finalRadius);
         container.setBackgroundColor(0xff6abad3);
         animator.setDuration(500);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.addListener(new Animator.AnimatorListener() {
-            @Override public void onAnimationStart(Animator animator) {
-
+            @Override
+            public void onAnimationStart(Animator animator) {
+                btnLogin.setClickable(false);
             }
 
 
-            @Override public void onAnimationEnd(Animator animator) {
+            @Override
+            public void onAnimationEnd(Animator animator) {
                 startActivity(new Intent(getActivity(), StudentHomeActivity.class),
-                    ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                        ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
                 getActivity().finishAfterTransition();
             }
 
 
-            @Override public void onAnimationCancel(Animator animator) {
+            @Override
+            public void onAnimationCancel(Animator animator) {
 
             }
 
 
-            @Override public void onAnimationRepeat(Animator animator) {
+            @Override
+            public void onAnimationRepeat(Animator animator) {
 
             }
         });

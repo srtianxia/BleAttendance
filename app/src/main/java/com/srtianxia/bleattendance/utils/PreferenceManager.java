@@ -2,29 +2,34 @@ package com.srtianxia.bleattendance.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import com.srtianxia.bleattendance.BleApplication;
 
 /**
  * Created by srtianxia on 2016/7/30.
  */
-public class SharePreferenceManager {
+public class PreferenceManager {
 
     private String mPackName = "";
     private Context mContext;
     private static SharedPreferences mSettings;
 
-    public static SharePreferenceManager getInstance() {
+    public static final String SP_STUDENT_NUMBER = "S";
+    public static final String SP_TEACHER_NUMBER = "T";
+    public static final int DEFALUT_NUMBER = 0;
+
+    public static PreferenceManager getInstance() {
         return PreferenceInstance.instance;
     }
 
-    private SharePreferenceManager() {
+    private PreferenceManager() {
         this.mContext = BleApplication.getContext();
         mPackName = mContext.getPackageName();
         mSettings = mContext.getSharedPreferences(mPackName, 0);
     }
 
     private static class PreferenceInstance {
-        private static final SharePreferenceManager instance = new SharePreferenceManager();
+        private static final PreferenceManager instance = new PreferenceManager();
     }
 
     public void setString(String key, String value) {
@@ -37,5 +42,13 @@ public class SharePreferenceManager {
         return mSettings.getString(key, defaultValue);
     }
 
+    public void setInteger(String key, int value) {
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
 
+    public int getInteger(String key) {
+        return mSettings.getInt(key, DEFALUT_NUMBER);
+    }
 }

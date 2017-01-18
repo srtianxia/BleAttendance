@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.teacher.attendance;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.polidea.rxandroidble.RxBleDevice;
@@ -16,8 +17,8 @@ import javax.inject.Inject;
 public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherScanAdapter> implements TeacherScanPresenter.ITeacherScanView {
     @Inject
     TeacherScanPresenter mPresenter;
-
     private TeacherScanAdapter mAdapter = new TeacherScanAdapter();
+
 
 
     public static TeacherScanFragment newInstance() {
@@ -27,6 +28,11 @@ public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherSc
         return fragment;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+//        ()activity
+    }
 
     @Override
     protected void initView() {

@@ -73,7 +73,7 @@ public class StudentPresenter extends BasePresenter<StudentPresenter.IStudentVie
 //        mBlePeripheral.stopAdvertise();
     }
 
-
+    @Deprecated
     public interface IStudentView extends BaseView {
         void setCourseTable(CourseEntity courses);
     }

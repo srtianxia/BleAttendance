@@ -21,4 +21,9 @@
 
 
     <string name="teacher_page_toolbar">Teacher Scan</string>
+    <string name="student_page_toolbar">Student Advertise</string>
+    
+    
+    <string name="current_course_title">当前课程:</string>
+    <string name="current_course_no_choose">未选定</string>
 </resources>

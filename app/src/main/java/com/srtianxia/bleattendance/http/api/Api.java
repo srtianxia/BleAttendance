@@ -3,6 +3,9 @@ package com.srtianxia.bleattendance.http.api;
 import com.srtianxia.bleattendance.entity.AttendEntity;
 import com.srtianxia.bleattendance.entity.CourseEntity;
 import com.srtianxia.bleattendance.entity.StuEntity;
+
+import java.util.List;
+
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -25,4 +28,6 @@ public interface Api {
     @FormUrlEncoded
     @POST("StudentKaoQin")
     Observable<AttendEntity> queryAttend(@Field("cid") String classId);
+
+
 }

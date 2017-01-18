@@ -34,6 +34,7 @@ import static com.srtianxia.bleattendance.config.Constant.NOTIFY_OFFSET;
 
 /**
  * Created by srtianxia on 2016/11/26.
+ * todo 现在的情况是 广播后停止广播再广播 ， 就出现找不到write和notify的uuid的情况 详情看备忘录
  */
 
 public class StuAttendanceModel implements IStuAttModel {
@@ -51,6 +52,11 @@ public class StuAttendanceModel implements IStuAttModel {
             .fromString("00002902-0000-1000-8000-00805f9b34fb");
     private static final int EXPENDED_ENERGY_FORMAT = BluetoothGattCharacteristic.FORMAT_UINT16;
     private static final int INITIAL_EXPENDED_ENERGY = 0;
+
+
+    //todo 这里randomUUID 是搜索的时候使用的UUID应该由教师端生产 再post到服务器上
+    private static final UUID UUID_SERVICE = UUID.randomUUID();
+    private static final UUID UUID_OLD = UUID.fromString(BleUUID.ATTENDANCE_SERVICE_UUID);
 
     private final AdvertiseCallback mCallback = new AdvertiseCallback() {
         @Override
@@ -89,8 +95,7 @@ public class StuAttendanceModel implements IStuAttModel {
         }
     };
 
-    private final BluetoothGattServerCallback mGattServerCallback
-            = new BluetoothGattServerCallback() {
+    private final BluetoothGattServerCallback mGattServerCallback = new BluetoothGattServerCallback() {
         @Override
         public void onConnectionStateChange(BluetoothDevice device, final int status, int newState) {
             super.onConnectionStateChange(device, status, newState);
@@ -111,6 +116,12 @@ public class StuAttendanceModel implements IStuAttModel {
                 });
             } else {
                 mBluetoothDevices.remove(device);
+                Observable.just("").compose(RxSchedulersHelper.io2main()).subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        ToastUtil.show(BleApplication.getContext(), "GATT FAILURE", true);
+                    }
+                });
             }
         }
 
@@ -182,7 +193,7 @@ public class StuAttendanceModel implements IStuAttModel {
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         mAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
         mBluetoothGattService = new BluetoothGattService(
-                UUID.fromString(BleUUID.ATTENDANCE_SERVICE_UUID),
+                UUID_SERVICE,
                 BluetoothGattService.SERVICE_TYPE_PRIMARY);
         mWriteCharacteristic = new BluetoothGattCharacteristic(
                 UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE),
@@ -197,7 +208,7 @@ public class StuAttendanceModel implements IStuAttModel {
                 .build();
         mAdvData = new AdvertiseData.Builder()
                 .setIncludeTxPowerLevel(true)
-                .addServiceUuid(new ParcelUuid(UUID.fromString(BleUUID.ATTENDANCE_SERVICE_UUID)))
+                .addServiceUuid(new ParcelUuid(UUID_SERVICE))
                 .build();
         mAdvScanResponse = new AdvertiseData.Builder()
                 .setIncludeDeviceName(true)
@@ -247,7 +258,6 @@ public class StuAttendanceModel implements IStuAttModel {
                     & BluetoothGattCharacteristic.PROPERTY_INDICATE)
                     == BluetoothGattCharacteristic.PROPERTY_INDICATE;
             for (BluetoothDevice device : mBluetoothDevices) {
-                // true for indication (acknowledge) and false for notification (unacknowledge).
                 int newEnergyExpended = Integer.parseInt("2014211819");
 
                 ToastUtil.show(BleApplication.getContext(), String.valueOf(newEnergyExpended), true);

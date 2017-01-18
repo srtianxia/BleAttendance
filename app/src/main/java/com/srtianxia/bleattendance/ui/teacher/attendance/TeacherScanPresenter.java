@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.teacher.attendance;
 
+import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.RxBleScanResult;
@@ -10,6 +11,10 @@ import com.srtianxia.bleattendance.config.BleUUID;
 import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 import com.srtianxia.bleattendance.utils.TransformUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +43,10 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     private PublishSubject<Void> mDisconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice mRxBleDevice;
 
+    private int position = 0;
+
+
+    private List<RxBleDevice> deviceList;
 
     private static final String UUID_SETUP_NOTIFY = BleUUID.ATTENDANCE_NOTIFY_WRITE;
     private static final String UUID_WRITE = BleUUID.ATTENDANCE_NOTIFY_WRITE;
@@ -46,6 +55,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     public TeacherScanPresenter(ITeacherScanView baseView) {
         super(baseView);
         mTeacherScanModel = new TeacherScanModel(getViewType().getActivity());
+        EventBus.getDefault().register(this);
     }
 
 
@@ -75,11 +85,13 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
     //一次性连接列表中的设备
     public void queueToConnect(List<RxBleDevice> deviceList) {
-        for (RxBleDevice device : deviceList) {
-            prepareConnection(device.getMacAddress());
-            registerConnectStateCallBack();
-            connect();
-        }
+//        for (RxBleDevice device : deviceList) {
+//            prepareConnection(device.getMacAddress());
+//            registerConnectStateCallBack();
+//            connect();
+//        }
+        this.deviceList = deviceList;
+        connectAll();
     }
 
 
@@ -110,6 +122,26 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
                     getViewType().getActivity().runOnUiThread(this::onConnect);
                     registerNotification();
                 }, this::onConnectFailure);
+    }
+
+
+    private void connectAll() {
+        if (position > deviceList.size()) {
+            return;
+        }
+        String address = deviceList.get(position).getMacAddress();
+        prepareConnection(address);
+        registerConnectStateCallBack();
+        connect();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void event(NotificationEvent event) {
+        position++;
+        if (position <= deviceList.size()) {
+            disconnect();
+            connectAll();
+        }
     }
 
 
@@ -169,11 +201,13 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
     private void onNotificationReceived(byte[] bytes) {
         ToastUtil.show(getViewType().getActivity(), String.valueOf(TransformUtils.bytes2int(bytes, FORMAT_UINT32, NOTIFY_OFFSET)), true);
+        EventBus.getDefault().post(new NotificationEvent());
     }
 
 
     private void onNotificationSetupFailure(Throwable throwable) {
-
+        Logger.d(throwable);
+//        ToastUtil.show(getViewType().getActivity(), throwable.getMessage(), false);
     }
 
 
@@ -203,6 +237,11 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
                 : false;
     }
 
+    @Override
+    public void detachView() {
+        super.detachView();
+        EventBus.getDefault().unregister(this);
+    }
 
     public interface ITeacherScanView extends BaseView {
         void addScanResult(RxBleScanResult rxBleScanResult);

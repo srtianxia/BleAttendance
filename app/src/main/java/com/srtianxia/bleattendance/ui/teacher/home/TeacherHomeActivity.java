@@ -5,6 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import butterknife.BindView;
 
@@ -12,6 +13,9 @@ import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.ui.teacher.record.QueryAttendanceFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by srtianxia on 2016/7/30.
@@ -22,10 +26,14 @@ public class TeacherHomeActivity extends BaseActivity
     BottomNavigationView mBottomView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.tv_current_course)
+    TextView tvCurrentCourse;
+
 
     private TeacherScanFragment mTeacherScanFragment;
     private QueryAttendanceFragment mQueryAttendanceFragment;
 
+    public List<Integer> mStuNumber = new ArrayList<>();
 
     @Override
     protected void initView() {
@@ -38,6 +46,7 @@ public class TeacherHomeActivity extends BaseActivity
                 .hide(mQueryAttendanceFragment)
                 .commit();
 
+        tvCurrentCourse.setText(getText(R.string.current_course_title) + "" + getText(R.string.current_course_no_choose));
 
         mBottomView.setOnNavigationItemSelectedListener(this);
         toolbar.setTitle(getString(R.string.teacher_page_toolbar));

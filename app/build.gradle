@@ -29,6 +29,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    compile project(':rxperipheral')
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile rootProject.ext.appcompat_v7
     compile rootProject.ext.android_design
@@ -46,5 +47,5 @@ dependencies {
     compile 'com.trello:rxlifecycle-components:1.0'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.github.markomilos:paginate:0.5.1'
-    compile project(':rxperipheral')
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

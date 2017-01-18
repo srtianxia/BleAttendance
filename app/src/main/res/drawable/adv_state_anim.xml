@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
 
-    <item android:drawable="@mipmap/ic_adv_state_3" android:duration="500"/>
-    <item android:drawable="@mipmap/ic_adv_state_2" android:duration="500"/>
-    <item android:drawable="@mipmap/ic_adv_state_1" android:duration="500"/>
+    <item android:drawable="@mipmap/ic_advertise_state_0" android:duration="500"/>
+    <item android:drawable="@mipmap/ic_advertise_state_1" android:duration="500"/>
+    <item android:drawable="@mipmap/ic_advertise_state_2" android:duration="500"/>
 
 </animation-list>

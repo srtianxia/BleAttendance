@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <!--新主题颜色-->
+    <color name="colorPrimary">#82DAC9</color>
+    <color name="colorPrimaryDark">#43C6AC</color>
     <color name="colorAccent">#757575</color>
 
+    <!--<color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#757575</color>-->
+
     <color name="white">#ffffff</color>
+    <color name="colorWhite_bg">#F5F5F5</color>
+    <color name="colorGrey_unselecte">#C8C8C8</color>
     <color name="TextColorBlack">#000000</color>
     <color name="colorGrey_content">#888888</color>
     <color name="colorBlack_title">#333333</color>

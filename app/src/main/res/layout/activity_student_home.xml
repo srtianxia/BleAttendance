@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,11 +26,12 @@
         android:id="@+id/bottom_view_student"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
+        app:itemIconTint="@color/color_bottomnav_selector"
+        app:itemTextColor="@color/color_bottomnav_selector"
         android:layout_gravity="bottom"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="#FFFFFF"
-        app:itemTextColor="#FFFFFF"
-        app:menu="@menu/menu_bottom_student"></android.support.design.widget.BottomNavigationView>
+        app:menu="@menu/menu_bottom_student"
+        app:itemBackground="@color/white">
+    </android.support.design.widget.BottomNavigationView>
 
     <include layout="@layout/content_main" />
 

@@ -46,7 +46,19 @@ public class LockService extends Service {
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         if (ProcessUtil.isNeededInBackground(this)) {
+
             ToastUtil.show(this, "23333~", true);
+
+
+            //跳转至随机一个activity
+            /*int ran_num = new Random().nextInt(4);
+            Intent activity_intent = null;
+            if (ran_num == 0) activity_intent = new Intent(this, LockActivity.class);
+            if (ran_num == 1) activity_intent = new Intent(this, LockActivity1.class);
+            if (ran_num == 2) activity_intent = new Intent(this, LockActivity2.class);
+            if (ran_num == 3) activity_intent = new Intent(this, LockActivity3.class);
+            activity_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(activity_intent);*/
         }
         return super.onStartCommand(intent, flags, startId);
     }

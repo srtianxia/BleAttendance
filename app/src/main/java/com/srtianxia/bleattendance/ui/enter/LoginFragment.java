@@ -119,7 +119,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
         animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
-                btnLogin.setClickable(false);
+
             }
 
 

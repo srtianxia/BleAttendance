@@ -7,15 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import butterknife.BindView;
-
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
-import com.srtianxia.bleattendance.ui.teacher.record.QueryAttendanceFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
+import com.srtianxia.bleattendance.ui.teacher.record.AttConditionFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * Created by srtianxia on 2016/7/30.
@@ -31,19 +31,19 @@ public class TeacherHomeActivity extends BaseActivity
 
 
     private TeacherScanFragment mTeacherScanFragment;
-    private QueryAttendanceFragment mQueryAttendanceFragment;
-
-    public List<Integer> mStuNumber = new ArrayList<>();
+//    private QueryAttendanceFragment mQueryAttendanceFragment;
+    private AttConditionFragment attConditionFragment = new AttConditionFragment();
+    private List<Integer> mNumberList = new ArrayList<>();
 
     @Override
     protected void initView() {
         mTeacherScanFragment = TeacherScanFragment.newInstance();
-        mQueryAttendanceFragment = QueryAttendanceFragment.newInstance();
+//        mQueryAttendanceFragment = QueryAttendanceFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mTeacherScanFragment)
-                .add(R.id.fragment_container, mQueryAttendanceFragment)
+                .add(R.id.fragment_container, attConditionFragment)
                 .show(mTeacherScanFragment)
-                .hide(mQueryAttendanceFragment)
+                .hide(attConditionFragment)
                 .commit();
 
         tvCurrentCourse.setText(getText(R.string.current_course_title) + "" + getText(R.string.current_course_no_choose));
@@ -91,13 +91,21 @@ public class TeacherHomeActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.bottom_nav_scan:
                 getSupportFragmentManager().beginTransaction()
-                        .hide(mQueryAttendanceFragment).show(mTeacherScanFragment).commit();
+                        .hide(attConditionFragment).show(mTeacherScanFragment).commit();
                 break;
             case R.id.bottom_nav_attendance:
                 getSupportFragmentManager().beginTransaction()
-                        .hide(mTeacherScanFragment).show(mQueryAttendanceFragment).commit();
+                        .hide(mTeacherScanFragment).show(attConditionFragment).commit();
                 break;
         }
         return true;
+    }
+
+    public void addNumber(Integer number) {
+        mNumberList.add(number);
+    }
+
+    public List<Integer> getNumberList() {
+        return mNumberList;
     }
 }

@@ -37,6 +37,9 @@ import static com.trello.rxlifecycle.android.FragmentEvent.PAUSE;
  */
 @Singleton
 public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITeacherScanView> {
+    private static final String UUID_SETUP_NOTIFY = BleUUID.ATTENDANCE_NOTIFY_WRITE;
+    private static final String UUID_WRITE = BleUUID.ATTENDANCE_NOTIFY_WRITE;
+
     private TeacherScanModel mTeacherScanModel;
     private Subscription mScanSubscription;
     private Observable<RxBleConnection> mRxBleConnection;
@@ -44,12 +47,8 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     private RxBleDevice mRxBleDevice;
 
     private int position = 0;
-
-
     private List<RxBleDevice> deviceList;
 
-    private static final String UUID_SETUP_NOTIFY = BleUUID.ATTENDANCE_NOTIFY_WRITE;
-    private static final String UUID_WRITE = BleUUID.ATTENDANCE_NOTIFY_WRITE;
 
     @Inject
     public TeacherScanPresenter(ITeacherScanView baseView) {
@@ -197,10 +196,9 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     private void onNotificationReceived(byte[] bytes) {
         ToastUtil.show(getViewType().getActivity(), String.valueOf(TransformUtils.bytes2int(bytes, FORMAT_UINT32, NOTIFY_OFFSET)), true);
         EventBus.getDefault().post(new NotificationEvent());
-        // todo 在这儿统计学号信息
         Logger.d("number => " + String.valueOf(TransformUtils.bytes2int(bytes, FORMAT_UINT32, NOTIFY_OFFSET)));
+        getView().addAttendanceNumber(String.valueOf(TransformUtils.bytes2int(bytes, FORMAT_UINT32, NOTIFY_OFFSET)));
     }
-
 
     private void onNotificationSetupFailure(Throwable throwable) {
         Logger.d(throwable);
@@ -244,5 +242,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
         void addScanResult(RxBleScanResult rxBleScanResult);
 
         void handleScanError(Throwable throwable);
+
+        void addAttendanceNumber(String number);
     }
 }

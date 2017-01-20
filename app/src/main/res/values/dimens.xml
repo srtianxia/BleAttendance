@@ -8,4 +8,7 @@
     <dimen name="bottom_bar_height">48dp</dimen>
 
     <dimen name="tv_padding">10dp</dimen>
+    
+    <dimen name="expandable_parent_tv_size">16sp</dimen>
+    <dimen name="expandable_child_tv_size">14sp</dimen>
 </resources>

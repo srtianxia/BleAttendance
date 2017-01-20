@@ -8,6 +8,7 @@ import com.polidea.rxandroidble.RxBleScanResult;
 import com.srtianxia.bleattendance.base.view.BaseListFragment;
 import com.srtianxia.bleattendance.di.component.DaggerTeacherComponent;
 import com.srtianxia.bleattendance.di.module.TeacherModule;
+import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 
 import javax.inject.Inject;
 
@@ -19,7 +20,7 @@ public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherSc
     TeacherScanPresenter mPresenter;
     private TeacherScanAdapter mAdapter = new TeacherScanAdapter();
 
-
+    private TeacherHomeActivity mHomeActivity;
 
     public static TeacherScanFragment newInstance() {
         Bundle args = new Bundle();
@@ -31,7 +32,7 @@ public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherSc
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-//        ()activity
+        mHomeActivity = (TeacherHomeActivity) activity;
     }
 
     @Override
@@ -74,6 +75,11 @@ public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherSc
     @Override
     public void handleScanError(Throwable throwable) {
 
+    }
+
+    @Override
+    public void addAttendanceNumber(String number) {
+        mHomeActivity.addNumber(Integer.valueOf(number));
     }
 
 

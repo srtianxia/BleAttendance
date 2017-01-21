@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
@@ -20,13 +21,23 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     private static final int STATE_ADV = 0;
     private static final int STATE_DIS_ADV = 1;
 
+    private static final String UN_ATT = "未考勤";
+    private static final String ATT = "已考勤";
+
+
     @BindView(R.id.btn_advertise)
     Button btnBroadcast;
     @BindView(R.id.img_adv_state)
     ImageView imgAdvState;
+    @BindView(R.id.tv_attention_state)
+    TextView tvAttentionState;
+
+
     private AnimationDrawable mFrameAnim;
 
     private int mAdvState = STATE_DIS_ADV;
+    private String mAttState = UN_ATT;
+
 
     private StuAttendancePresenter mPresenter;
 
@@ -35,6 +46,7 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
         mPresenter = new StuAttendancePresenter(this);
         mFrameAnim = (AnimationDrawable) ContextCompat.getDrawable(getActivity(), R.drawable.adv_state_anim);
         imgAdvState.setBackground(mFrameAnim);
+        tvAttentionState.setText(mAttState);
     }
 
     @Override
@@ -92,5 +104,10 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     public void onStop() {
         super.onStop();
         mPresenter.stopAdv();
+    }
+
+    @Override
+    public void setAttState() {
+        tvAttentionState.setText(ATT);
     }
 }

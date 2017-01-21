@@ -15,4 +15,6 @@ public interface IStuAttModel {
     void stopAdvertise();
 
     void notifyCenter(BluetoothGattCharacteristic characteristic);
+
+    void onDestroy();
 }

@@ -101,6 +101,9 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
     @Override
     public void loginFailure(String cause) {
         ToastUtil.show(getActivity(), cause, true);
+        // 这边登录失败还要变回按钮才行
+        btnLogin.executeLoginFailure();
+        btnLogin.setClickable(true);
     }
 
 

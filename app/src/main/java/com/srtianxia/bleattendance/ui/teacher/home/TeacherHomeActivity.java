@@ -31,14 +31,12 @@ public class TeacherHomeActivity extends BaseActivity
 
 
     private TeacherScanFragment mTeacherScanFragment;
-//    private QueryAttendanceFragment mQueryAttendanceFragment;
     private AttConditionFragment attConditionFragment = new AttConditionFragment();
     private List<Integer> mNumberList = new ArrayList<>();
 
     @Override
     protected void initView() {
         mTeacherScanFragment = TeacherScanFragment.newInstance();
-//        mQueryAttendanceFragment = QueryAttendanceFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mTeacherScanFragment)
                 .add(R.id.fragment_container, attConditionFragment)

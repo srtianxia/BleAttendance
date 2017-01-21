@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,7 +48,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     private RxBleDevice mRxBleDevice;
 
     private int position = 0;
-    private List<RxBleDevice> deviceList;
+    private List<RxBleDevice> deviceList = new ArrayList<>();
 
 
     @Inject
@@ -84,7 +85,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
     //一次性连接列表中的设备
     public void queueToConnect(List<RxBleDevice> deviceList) {
-        this.deviceList = deviceList;
+        this.deviceList.addAll(deviceList);
         connectAll();
     }
 
@@ -120,7 +121,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
 
     private void connectAll() {
-        if (position > deviceList.size()) {
+        if (position >= deviceList.size()) {
             return;
         }
         String address = deviceList.get(position).getMacAddress();
@@ -132,7 +133,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void event(NotificationEvent event) {
         position++;
-        if (position <= deviceList.size()) {
+        if (position < deviceList.size()) {
             disconnect();
             connectAll();
         }
@@ -195,9 +196,9 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
     private void onNotificationReceived(byte[] bytes) {
         ToastUtil.show(getViewType().getActivity(), String.valueOf(TransformUtils.bytes2int(bytes, FORMAT_UINT32, NOTIFY_OFFSET)), true);
+        getView().addAttendanceNumber(String.valueOf(TransformUtils.bytes2int(bytes, FORMAT_UINT32, NOTIFY_OFFSET)));
         EventBus.getDefault().post(new NotificationEvent());
         Logger.d("number => " + String.valueOf(TransformUtils.bytes2int(bytes, FORMAT_UINT32, NOTIFY_OFFSET)));
-        getView().addAttendanceNumber(String.valueOf(TransformUtils.bytes2int(bytes, FORMAT_UINT32, NOTIFY_OFFSET)));
     }
 
     private void onNotificationSetupFailure(Throwable throwable) {
@@ -218,6 +219,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
     private void onConnectFailure(Throwable throwable) {
         ToastUtil.show(getViewType().getActivity(), throwable.toString(), true);
+        EventBus.getDefault().post(new NotificationEvent());
     }
 
 

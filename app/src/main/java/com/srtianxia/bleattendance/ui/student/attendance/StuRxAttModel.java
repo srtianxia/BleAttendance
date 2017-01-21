@@ -49,6 +49,11 @@ public class StuRxAttModel implements IStuAttModel {
 
     }
 
+    @Override
+    public void onDestroy() {
+
+    }
+
     private void advertiseResult(RxPeripheralAdvResult rxPeripheralAdvResult) {
         mAdvResult = rxPeripheralAdvResult;
         mAdvResult.initConnection();

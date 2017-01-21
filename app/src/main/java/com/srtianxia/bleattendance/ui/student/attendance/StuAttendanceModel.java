@@ -23,6 +23,8 @@ import com.srtianxia.bleattendance.config.BleUUID;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -151,8 +153,8 @@ public class StuAttendanceModel implements IStuAttModel {
             super.onNotificationSent(device, status);
             Logger.d("callback --->" + "onNotificationSent");
             //todo notify发送后 就可以实施锁屏等操作了
-            Observable.just("").observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(s -> ToastUtil.show(BleApplication.getContext(), "onNotificationSent", true));
+            /* @Link com.srtianxia.bleattendance.ui.student.attendance.StuAttendancePresenter */
+            EventBus.getDefault().post(new OnNotifySend());
         }
 
 
@@ -167,11 +169,7 @@ public class StuAttendanceModel implements IStuAttModel {
                 mGattServer.sendResponse(device, requestId, status,
                         0, null);
             }
-
             Logger.d("callback --->" + "onCharacteristicWriteRequest");
-
-            Observable.just("").observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(s -> ToastUtil.show(BleApplication.getContext(), "onCharacteristicWriteRequest", true));
         }
 
 
@@ -189,15 +187,7 @@ public class StuAttendanceModel implements IStuAttModel {
 
                 notifyCenter(null);
             }
-
             Logger.d("callback --->" + "onDescriptorWriteRequest");
-            Observable.just("").observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<String>() {
-                        @Override
-                        public void call(String s) {
-                            ToastUtil.show(BleApplication.getContext(), "onDescriptorWriteRequest", true);
-                        }
-                    });
         }
     };
 
@@ -296,5 +286,10 @@ public class StuAttendanceModel implements IStuAttModel {
     @Override
     public IStuAttModel getInstance(Context context) {
         return new StuAttendanceModel();
+    }
+
+    @Override
+    public void onDestroy() {
+//        EventBus.getDefault().unregister(this);
     }
 }

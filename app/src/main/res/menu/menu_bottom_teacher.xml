@@ -13,9 +13,9 @@
         android:title="考勤"
         android:icon="@mipmap/ic_attend"/>
 
-    <item android:id="@+id/bottom_na"
+    <item android:id="@+id/bottom_nav_table"
         android:enabled="true"
         app:showAsAction="ifRoom"
-        android:title="其他"
+        android:title="课表"
         android:icon="@mipmap/ic_search"/>
 </menu>

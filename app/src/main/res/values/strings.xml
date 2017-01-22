@@ -26,4 +26,32 @@
     
     <string name="current_course_title">当前课程:</string>
     <string name="current_course_no_choose">未选定</string>
+
+    <string-array name="course_weeks">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+
+    <string-array name="course_time_2">
+        <item>8:00 ~ 9:40 am</item>
+        <item>10:05 ~ 11:45 am</item>
+        <item>2:00 ~ 3:40 pm</item>
+        <item>4:05 ~ 5:45 pm</item>
+        <item>7:00 ~ 8:40 pm</item>
+        <item>8:50 ~ 10:30 pm</item>
+    </string-array>
+
+    <string-array name="course_time_3">
+        <item>8:00 ~ 9:40 am</item>
+        <item>10:05 ~ 11:45 am</item>
+        <item>2:00 ~ 3:40 pm</item>
+        <item>4:05 ~ 5:45 pm</item>
+        <item>7:00 ~ 8:40 pm</item>
+        <item>8:50 ~ 10:30 pm</item>
+    </string-array>
 </resources>

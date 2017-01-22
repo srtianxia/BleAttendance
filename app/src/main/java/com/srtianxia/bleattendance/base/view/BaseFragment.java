@@ -2,12 +2,13 @@ package com.srtianxia.bleattendance.base.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import butterknife.ButterKnife;
+
 import com.trello.rxlifecycle.components.support.RxAppCompatDialogFragment;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by srtianxia on 2016/7/23.
@@ -23,7 +24,8 @@ public abstract class BaseFragment extends RxAppCompatDialogFragment {
     }
 
 
-    @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
     }

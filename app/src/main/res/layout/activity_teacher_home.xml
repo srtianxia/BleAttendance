@@ -8,34 +8,43 @@
     android:fitsSystemWindows="true"
     tools:context="com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarlayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-    </android.support.design.widget.AppBarLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <include layout="@layout/content_teacher" />
+        </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_bar_height"
-        app:itemIconTint="@color/color_bottomnav_selector"
-        app:itemTextColor="@color/color_bottomnav_selector"
-        android:layout_gravity="bottom"
-        app:menu="@menu/menu_bottom_teacher"
-        app:itemBackground="@color/white">
-    </android.support.design.widget.BottomNavigationView>
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_bar_height"
+            app:itemIconTint="@color/color_bottomnav_selector"
+            app:itemTextColor="@color/color_bottomnav_selector"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/menu_bottom_teacher"
+            app:itemBackground="@color/white">
+        </android.support.design.widget.BottomNavigationView>
 
+        <include layout="@layout/content_teacher"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/appbarlayout"
+            android:layout_above="@+id/bottom_view" />
 
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
 

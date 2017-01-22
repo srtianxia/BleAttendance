@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--新主题颜色-->
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#43C6AC</color>
+
+    <!--新主题颜色
     <color name="colorPrimary">#82DAC9</color>
     <color name="colorPrimaryDark">#43C6AC</color>
-    <color name="colorAccent">#757575</color>
+    <color name="colorAccent">#757575</color>-->
 
     <!--<color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>

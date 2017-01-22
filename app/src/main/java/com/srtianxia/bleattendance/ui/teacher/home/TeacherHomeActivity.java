@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
+import com.srtianxia.bleattendance.ui.course.CourseFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.record.AttConditionFragment;
 
@@ -31,17 +32,28 @@ public class TeacherHomeActivity extends BaseActivity
 
 
     private TeacherScanFragment mTeacherScanFragment;
+
     private AttConditionFragment attConditionFragment = new AttConditionFragment();
     private List<Integer> mNumberList = new ArrayList<>();
+
+    private CourseFragment mCourseFragment;
+
+    public List<Integer> mStuNumber = new ArrayList<>();
+
 
     @Override
     protected void initView() {
         mTeacherScanFragment = TeacherScanFragment.newInstance();
+
+        mCourseFragment = CourseFragment.newInstance();
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mTeacherScanFragment)
                 .add(R.id.fragment_container, attConditionFragment)
+                .add(R.id.fragment_container, mCourseFragment)
                 .show(mTeacherScanFragment)
                 .hide(attConditionFragment)
+                .hide(mCourseFragment)
                 .commit();
 
         tvCurrentCourse.setText(getText(R.string.current_course_title) + "" + getText(R.string.current_course_no_choose));
@@ -89,12 +101,18 @@ public class TeacherHomeActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.bottom_nav_scan:
                 getSupportFragmentManager().beginTransaction()
-                        .hide(attConditionFragment).show(mTeacherScanFragment).commit();
+                        .hide(attConditionFragment).hide(mCourseFragment)
+                    .show(mTeacherScanFragment).commit();
                 break;
             case R.id.bottom_nav_attendance:
                 getSupportFragmentManager().beginTransaction()
-                        .hide(mTeacherScanFragment).show(attConditionFragment).commit();
+                        .hide(mTeacherScanFragment).hide(mCourseFragment)
+                        .show(attConditionFragment).commit();
                 break;
+            case R.id.bottom_nav_table:
+                getSupportFragmentManager().beginTransaction()
+                        .hide(mTeacherScanFragment).hide(attConditionFragment)
+                        .show(mCourseFragment).commit();
         }
         return true;
     }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="course_detail_view">
+        <!--设置viewpager底下的指示器形式-->
+        <attr name="hint_mode">
+            <enum name="point" value="0"/>
+            <enum name="number" value="1"/>
+        </attr>
+        <!--设置viewpager 子view放置的位置-->
+        <attr name="hint_gravity">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+        <!--设置viewpager内容自动滚动的时间间隔-->
+        <attr name="auto_play" format="integer"/>
+    </declare-styleable>
+
+</resources>

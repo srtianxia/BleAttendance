@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.Android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.srtianxia.bleattendance.widget.CourseDetailView
+        android:id="@+id/courseview_course"
+        android:layout_width="match_parent"
+        android:layout_height="332dp"
+        custom:hint_mode="point"
+        custom:hint_gravity="center">
+
+    </com.srtianxia.bleattendance.widget.CourseDetailView>
+
+</LinearLayout>

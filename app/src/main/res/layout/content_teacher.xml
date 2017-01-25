@@ -12,7 +12,7 @@
         android:id="@+id/tv_current_course"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/TextColorBlack"
+        android:textColor="@color/textColorBlack"
         android:padding="@dimen/tv_padding"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />

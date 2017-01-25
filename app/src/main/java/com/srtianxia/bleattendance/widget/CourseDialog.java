@@ -26,11 +26,11 @@ public class CourseDialog {
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_course_table,null);
         CourseDetailView courseDetailView = (CourseDetailView) layout.findViewById(R.id.courseview_course);
 
-        if (courseList.list.size() == 1){
+        /*if (courseList.list.size() == 2){
             ViewGroup.LayoutParams params = courseDetailView.getLayoutParams();
             params.height = DensityUtil.dp2px(context,220);
             courseDetailView.setLayoutParams(params);
-        }
+        }*/
 
         AlertDialog dialog = new AlertDialog.Builder(context)
                 .setTitle("详细信息")

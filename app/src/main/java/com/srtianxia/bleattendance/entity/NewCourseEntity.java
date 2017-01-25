@@ -13,8 +13,8 @@ public class NewCourseEntity {
     public List<Course> data;
 
     public static class Course{
-        public int hash_day;
-        public int hash_lesson;
+        public int hash_day;            //hash_day+1  代表这节课在周几
+        public int hash_lesson;         //hash_lesson*2+1   代表这节课开始的小节数
         public int begin_lesson;
         public String day;              //星期一
         public String lesson;           //1、2节
@@ -30,6 +30,10 @@ public class NewCourseEntity {
         public String id;               //课程id
         public List<Integer> week;      //包含的周的数组
         public int jxbid;                //教学班id
+
+        public String toString(){
+            return course + "@" + classroom;
+        }
     }
 
 }

@@ -113,6 +113,7 @@ public class TeacherHomeActivity extends BaseActivity
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(attConditionFragment)
                         .show(mCourseFragment).commit();
+
         }
         return true;
     }

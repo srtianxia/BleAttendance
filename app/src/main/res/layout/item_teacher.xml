@@ -8,12 +8,12 @@
         android:id="@+id/tv_device_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/TextColorBlack" />
+        android:textColor="@color/textColorBlack" />
 
     <TextView
         android:id="@+id/tv_device_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_device_name"
-        android:textColor="@color/TextColorBlack" />
+        android:textColor="@color/textColorBlack" />
 </RelativeLayout>

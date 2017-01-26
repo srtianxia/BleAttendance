@@ -179,10 +179,10 @@ public class CourseTableView extends FrameLayout{
     public class CourseColorSelector{
 
         private int[] courseColors = new int[]{
-                R.color.course_blue,
-                R.color.course_yellow,
-                R.color.course_green,
-                R.color.course_gray
+                R.color.course_Blue,
+                R.color.course_Yellow,
+                R.color.course_Green,
+                R.color.course_Gray
         };
 
         HashMap<String,Integer> mCourseColorMap = new HashMap<>();

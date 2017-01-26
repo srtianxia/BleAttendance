@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--新主题颜色-->
+    <!--新主题颜色
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
-    <color name="colorAccent">#43C6AC</color>
+    <color name="colorAccent">#43C6AC</color>  #82DAC9-->
 
-    <!--新主题颜色
-    <color name="colorPrimary">#82DAC9</color>
+    新主题颜色
+    <color name="colorPrimary">#43C6AC</color>
     <color name="colorPrimaryDark">#43C6AC</color>
-    <color name="colorAccent">#757575</color>-->
+    <color name="colorAccent">#757575</color>
 
     <!--<color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
@@ -25,9 +25,11 @@
     <color name="lollipop_status_bar_grey">#616161</color>
 
     <!--课表的颜色-->
-    <color name="course_blue">#64d2f7</color>
-    <color name="course_yellow">#f9af58</color>
-    <color name="course_green">#79dbc4</color>
-    <color name="course_gray">#bdc3c7</color>
+    <color name="course_Blue">#64d2f7</color>
+    <color name="course_Yellow">#f9af58</color>
+    <color name="course_Green">#79dbc4</color>
+    <color name="course_Gray">#bdc3c7</color>
+
+    <color name="toolbar_text_Color_Primary">#43C6AC</color>
 
 </resources>

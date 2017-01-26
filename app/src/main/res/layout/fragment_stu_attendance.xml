@@ -10,13 +10,6 @@
         android:text="Advertise" />
 
     <Button
-        android:layout_toRightOf="@+id/btn_advertise"
-        android:id="@+id/btn_dis_adv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="disAdvertise" />
-
-    <Button
         android:id="@+id/btn_notify"
         android:layout_toRightOf="@+id/btn_dis_adv"
         android:layout_width="wrap_content"
@@ -34,6 +27,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_advertise"/>
+
+    <Button
+        android:id="@+id/btn_dis_adv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="disAdvertise"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/btn_advertise" />
 
 
 </RelativeLayout>

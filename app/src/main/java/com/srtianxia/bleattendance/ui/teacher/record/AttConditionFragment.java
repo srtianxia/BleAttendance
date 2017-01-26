@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by srtianxia on 2017/1/20.
@@ -65,8 +64,8 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
         return R.layout.fragement_att_condition;
     }
 
-    @OnClick(R.id.btn_add)
-    void add() {
+//    @OnClick(R.id.btn_add)
+    public void add() {
 //        list_3.add("xxx - add");
         mConditionAdapter.notifyDataSetChanged();
     }

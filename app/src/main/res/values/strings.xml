@@ -5,10 +5,13 @@
     <!--toolbar-->
     <string name="action_scan">scan</string>
     <string name="action_write">write</string>
-    <string name="action_disconnect">disConnect</string>
-    <string name="action_connect_all">connectAll</string>
+    <string name="action_disconnect">dis connect</string>
+    <string name="action_connect_all">connect all</string>
+    <string name="action_post_uuid">post uuid</string>
 
     <string name="base_url">http://119.29.155.240:8080/bluetooth/</string>
+    <!--新版后端接口-->
+    <string name="new_base_url">http://www.redleaf.wang/api/</string>
 
     <!-- Adv -->
     <string name="label_advertisingStatus">Advertising Status</string>

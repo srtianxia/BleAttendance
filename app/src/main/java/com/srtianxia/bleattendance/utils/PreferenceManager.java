@@ -18,6 +18,9 @@ public class PreferenceManager {
     public static final String SP_TEACHER_NUMBER = "T";
     public static final int DEFALUT_NUMBER = 0;
 
+    public static final String SP_TOKEN_TEACHER = "TOKEN_T";
+
+
     public static PreferenceManager getInstance() {
         return PreferenceInstance.instance;
     }

@@ -68,6 +68,12 @@
                     android:orientation="horizontal">
 
                     <!--课程节数-->
+                    <com.srtianxia.bleattendance.widget.CourseTableView
+                        android:id="@+id/course_tab_view_course"
+                        android:layout_width="match_parent"
+                        android:layout_height="600dp">
+                    </com.srtianxia.bleattendance.widget.CourseTableView>
+
                     <LinearLayout
                         android:id="@+id/linearlayout_course_time"
                         android:layout_width="40dp"
@@ -75,11 +81,6 @@
                         android:orientation="vertical"/>
 
                     <!--课表内容-->
-                    <com.srtianxia.bleattendance.widget.CourseTableView
-                        android:id="@+id/course_tab_view_course"
-                        android:layout_width="match_parent"
-                        android:layout_height="600dp">
-                    </com.srtianxia.bleattendance.widget.CourseTableView>
 
                 </LinearLayout>
 

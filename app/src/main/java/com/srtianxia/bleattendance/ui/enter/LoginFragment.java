@@ -56,7 +56,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
     @OnClick(R.id.tv_link_teacher_enter)
     void clickToTeacher() {
-        UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
+//        UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
+        mPresenter.teacherLogin();
     }
 
 
@@ -104,6 +105,16 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
         // 这边登录失败还要变回按钮才行
         btnLogin.executeLoginFailure();
         btnLogin.setClickable(true);
+    }
+
+    @Override
+    public void teacherLoginSuccess() {
+        UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
+    }
+
+    @Override
+    public void teacherLoginFailure() {
+
     }
 
 

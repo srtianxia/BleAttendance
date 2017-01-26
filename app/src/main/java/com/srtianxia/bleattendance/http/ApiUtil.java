@@ -11,7 +11,7 @@ public class ApiUtil {
 
     public static String getBaseUrl() {
         Resources resources = BleApplication.getContext().getResources();
-        return resources.getString(R.string.base_url);
+        return resources.getString(R.string.new_base_url);
     }
 
     public static <T> T createApi(Class clazz, String baseUrl) {

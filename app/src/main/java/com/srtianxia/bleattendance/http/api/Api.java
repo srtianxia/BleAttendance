@@ -1,10 +1,6 @@
 package com.srtianxia.bleattendance.http.api;
 
-import com.srtianxia.bleattendance.entity.AttendEntity;
-import com.srtianxia.bleattendance.entity.CourseEntity;
-import com.srtianxia.bleattendance.entity.StuEntity;
-
-import java.util.List;
+import com.srtianxia.bleattendance.entity.TeacherEntity;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -17,17 +13,7 @@ import rx.Observable;
 public interface Api {
 
     @FormUrlEncoded
-    @POST("login") Observable<StuEntity> login(@Field("stuNum") String username,
-                                               @Field("stuPass") String password,
-                                               @Field("type") String type);
-
-    @FormUrlEncoded
-    @POST("StudentKeBiao")
-    Observable<CourseEntity> loadCourseTable(@Field("stuNum") String stuNum);
-
-    @FormUrlEncoded
-    @POST("StudentKaoQin")
-    Observable<AttendEntity> queryAttend(@Field("cid") String classId);
-
+    @POST("teacher/login")
+    Observable<TeacherEntity> loginTeacher(@Field("trid") String trid, @Field("password") String password);
 
 }

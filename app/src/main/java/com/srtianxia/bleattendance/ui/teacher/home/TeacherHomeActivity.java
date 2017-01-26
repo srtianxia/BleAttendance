@@ -29,6 +29,8 @@ public class TeacherHomeActivity extends BaseActivity
     Toolbar toolbar;
     @BindView(R.id.tv_current_course)
     TextView tvCurrentCourse;
+    @BindView(R.id.tv_toolbar_title)
+    TextView toolbar_title;
 
 
     private TeacherScanFragment mTeacherScanFragment;
@@ -59,8 +61,10 @@ public class TeacherHomeActivity extends BaseActivity
         tvCurrentCourse.setText(getText(R.string.current_course_title) + "" + getText(R.string.current_course_no_choose));
 
         mBottomView.setOnNavigationItemSelectedListener(this);
-        toolbar.setTitle(getString(R.string.teacher_page_toolbar));
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar_title.setText(getString(R.string.teacher_page_toolbar));
+
     }
 
 

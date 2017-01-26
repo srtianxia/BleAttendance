@@ -3,10 +3,10 @@
     <!--新主题颜色
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
-    <color name="colorAccent">#43C6AC</color>  #82DAC9-->
+    <color name="colorAccent">#43C6AC</color>-->
 
     新主题颜色
-    <color name="colorPrimary">#43C6AC</color>
+    <color name="colorPrimary">#82DAC9</color>
     <color name="colorPrimaryDark">#43C6AC</color>
     <color name="colorAccent">#757575</color>
 

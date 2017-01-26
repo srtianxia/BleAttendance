@@ -5,6 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
@@ -23,6 +24,7 @@ public class StudentHomeActivity extends BaseActivity
     @BindView(R.id.fragment_container) FrameLayout fragmentContainer;
     @BindView(R.id.bottom_view_student) BottomNavigationView bottomViewStudent;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.tv_toolbar_title) TextView toolbar_title;
 
     private StudentAttendanceFragment mAttendanceFragment;
     private CourseTableFragment mCourseTableFragment;
@@ -41,8 +43,9 @@ public class StudentHomeActivity extends BaseActivity
             .hide(mCourseFragment).show(mAttendanceFragment).commit();
         bottomViewStudent.setOnNavigationItemSelectedListener(this);
 
-        toolbar.setTitle(getString(R.string.student_page_toolbar));
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar_title.setText(getString(R.string.student_page_toolbar));
     }
 
 

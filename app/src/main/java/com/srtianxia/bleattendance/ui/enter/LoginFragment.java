@@ -17,7 +17,6 @@ import com.srtianxia.bleattendance.di.component.DaggerLoginComponent;
 import com.srtianxia.bleattendance.di.module.LoginModule;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
-import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.widget.LoginButton;
@@ -68,9 +67,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
             ToastUtil.show(getActivity(), "not allow null", true);
             return;
         }
-        PreferenceManager.getInstance().setInteger(PreferenceManager.SP_STUDENT_NUMBER, Integer.parseInt(getStuNum()));
+        mPresenter.studentLogin();
         btnLogin.executeLogin();
-        btnLogin.postDelayed(this::handleSuccess, 2000);
     }
 
 
@@ -94,17 +92,21 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
 
     @Override
-    public void loginSuccess() {
-        handleSuccess();
+    public void studentLoginSuccess() {
+        btnLogin.postDelayed(this::handleSuccess, 1000);
     }
 
-
     @Override
-    public void loginFailure(String cause) {
-        ToastUtil.show(getActivity(), cause, true);
+    public void studentLoginFailure() {
+        ToastUtil.show(getActivity(), "password error", true);
         // 这边登录失败还要变回按钮才行
         btnLogin.executeLoginFailure();
         btnLogin.setClickable(true);
+    }
+
+    @Override
+    public void loginFailure(String cause) {
+
     }
 
     @Override

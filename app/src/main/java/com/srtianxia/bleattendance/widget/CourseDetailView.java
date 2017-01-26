@@ -173,7 +173,7 @@ public class CourseDetailView extends RelativeLayout implements ViewPager.OnPage
             point_normal.setSize(DensityUtil.dp2px(getContext(),8),DensityUtil.dp2px(getContext(),8));
 
             point_focus = new GradientDrawable();
-            point_focus.setColor(getResources().getColor(R.color.colorAccent));
+            point_focus.setColor(getResources().getColor(R.color.colorPrimaryDark));
             point_focus.setCornerRadius(DensityUtil.dp2px(getContext(),4));
             point_focus.setSize(DensityUtil.dp2px(getContext(),8),DensityUtil.dp2px(getContext(),8));
 

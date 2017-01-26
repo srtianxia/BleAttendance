@@ -1,6 +1,8 @@
 package com.srtianxia.bleattendance.http.api;
 
+import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.entity.StudentEntity;
+import com.srtianxia.bleattendance.entity.TeaCourseEntity;
 import com.srtianxia.bleattendance.entity.TeacherEntity;
 
 import retrofit2.http.Field;
@@ -24,7 +26,12 @@ public interface Api {
     @POST("student/login")
     Observable<StudentEntity> loginStudent(@Field("stu_code") String stuNum, @Field("password") String password);
 
-//    @FormUrlEncoded
-//    @POST("student/course")
+    @FormUrlEncoded
+    @POST("teacher/course")
+    Observable<TeaCourseEntity> getTeaCourse(@Field("token") String token,@Field("week") String week);
+
+    @FormUrlEncoded
+    @POST("student/course")
+    Observable<NewCourseEntity> getStuCourse(@Field("token") String token, @Field("week") String week);
 
 }

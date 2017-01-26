@@ -9,6 +9,8 @@
     <color name="colorPrimary">#82DAC9</color>
     <color name="colorPrimaryDark">#43C6AC</color>
     <color name="colorAccent">#757575</color>
+    <color name="tabIndicatorColor">#c9c9c9</color>
+    <color name="tabText">#66000000</color>
 
     <!--<color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>

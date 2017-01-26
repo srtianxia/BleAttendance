@@ -1,11 +1,9 @@
 package com.srtianxia.bleattendance.ui.course;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,6 +34,8 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     private static final String TAG = "CourseFragment";
 
+    public static final String BUNDLE_KEY = "WEEK_NUM";
+
     private int mweek;      //记录用户选择的周数
     private StuEntity mStu;
 
@@ -45,9 +45,9 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     @Override
     protected void initView() {
-        String[] data = getResources().getStringArray(R.array.course_weeks);
-        coursePresenter = new CoursePresenter(this);
 
+        mweek = getArguments().getInt(BUNDLE_KEY);
+        coursePresenter = new CoursePresenter(this);
         int mScreenHeight = DensityUtil.getScreenHeight(getContext());
 
         //适配屏幕高度大于700dp的设备
@@ -55,8 +55,24 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
             mCourse_time.setLayoutParams(new LinearLayout.LayoutParams(DensityUtil.dp2px(getContext(),40),mScreenHeight));
             mCourseTableView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,mScreenHeight));
         }
-
         mMonth.setText("9"+"\n"+"月");
+
+        initDraw();
+
+        // todo:如果mweek = 本周，则……
+        coursePresenter.loadData();
+
+        mCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
+            //如果用户登陆了，则刷新课表数据
+            if (mStu != null){
+                //  todo:更新课表数据
+            }
+        });
+    }
+
+    private void initDraw() {
+
+        String[] data = getResources().getStringArray(R.array.course_weeks);
 
         for (int i=0; i<7; i++){
             //添加周数
@@ -67,7 +83,6 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
             tv.setGravity(Gravity.CENTER);
             mWeeks.addView(tv);
         }
-
         for (int i=0; i<12; i++){
             TextView tv_course_time = new TextView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,1);
@@ -76,28 +91,11 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
             tv_course_time.setGravity(Gravity.CENTER);
             mCourse_time.addView(tv_course_time);
         }
-
-        mCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
-            //如果用户登陆了，则刷新课表数据
-            if (mStu != null){
-                loadCourse(mweek);
-            }
-        });
-
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        //如果mweek = 本周，则……
-
-        loadCourse(mweek);
-
-    }
-
-    private void loadCourse(int week){
-        for (int i = 0;i<6;i++){
+    public void showCourse(List<NewCourseEntity.Course> courses) {
+        /*for (int i = 0;i<6;i++){
             NewCourseEntity.Course testCourse = new NewCourseEntity.Course();
             testCourse.hash_day = 0;
             testCourse.hash_lesson = i;
@@ -119,16 +117,30 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
                 testCourse.week.add(j);
             }
             courseList.add(testCourse);
-        }
+        }*/
+
+        Log.i(TAG,"showCourse");
+        Log.i(TAG,courses.get(0).course);
 
         List<NewCourseEntity.Course> tempCourseList = new ArrayList<>();
-        tempCourseList.addAll(courseList);
+        tempCourseList.addAll(courses);
 
         if (mCourseTableView != null){
             mCourseTableView.clearList();
             mCourseTableView.addContentView(tempCourseList);
             Log.i(TAG,"tempCourseList.size() = " + tempCourseList.size());
         }
+    }
+
+    @Override
+    public void showCourseFailure(Throwable throwable) {
+
+    }
+
+    public String getWeek(){
+        Log.i(TAG,mweek+"");
+        return mweek + "";
+
     }
 
     @Override
@@ -142,4 +154,5 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
         fragment.setArguments(bundle);
         return fragment;
     }
+
 }

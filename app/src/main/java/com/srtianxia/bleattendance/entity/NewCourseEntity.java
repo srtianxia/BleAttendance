@@ -7,15 +7,16 @@ import java.util.List;
  */
 public class NewCourseEntity {
     public int status;                  //状态码
-    public String version;              //16.9.4
+    public String version;              //16.9.4    ,   1.0.0
     public String term;                 //2016-2017学年第一学期
     public int stuNum;                  //学号
+    public int message;                 //"success"
     public List<Course> data;
 
     public static class Course{
         public int hash_day;            //hash_day+1  代表这节课在周几
         public int hash_lesson;         //hash_lesson*2+1   代表这节课开始的小节数
-        public int begin_lesson;
+        public int begin_lesson;        //这节课开始的节数,从第1节开始
         public String day;              //星期一
         public String lesson;           //1、2节
         public String course;           //课程名
@@ -29,7 +30,10 @@ public class NewCourseEntity {
         public int period;              //1、2 两节连上
         public String id;               //课程id
         public List<Integer> week;      //包含的周的数组
-        public int jxbid;                //教学班id
+        public String trid;             //教师id
+        public String scNum;            //课程id
+        public int jxbid;               //教学班id
+
 
         public String toString(){
             return course + "@" + classroom;

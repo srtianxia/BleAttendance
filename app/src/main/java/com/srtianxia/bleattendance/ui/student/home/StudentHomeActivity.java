@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
-import com.srtianxia.bleattendance.ui.course.CourseFragment;
+import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.student.attendance.StudentAttendanceFragment;
 import com.srtianxia.bleattendance.ui.student.table.CourseTableFragment;
 
@@ -28,19 +28,18 @@ public class StudentHomeActivity extends BaseActivity
 
     private StudentAttendanceFragment mAttendanceFragment;
     private CourseTableFragment mCourseTableFragment;
-    private CourseFragment mCourseFragment;
+    private CourseContainerFragment mCourseContainerFragment;
 
 
     @Override protected void initView() {
         mAttendanceFragment = StudentAttendanceFragment.newInstance();
         mCourseTableFragment = CourseTableFragment.newInstance();
-        mCourseFragment = CourseFragment.newInstance();
+        mCourseContainerFragment = CourseContainerFragment.newInstance();
 
         getSupportFragmentManager().beginTransaction()
             .add(R.id.fragment_container, mAttendanceFragment)
-//          .add(R.id.fragment_container,mCourseTableFragment)
-            .add(R.id.fragment_container, mCourseFragment)
-            .hide(mCourseFragment).show(mAttendanceFragment).commit();
+            .add(R.id.fragment_container, mCourseContainerFragment)
+            .hide(mCourseContainerFragment).show(mAttendanceFragment).commit();
         bottomViewStudent.setOnNavigationItemSelectedListener(this);
 
         setSupportActionBar(toolbar);
@@ -57,10 +56,10 @@ public class StudentHomeActivity extends BaseActivity
     @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.bottom_nav_attendance:
-                getSupportFragmentManager().beginTransaction().hide(mCourseFragment).show(mAttendanceFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(mCourseContainerFragment).show(mAttendanceFragment).commit();
                 break;
             case R.id.bottom_nav_table:
-                getSupportFragmentManager().beginTransaction().hide(mAttendanceFragment).show(mCourseFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(mAttendanceFragment).show(mCourseContainerFragment).commit();
                 break;
         }
         return true;

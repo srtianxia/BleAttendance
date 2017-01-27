@@ -21,6 +21,9 @@ public class PreferenceManager {
     public static final String SP_TOKEN_TEACHER = "TOKEN_T";
     public static final String SP_TOKEN_STUDENT = "TOKEN_S";
 
+    public static final String SP_LOGIN_FLAG = "FLAG";
+    public static final String SP_LOGIN_FLAG_STU = "FLAG_S";
+    public static final String SP_LOGIN_FLAG_TEA = "FLAG_T";
 
     public static PreferenceManager getInstance() {
         return PreferenceInstance.instance;

@@ -17,6 +17,7 @@ import com.srtianxia.bleattendance.di.component.DaggerLoginComponent;
 import com.srtianxia.bleattendance.di.module.LoginModule;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
+import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.widget.LoginButton;
@@ -95,6 +96,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
     @Override
     public void studentLoginSuccess() {
+        PreferenceManager.getInstance().setString(PreferenceManager.SP_LOGIN_FLAG,PreferenceManager.SP_LOGIN_FLAG_STU);
         btnLogin.postDelayed(this::handleSuccess, 1000);
     }
 
@@ -113,6 +115,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
     @Override
     public void teacherLoginSuccess() {
+        PreferenceManager.getInstance().setString(PreferenceManager.SP_LOGIN_FLAG,PreferenceManager.SP_LOGIN_FLAG_TEA);
         UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
     }
 

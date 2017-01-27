@@ -30,11 +30,25 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView>{
     public void loadData(){
         Log.i(TAG,"loadData");
 //        mCourseModel.getData(token,week);
-        String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_STUDENT,"");
+        String flag = PreferenceManager.getInstance().getString(PreferenceManager.SP_LOGIN_FLAG,"");
+        String token = "";
 
-        mApi.getStuCourseWithoutWeek(token)
-                .compose(RxSchedulersHelper.io2main())
-                .subscribe(this::loadSuccess,this::loadFailure);
+        if (flag == ""){
+
+        }else {
+            if (flag == PreferenceManager.SP_LOGIN_FLAG_STU) {
+                token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_STUDENT,"");
+                mApi.getStuCourse(token, getView().getWeek())
+                        .compose(RxSchedulersHelper.io2main())
+                        .subscribe(this::loadSuccess, this::loadFailure);
+            } else {
+                token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER,"");
+                mApi.getTeaCourse(token, getView().getWeek())
+                        .compose(RxSchedulersHelper.io2main())
+                        .subscribe(this::loadSuccess, this::loadFailure);
+            }
+        }
+
     }
 
     private void loadSuccess(NewCourseEntity stuCourseEntity){

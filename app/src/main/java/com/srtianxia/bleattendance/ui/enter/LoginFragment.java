@@ -50,6 +50,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
     @Override
     protected void initView() {
         DaggerLoginComponent.builder().loginModule(new LoginModule(this)).build().inject(this);
+
+
     }
 
 

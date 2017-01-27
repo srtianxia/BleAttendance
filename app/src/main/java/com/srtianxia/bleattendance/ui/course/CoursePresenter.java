@@ -31,7 +31,8 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView>{
         Log.i(TAG,"loadData");
 //        mCourseModel.getData(token,week);
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_STUDENT,"");
-        mApi.getStuCourse("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vcmVkbGVhZi53YW5nL2FwaS9zdHVkZW50L2xvZ2luIiwiaWF0IjoxNDg1NDMxNzM2LCJleHAiOjE0OTMyMDc3MzYsIm5iZiI6MTQ4NTQzMTczNiwianRpIjoiN2t2cXZTSEVyMHVZTEJwaCIsInN1YiI6Mn0.Agtamv7yRJ7rcBL-hXR9trY3HwGLCo-hMC9-VxLSyI8",getView().getWeek())
+
+        mApi.getStuCourseWithoutWeek(token)
                 .compose(RxSchedulersHelper.io2main())
                 .subscribe(this::loadSuccess,this::loadFailure);
     }

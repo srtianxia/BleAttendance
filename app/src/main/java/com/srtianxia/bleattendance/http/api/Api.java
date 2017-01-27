@@ -7,7 +7,9 @@ import com.srtianxia.bleattendance.entity.TeacherEntity;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -28,10 +30,12 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("teacher/course")
-    Observable<TeaCourseEntity> getTeaCourse(@Field("token") String token,@Field("week") String week);
+    Observable<TeaCourseEntity> getTeaCourse(@Field("token") String token, @Field("week") String week);
 
     @FormUrlEncoded
     @POST("student/course")
     Observable<NewCourseEntity> getStuCourse(@Field("token") String token, @Field("week") String week);
 
+    @GET("student/course")
+    Observable<NewCourseEntity> getStuCourseWithoutWeek(@Query("token") String token);
 }

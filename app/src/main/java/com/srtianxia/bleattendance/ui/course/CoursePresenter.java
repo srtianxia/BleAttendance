@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by 梅梅 on 2017/1/20.
  */
-public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView>{
+public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> {
 
     private final String TAG = "CoursePresenter";
     private Api mApi;
@@ -24,25 +24,25 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView>{
     public CoursePresenter(ICourseView baseView) {
         super(baseView);
 //        mCourseModel = CourseMidModel.getModel(getViewType().getActivity());
-        mApi = ApiUtil.createApi(Api.class,ApiUtil.getBaseUrl());
+        mApi = ApiUtil.createApi(Api.class, ApiUtil.getBaseUrl());
     }
 
-    public void loadData(){
-        Log.i(TAG,"loadData");
+    public void loadData() {
+        Log.i(TAG, "loadData");
 //        mCourseModel.getData(token,week);
-        String flag = PreferenceManager.getInstance().getString(PreferenceManager.SP_LOGIN_FLAG,"");
+        String flag = PreferenceManager.getInstance().getString(PreferenceManager.SP_LOGIN_FLAG, "");
         String token = "";
 
-        if (flag == ""){
+        if (flag == "") {
 
-        }else {
+        } else {
             if (flag == PreferenceManager.SP_LOGIN_FLAG_STU) {
-                token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_STUDENT,"");
+                token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_STUDENT, "");
                 mApi.getStuCourse(token, getView().getWeek())
                         .compose(RxSchedulersHelper.io2main())
                         .subscribe(this::loadSuccess, this::loadFailure);
             } else {
-                token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER,"");
+                token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
                 mApi.getTeaCourse(token, getView().getWeek())
                         .compose(RxSchedulersHelper.io2main())
                         .subscribe(this::loadSuccess, this::loadFailure);
@@ -51,13 +51,13 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView>{
 
     }
 
-    private void loadSuccess(NewCourseEntity stuCourseEntity){
-        Log.i(TAG,"loadSuccess");
+    private void loadSuccess(NewCourseEntity stuCourseEntity) {
+        Log.i(TAG, "loadSuccess");
         getView().showCourse(stuCourseEntity.data);
     }
 
-    private void loadFailure(Throwable throwable){
-        Log.i(TAG,"loadFailure");
+    private void loadFailure(Throwable throwable) {
+        Log.i(TAG, "loadFailure");
         getView().showCourseFailure(throwable);
     }
 
@@ -67,7 +67,7 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView>{
     }
 
 
-    public interface ICourseView extends BaseView{
+    public interface ICourseView extends BaseView {
 
         void showCourse(List<NewCourseEntity.Course> courses);
 

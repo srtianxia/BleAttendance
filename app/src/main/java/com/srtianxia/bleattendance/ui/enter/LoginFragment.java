@@ -58,8 +58,8 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
     @OnClick(R.id.tv_link_teacher_enter)
     void clickToTeacher() {
-        UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
-//        mPresenter.teacherLogin();
+//        UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
+        mPresenter.teacherLogin();
     }
 
 

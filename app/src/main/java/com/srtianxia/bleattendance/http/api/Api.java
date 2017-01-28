@@ -1,6 +1,8 @@
 package com.srtianxia.bleattendance.http.api;
 
+import com.srtianxia.bleattendance.entity.AttInfoEntity;
 import com.srtianxia.bleattendance.entity.NewCourseEntity;
+import com.srtianxia.bleattendance.entity.PostAttResultEntity;
 import com.srtianxia.bleattendance.entity.StudentEntity;
 import com.srtianxia.bleattendance.entity.TeacherEntity;
 
@@ -22,14 +24,27 @@ public interface Api {
     Observable<TeacherEntity> loginTeacher(@Field("trid") String trid, @Field("password") String password);
 
 
+    // post考勤信息
+    @FormUrlEncoded
+    @POST("teacher/attendance")
+    Observable<PostAttResultEntity> postAttendanceInfo(@Field("token") String token, @Field("jxbID") String jxbID,
+                                                       @Field("hash_day") String hash_day, @Field("hash_lesson") String hash_lesson,
+                                                       @Field("status") String status, @Field("week") String week);
+    // 根据周数获取考勤信息 todo  这里和后端再确认下 是否可以唯一的确定一节课程
+    @GET("teacher/attendance")
+    Observable<AttInfoEntity> getAttendanceInfo(@Query("token") String token,
+                                                @Query("jxbID") String jxbID,
+                                                @Query("week") String week);
+
+
     // student 部分
     @FormUrlEncoded
     @POST("student/login")
     Observable<StudentEntity> loginStudent(@Field("stu_code") String stuNum, @Field("password") String password);
 
     @GET("student/course")
-    Observable<NewCourseEntity> getStuCourse(@Query("token") String token,@Query("week") String week);
+    Observable<NewCourseEntity> getStuCourse(@Query("token") String token, @Query("week") String week);
 
     @GET("teacher/course")
-    Observable<NewCourseEntity> getTeaCourse(@Query("token") String token,@Query("week") String week);
+    Observable<NewCourseEntity> getTeaCourse(@Query("token") String token, @Query("week") String week);
 }

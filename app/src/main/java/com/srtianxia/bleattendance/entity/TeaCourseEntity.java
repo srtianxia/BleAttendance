@@ -26,10 +26,11 @@ public class TeaCourseEntity {
         public String classroom;
         public String rawWeek;
         public String period;
-        public String week;
+        public List<Integer> week;
 
         public String toString(){
             return course + "@" + classroom;
         }
+
     }
 }

@@ -4,6 +4,7 @@ import com.srtianxia.bleattendance.entity.AttInfoEntity;
 import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.entity.PostAttResultEntity;
 import com.srtianxia.bleattendance.entity.StudentEntity;
+import com.srtianxia.bleattendance.entity.TeaCourseEntity;
 import com.srtianxia.bleattendance.entity.TeacherEntity;
 
 import retrofit2.http.Field;
@@ -46,5 +47,5 @@ public interface Api {
     Observable<NewCourseEntity> getStuCourse(@Query("token") String token, @Query("week") String week);
 
     @GET("teacher/course")
-    Observable<NewCourseEntity> getTeaCourse(@Query("token") String token, @Query("week") String week);
+    Observable<TeaCourseEntity> getTeaCourse(@Query("token") String token, @Query("week") String week);
 }

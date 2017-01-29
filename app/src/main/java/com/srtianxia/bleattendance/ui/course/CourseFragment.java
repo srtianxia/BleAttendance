@@ -91,10 +91,6 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
         mCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
             coursePresenter.loadData();
-            //如果用户登陆了，则刷新课表数据
-            if (mStu != null) {
-                //  todo:更新课表数据
-            }
         });
     }
 
@@ -131,7 +127,6 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     @Override
     public void showCourse(List<NewCourseEntity.Course> courses) {
-        mCourseSwipeRefreshLayout.setRefreshing(false);
         List<NewCourseEntity.Course> tempCourseList = new ArrayList<>();
         tempCourseList.addAll(courses);
         if (mCourseTableView != null) {
@@ -143,6 +138,20 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
     @Override
     public void showCourseFailure(Throwable throwable) {
         mCourseSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showRefreshing() {
+        if (mCourseSwipeRefreshLayout != null){
+            mCourseSwipeRefreshLayout.setRefreshing(true);
+        }
+    }
+
+    @Override
+    public void unshowRefreshing() {
+        if (mCourseSwipeRefreshLayout != null){
+            mCourseSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public String getWeek() {

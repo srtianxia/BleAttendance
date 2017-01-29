@@ -37,6 +37,7 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> 
         if (flag == "") {
 
         } else {
+            getView().showRefreshing();
             if (flag == PreferenceManager.SP_LOGIN_FLAG_STU) {
                 token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_STUDENT, "");
                 mApi.getStuCourse(token, getView().getWeek())
@@ -53,18 +54,18 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> 
     }
 
     private void loadStuSuccess(NewCourseEntity newCourseEntity) {
-        Log.i(TAG, "loadStuSuccess");
         getView().showCourse(newCourseEntity.data);
+        getView().unshowRefreshing();
     }
 
     private void loadTeaSuccess(TeaCourseEntity teaCourseEntity) {
-        Log.i(TAG, "loadTeaSuccess");
         getView().showCourse(NewCourseEntity.Tea2NewCourse(teaCourseEntity).data);
+        getView().unshowRefreshing();
     }
 
     private void loadFailure(Throwable throwable) {
-        Log.i(TAG, "loadFailure");
         getView().showCourseFailure(throwable);
+        getView().unshowRefreshing();
     }
 
     @Override
@@ -78,6 +79,10 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> 
         void showCourse(List<NewCourseEntity.Course> courses);
 
         void showCourseFailure(Throwable throwable);
+
+        void showRefreshing();
+
+        void unshowRefreshing();
 
         String getWeek();
     }

@@ -5,18 +5,22 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
+import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.record.AttConditionFragment;
+import com.srtianxia.bleattendance.widget.CourseTableView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by srtianxia on 2016/7/30.
@@ -31,16 +35,20 @@ public class TeacherHomeActivity extends BaseActivity
     TextView tvCurrentCourse;
     @BindView(R.id.tv_toolbar_title)
     TextView toolbar_title;
-
+    @BindView(R.id.btn_post)
+    Button btnPost;
 
     private TeacherScanFragment mTeacherScanFragment;
 
-    private AttConditionFragment attConditionFragment = new AttConditionFragment();
+    private AttConditionFragment mAttConditionFragment = AttConditionFragment.newInstance();
     private List<Integer> mNumberList = new ArrayList<>();
 
     private CourseContainerFragment mCourseContainerFragment;
 
     public List<Integer> mStuNumber = new ArrayList<>();
+
+    // 考勤需要post
+    private NewCourseEntity.Course mCurrentCourse;
 
 
     @Override
@@ -48,13 +56,12 @@ public class TeacherHomeActivity extends BaseActivity
         mTeacherScanFragment = TeacherScanFragment.newInstance();
 
         mCourseContainerFragment = CourseContainerFragment.newInstance();
-
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mTeacherScanFragment)
-                .add(R.id.fragment_container, attConditionFragment)
+                .add(R.id.fragment_container, mAttConditionFragment)
                 .add(R.id.fragment_container, mCourseContainerFragment)
                 .show(mTeacherScanFragment)
-                .hide(attConditionFragment)
+                .hide(mAttConditionFragment)
                 .hide(mCourseContainerFragment)
                 .commit();
 
@@ -105,17 +112,17 @@ public class TeacherHomeActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.bottom_nav_scan:
                 getSupportFragmentManager().beginTransaction()
-                        .hide(attConditionFragment).hide(mCourseContainerFragment)
+                        .hide(mAttConditionFragment).hide(mCourseContainerFragment)
                         .show(mTeacherScanFragment).commit();
                 break;
             case R.id.bottom_nav_attendance:
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(mCourseContainerFragment)
-                        .show(attConditionFragment).commit();
+                        .show(mAttConditionFragment).commit();
                 break;
             case R.id.bottom_nav_table:
                 getSupportFragmentManager().beginTransaction()
-                        .hide(mTeacherScanFragment).hide(attConditionFragment)
+                        .hide(mTeacherScanFragment).hide(mAttConditionFragment)
                         .show(mCourseContainerFragment).commit();
 
         }
@@ -126,8 +133,17 @@ public class TeacherHomeActivity extends BaseActivity
         mNumberList.add(number);
     }
 
-    public List<Integer> getNumberList() {
-        return mNumberList;
+    public List<String> getNumberList() {
+        List<String> list = new ArrayList<>();
+        for (Integer i : mNumberList) {
+            list.add("" + i);
+        }
+        return list;
+    }
+
+    public void setAttCourse(CourseTableView.CourseList course) {
+        mCurrentCourse = course.list.get(0);
+        tvCurrentCourse.setText(getPrefixText() + mCurrentCourse.course);
     }
 
     // 获取textView 展示当前考勤课程的前缀文字
@@ -135,7 +151,10 @@ public class TeacherHomeActivity extends BaseActivity
         return getText(R.string.current_course_title) + " ";
     }
 
-    public void setAttCourse(String text) {
-        tvCurrentCourse.setText(getPrefixText() + text);
+
+    @OnClick(R.id.btn_post)
+    void onBtnPostClick() {
+        // todo 携带考勤数据 week
+        mAttConditionFragment.postAttendanceInfo(mCurrentCourse, 0);
     }
 }

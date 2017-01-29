@@ -19,11 +19,11 @@ import butterknife.ButterKnife;
 
 public class AttConditionAdapter extends BaseExpandableListAdapter {
     private String[] mParentTitle;
-    private List<List<Integer>> mChildContent;
+    private List<List<String>> mChildContent;
 //    private Context mContext;
 
 
-    public AttConditionAdapter(/*Context context,*/ String[] parentTitle, List<List<Integer>> childContent) {
+    public AttConditionAdapter(/*Context context,*/ String[] parentTitle, List<List<String>> childContent) {
 //        this.mContext = context;
         this.mParentTitle = parentTitle;
         this.mChildContent = childContent;
@@ -122,7 +122,7 @@ public class AttConditionAdapter extends BaseExpandableListAdapter {
             ButterKnife.bind(this, itemView);
         }
 
-        public void setData(Integer text) {
+        public void setData(String text) {
             tvChildContent.setText(" " + text);
         }
     }

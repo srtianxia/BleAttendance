@@ -3,7 +3,6 @@ package com.srtianxia.bleattendance.ui.course;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -16,6 +15,7 @@ import com.srtianxia.bleattendance.entity.StuEntity;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.DensityUtil;
+import com.srtianxia.bleattendance.utils.DialogUtils;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ import butterknife.BindView;
  * Created by 梅梅 on 2017/1/20.
  */
 public class CourseFragment extends BaseFragment implements CoursePresenter.ICourseView {
-
     @BindView(R.id.text_month)
     TextView mMonth;
     @BindView(R.id.linearlayout_weekday)
@@ -57,7 +56,6 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     @Override
     protected void initView() {
-
         mWeek = getArguments().getInt(BUNDLE_KEY);
         coursePresenter = new CoursePresenter(this);
         int mScreenHeight = DensityUtil.getScreenHeight(getContext());
@@ -71,17 +69,24 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
         initDraw();
 
-        mCourseTableView.setOnClickListener(new CourseTableView.OnClickListener() {
-            @Override
-            public void onClick(CourseTableView.CourseList courses) {
-                // todo 考勤信息获取
-                if (mTeacherHomeActivity != null) {
-                    mTeacherHomeActivity.setAttCourse(courses.list.get(0).course);
-                }
-            }
+        mCourseTableView.setOnLongClickListener(courses -> {
+            DialogUtils.getInstance().showDialog(getActivity(), "课程选择", "是否选择：" + courses.list.get(0).course + " ？",
+                    new DialogUtils.OnButtonChooseListener() {
+                        @Override
+                        public void onPositive() {
+                            if (mTeacherHomeActivity != null) {
+                                mTeacherHomeActivity.setAttCourse(courses);
+                            }
+                        }
+
+                        @Override
+                        public void onNegative() {
+
+                        }
+                    });
         });
 
-        // todo:如果mweek = 本周，则……
+        // todo:如果mWeek = 本周，则……
         coursePresenter.loadData();
 
         mCourseSwipeRefreshLayout.setOnRefreshListener(() -> {

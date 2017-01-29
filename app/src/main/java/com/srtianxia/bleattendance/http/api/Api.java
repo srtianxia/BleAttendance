@@ -29,13 +29,13 @@ public interface Api {
     @FormUrlEncoded
     @POST("teacher/attendance")
     Observable<PostAttResultEntity> postAttendanceInfo(@Field("token") String token, @Field("jxbID") String jxbID,
-                                                       @Field("hash_day") String hash_day, @Field("hash_lesson") String hash_lesson,
-                                                       @Field("status") String status, @Field("week") String week);
+                                                       @Field("hash_day") int hash_day, @Field("hash_lesson") int hash_lesson,
+                                                       @Field("status") String status, @Field("week") int week);
     // 根据周数获取考勤信息 todo  这里和后端再确认下 是否可以唯一的确定一节课程
     @GET("teacher/attendance")
     Observable<AttInfoEntity> getAttendanceInfo(@Query("token") String token,
                                                 @Query("jxbID") String jxbID,
-                                                @Query("week") String week);
+                                                @Query("week") int week);
 
 
     // student 部分

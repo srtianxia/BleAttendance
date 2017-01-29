@@ -16,7 +16,7 @@ public class PreferenceManager {
 
     public static final String SP_STUDENT_NUMBER = "S";
     public static final String SP_TEACHER_NUMBER = "T";
-    public static final int DEFALUT_NUMBER = 0;
+    public static final int DEFAULT_NUMBER = 0;
 
     public static final String SP_TOKEN_TEACHER = "TOKEN_T";
     public static final String SP_TOKEN_STUDENT = "TOKEN_S";
@@ -56,6 +56,6 @@ public class PreferenceManager {
     }
 
     public int getInteger(String key) {
-        return mSettings.getInt(key, DEFALUT_NUMBER);
+        return mSettings.getInt(key, DEFAULT_NUMBER);
     }
 }

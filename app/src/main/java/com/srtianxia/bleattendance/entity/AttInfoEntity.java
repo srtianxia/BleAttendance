@@ -12,9 +12,9 @@ public class AttInfoEntity {
     public List<AttInfo> data;
 
 
-    static class AttInfo {
-        String stuNum;
-        String stuName;
-        String status;
+    public static class AttInfo {
+        public String stuNum;
+        public String stuName;
+        public String status;
     }
 }

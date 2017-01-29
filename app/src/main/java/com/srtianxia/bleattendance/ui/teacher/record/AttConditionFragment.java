@@ -1,11 +1,13 @@
 package com.srtianxia.bleattendance.ui.teacher.record;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ExpandableListView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
+import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import butterknife.BindView;
  */
 
 public class AttConditionFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AttConditionPresenter.IAttConditionView {
-    private static final String[] PARENT_TITLES = {"本地已考勤学号", "已上传考勤学号", "缺勤学生学号"};
+    private static final String[] PARENT_TITLES = {"应出勤学生学号", "本地已考勤学号", "已上传考勤学号", "缺勤学生学号"};
 
     @BindView(R.id.expandable_condition_list)
     ExpandableListView expandableConditionList;
@@ -32,25 +34,31 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
 
     private AttConditionPresenter mPresenter = new AttConditionPresenter(this);
 
-    List<Integer> list_1 = new ArrayList<>();
-    List<Integer> list_2 = new ArrayList<>();
-    List<Integer> list_3 = new ArrayList<>();
-    List<List<Integer>> list = new ArrayList<>();
 
+    List<String> list_0 = new ArrayList<>();
+    List<String> list_1 = new ArrayList<>();
+    List<String> list_2 = new ArrayList<>();
+    List<String> list_3 = new ArrayList<>();
+    //    List<Integer> list_4 = new ArrayList<>();
+    List<List<String>> list = new ArrayList<>();
+
+
+    public static AttConditionFragment newInstance() {
+        Bundle args = new Bundle();
+        AttConditionFragment fragment = new AttConditionFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected void initView() {
         swipeRefreshLayout.setOnRefreshListener(this);
-//        for (int i = 0; i < 3; i++) {
-//            list_1.add("list_1 " + i);
-//            list_2.add("list_2 " + i);
-//            list_3.add("list_3 " + i);
-//        }
-
+        list.add(list_0);
         list.add(list_1);
         list.add(list_2);
         list.add(list_3);
         expandableConditionList.setAdapter(mConditionAdapter = new AttConditionAdapter(/*getActivity(), */PARENT_TITLES, list));
+
     }
 
     @Override
@@ -64,10 +72,15 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
         return R.layout.fragement_att_condition;
     }
 
-//    @OnClick(R.id.btn_add)
+    //    @OnClick(R.id.btn_add)
     public void add() {
-//        list_3.add("xxx - add");
         mConditionAdapter.notifyDataSetChanged();
+    }
+
+    public void postAttendanceInfo(NewCourseEntity.Course course, int week) {
+        /*mPresenter.postAttendanceInfo();*/
+        mPresenter.loadAttendanceInfo(course.jxbID);
+
     }
 
     @Override
@@ -84,5 +97,17 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
         }
         mConditionAdapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+
+    @Override
+    public void loadAllAttendanceInfoSuccess(List<String> data) {
+        list_0.addAll(data);
+        mConditionAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadAllAttendanceInfoFailure() {
+
     }
 }

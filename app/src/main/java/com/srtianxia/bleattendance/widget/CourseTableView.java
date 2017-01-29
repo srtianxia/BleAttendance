@@ -36,7 +36,7 @@ public class CourseTableView extends FrameLayout {
     private CourseList[][] course = new CourseList[7][7];
     private CourseColorSelector courseColorSelector = new CourseColorSelector();
 
-    private OnClickListener mOnClickListener;
+    private OnLongClickListener mOnLongClickListener;
 
     private Context context;
 
@@ -145,10 +145,14 @@ public class CourseTableView extends FrameLayout {
         tv.setBackground(gd);
 
         tv.setOnClickListener(view -> {
-            if (mOnClickListener != null) {
-                mOnClickListener.onClick(courses);
-            }
             CourseDialog.show(getContext(), courses);
+        });
+
+        tv.setOnLongClickListener(v -> {
+            if (mOnLongClickListener != null) {
+                mOnLongClickListener.onClick(courses);
+            }
+            return false;
         });
 
         addView(tv);
@@ -209,15 +213,15 @@ public class CourseTableView extends FrameLayout {
         }
     }
 
-    public void setOnClickListener(OnClickListener noClickListener) {
-        this.mOnClickListener = noClickListener;
+    public void setOnLongClickListener(OnLongClickListener noClickListener) {
+        this.mOnLongClickListener = noClickListener;
     }
 
     public static class CourseList {
         public ArrayList<NewCourseEntity.Course> list = new ArrayList<>();
     }
 
-    public interface OnClickListener {
+    public interface OnLongClickListener {
         void onClick(CourseList courses);
     }
 }

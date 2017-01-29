@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.course;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -12,6 +13,8 @@ import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.entity.StuEntity;
+import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
+import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.DensityUtil;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
@@ -49,6 +52,9 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     private List<NewCourseEntity.Course> courseList = new ArrayList<>();
 
+    private TeacherHomeActivity mTeacherHomeActivity;
+    private StudentHomeActivity mStudentHomeActivity;
+
     @Override
     protected void initView() {
 
@@ -69,6 +75,9 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
             @Override
             public void onClick(CourseTableView.CourseList courses) {
                 // todo 考勤信息获取
+                if (mTeacherHomeActivity != null) {
+                    mTeacherHomeActivity.setAttCourse(courses.list.get(0).course);
+                }
             }
         });
 
@@ -76,9 +85,7 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
         coursePresenter.loadData();
 
         mCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
-
             coursePresenter.loadData();
-
             //如果用户登陆了，则刷新课表数据
             if (mStu != null) {
                 //  todo:更新课表数据
@@ -110,41 +117,21 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof TeacherHomeActivity) {
+            mTeacherHomeActivity = (TeacherHomeActivity) activity;
+        }
+    }
+
+    @Override
     public void showCourse(List<NewCourseEntity.Course> courses) {
-        /*for (int i = 0;i<6;i++){
-            NewCourseEntity.Course testCourse = new NewCourseEntity.Course();
-            testCourse.hash_day = 0;
-            testCourse.hash_lesson = i;
-            testCourse.begin_lesson = i*2+1;
-            testCourse.day = "星期二";
-            testCourse.lesson = "1、2节";
-            testCourse.course = "数据库";
-            testCourse.teacher = "陈乔松";
-            testCourse.classroom = "4201";
-            testCourse.rawWeek = "1-18周";
-            testCourse.weekBegin = 1;
-            testCourse.weekEnd = 18;
-            testCourse.type = "限选课";
-            testCourse.period = 2;
-            testCourse.id = "123123456";
-
-            testCourse.week = new ArrayList<>();
-            for (int j=0;j<18;j++){
-                testCourse.week.add(j);
-            }
-            courseList.add(testCourse);
-        }*/
         mCourseSwipeRefreshLayout.setRefreshing(false);
-        Log.i(TAG, "showCourse");
-        Log.i(TAG, courses.get(0).course);
-
         List<NewCourseEntity.Course> tempCourseList = new ArrayList<>();
         tempCourseList.addAll(courses);
-
         if (mCourseTableView != null) {
             mCourseTableView.clearList();
             mCourseTableView.addContentView(tempCourseList);
-            Log.i(TAG, "tempCourseList.size() = " + tempCourseList.size());
         }
     }
 
@@ -154,7 +141,6 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
     }
 
     public String getWeek() {
-        Log.i(TAG, mWeek + "");
         return mWeek + "";
 
     }

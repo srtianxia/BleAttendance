@@ -120,8 +120,6 @@ public class CourseTableView extends FrameLayout {
      */
     private void createLessonText(CourseList courses) {
         NewCourseEntity.Course course = courses.list.get(0);
-        Log.i(TAG, "createLessonText");
-
         height = DensityUtil.dp2px(getContext(), 100);
 
         TextView tv = new TextView(context);

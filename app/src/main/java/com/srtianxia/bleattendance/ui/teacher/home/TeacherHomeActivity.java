@@ -58,7 +58,7 @@ public class TeacherHomeActivity extends BaseActivity
                 .hide(mCourseContainerFragment)
                 .commit();
 
-        tvCurrentCourse.setText(getText(R.string.current_course_title) + "" + getText(R.string.current_course_no_choose));
+        tvCurrentCourse.setText(getPrefixText() + getText(R.string.current_course_no_choose));
 
         mBottomView.setOnNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
@@ -106,7 +106,7 @@ public class TeacherHomeActivity extends BaseActivity
             case R.id.bottom_nav_scan:
                 getSupportFragmentManager().beginTransaction()
                         .hide(attConditionFragment).hide(mCourseContainerFragment)
-                    .show(mTeacherScanFragment).commit();
+                        .show(mTeacherScanFragment).commit();
                 break;
             case R.id.bottom_nav_attendance:
                 getSupportFragmentManager().beginTransaction()
@@ -128,5 +128,14 @@ public class TeacherHomeActivity extends BaseActivity
 
     public List<Integer> getNumberList() {
         return mNumberList;
+    }
+
+    // 获取textView 展示当前考勤课程的前缀文字
+    private String getPrefixText() {
+        return getText(R.string.current_course_title) + " ";
+    }
+
+    public void setAttCourse(String text) {
+        tvCurrentCourse.setText(getPrefixText() + text);
     }
 }

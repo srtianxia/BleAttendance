@@ -23,20 +23,26 @@ import butterknife.BindView;
 /**
  * Created by 梅梅 on 2017/1/20.
  */
-public class CourseFragment extends BaseFragment implements CoursePresenter.ICourseView{
+public class CourseFragment extends BaseFragment implements CoursePresenter.ICourseView {
 
-    @BindView(R.id.text_month) TextView mMonth;
-    @BindView(R.id.linearlayout_weekday) LinearLayout mWeekday;
-    @BindView(R.id.linearlayout_weeks) LinearLayout mWeeks;
-    @BindView(R.id.linearlayout_course_time) LinearLayout mCourse_time;
-    @BindView(R.id.swipe_refresh_layout_course) SwipeRefreshLayout mCourseSwipeRefreshLayout;
-    @BindView(R.id.course_tab_view_course) CourseTableView mCourseTableView;
+    @BindView(R.id.text_month)
+    TextView mMonth;
+    @BindView(R.id.linearlayout_weekday)
+    LinearLayout mWeekday;
+    @BindView(R.id.linearlayout_weeks)
+    LinearLayout mWeeks;
+    @BindView(R.id.linearlayout_course_time)
+    LinearLayout mCourse_time;
+    @BindView(R.id.swipe_refresh_layout_course)
+    SwipeRefreshLayout mCourseSwipeRefreshLayout;
+    @BindView(R.id.course_tab_view_course)
+    CourseTableView mCourseTableView;
 
     private static final String TAG = "CourseFragment";
 
     public static final String BUNDLE_KEY = "WEEK_NUM";
 
-    private int mweek;      //记录用户选择的周数
+    private int mWeek;      //记录用户选择的周数
     private StuEntity mStu;
 
     private CoursePresenter coursePresenter;
@@ -46,18 +52,25 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
     @Override
     protected void initView() {
 
-        mweek = getArguments().getInt(BUNDLE_KEY);
+        mWeek = getArguments().getInt(BUNDLE_KEY);
         coursePresenter = new CoursePresenter(this);
         int mScreenHeight = DensityUtil.getScreenHeight(getContext());
 
         //适配屏幕高度大于700dp的设备
-        if (mScreenHeight > DensityUtil.dp2px(getContext(),700)){
-            mCourse_time.setLayoutParams(new LinearLayout.LayoutParams(DensityUtil.dp2px(getContext(),40),mScreenHeight));
-            mCourseTableView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,mScreenHeight));
+        if (mScreenHeight > DensityUtil.dp2px(getContext(), 700)) {
+            mCourse_time.setLayoutParams(new LinearLayout.LayoutParams(DensityUtil.dp2px(getContext(), 40), mScreenHeight));
+            mCourseTableView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
         }
-        mMonth.setText("9"+"\n"+"月");
+        mMonth.setText("9" + "\n" + "月");
 
         initDraw();
+
+        mCourseTableView.setOnClickListener(new CourseTableView.OnClickListener() {
+            @Override
+            public void onClick(CourseTableView.CourseList courses) {
+                // todo 考勤信息获取
+            }
+        });
 
         // todo:如果mweek = 本周，则……
         coursePresenter.loadData();
@@ -67,7 +80,7 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
             coursePresenter.loadData();
 
             //如果用户登陆了，则刷新课表数据
-            if (mStu != null){
+            if (mStu != null) {
                 //  todo:更新课表数据
             }
         });
@@ -77,20 +90,20 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
         String[] data = getResources().getStringArray(R.array.course_weeks);
 
-        for (int i=0; i<7; i++){
+        for (int i = 0; i < 7; i++) {
             //添加周数
             TextView tv = new TextView(getActivity());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
             tv.setLayoutParams(params);
             tv.setText(data[i]);
             tv.setGravity(Gravity.CENTER);
             mWeeks.addView(tv);
         }
-        for (int i=0; i<12; i++){
+        for (int i = 0; i < 12; i++) {
             TextView tv_course_time = new TextView(getActivity());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,1);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
             tv_course_time.setLayoutParams(params);
-            tv_course_time.setText(i+1+"");
+            tv_course_time.setText(i + 1 + "");
             tv_course_time.setGravity(Gravity.CENTER);
             mCourse_time.addView(tv_course_time);
         }
@@ -122,16 +135,16 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
             courseList.add(testCourse);
         }*/
         mCourseSwipeRefreshLayout.setRefreshing(false);
-        Log.i(TAG,"showCourse");
-        Log.i(TAG,courses.get(0).course);
+        Log.i(TAG, "showCourse");
+        Log.i(TAG, courses.get(0).course);
 
         List<NewCourseEntity.Course> tempCourseList = new ArrayList<>();
         tempCourseList.addAll(courses);
 
-        if (mCourseTableView != null){
+        if (mCourseTableView != null) {
             mCourseTableView.clearList();
             mCourseTableView.addContentView(tempCourseList);
-            Log.i(TAG,"tempCourseList.size() = " + tempCourseList.size());
+            Log.i(TAG, "tempCourseList.size() = " + tempCourseList.size());
         }
     }
 
@@ -140,9 +153,9 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
         mCourseSwipeRefreshLayout.setRefreshing(false);
     }
 
-    public String getWeek(){
-        Log.i(TAG,mweek+"");
-        return mweek + "";
+    public String getWeek() {
+        Log.i(TAG, mWeek + "");
+        return mWeek + "";
 
     }
 
@@ -151,7 +164,7 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
         return R.layout.fragment_course;
     }
 
-    public static CourseFragment newInstance(){
+    public static CourseFragment newInstance() {
         Bundle bundle = new Bundle();
         CourseFragment fragment = new CourseFragment();
         fragment.setArguments(bundle);

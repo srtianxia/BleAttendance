@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.srtianxia.bleattendance.base.view.BaseListFragment;
-import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
+import com.srtianxia.bleattendance.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,7 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
 
     private AttConditionPresenter mPresenter = new AttConditionPresenter(this);
 
-
-    private NewCourseEntity.Course mCurrentCourse;
-
+    private TeacherHomeActivity mHomeActivity;
 
     @Override
     protected void initView() {
@@ -34,7 +32,7 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mCurrentCourse = ((TeacherHomeActivity) activity).getCourseInfo();
+        mHomeActivity = ((TeacherHomeActivity) activity);
     }
 
     @Override
@@ -54,12 +52,23 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
     @Override
     protected void loadListData() {
         if (mPosition == 0) {
-            mPresenter.getAllStuList(mCurrentCourse);
+            if (mHomeActivity.getCourseInfo() != null) {
+                mPresenter.getAllStuList(mHomeActivity.getCourseInfo());
+            } else {
+                ToastUtil.show(getActivity(), "尚未选择考勤课程", true);
+                loadFinished();
+            }
         } else if (mPosition == 1) {
-
+            loadDataList(mHomeActivity.getNumberList());
+            loadFinished();
             // todo 获取本地蓝牙考勤信息
         } else if (mPosition == 2) {
-            mPresenter.postAttendanceInfo(mCurrentCourse, 3);
+            if (mHomeActivity.getCourseInfo() != null) {
+                mPresenter.postAttendanceInfo(mHomeActivity.getCourseInfo(), mHomeActivity.getCurrentWeek());
+            } else {
+                ToastUtil.show(getActivity(), "尚未选择考勤课程", true);
+                loadFinished();
+            }
         }
     }
 
@@ -82,14 +91,11 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
 
     public void postAttInfo() {
         // todo  week  !!!
-        mPresenter.postAttendanceInfo(mCurrentCourse, 0);
+        mPresenter.postAttendanceInfo(mHomeActivity.getCourseInfo(), 0);
     }
 
     @Override
     public List<String> getBleAttendanceInfo() {
-        List<String> list = new ArrayList<>();
-        list.add("2010210373");
-        list.add("2014210541");
-        return list;
+        return mHomeActivity.getNumberList();
     }
 }

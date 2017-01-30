@@ -17,9 +17,9 @@ import butterknife.BindView;
 /**
  * Created by 梅梅 on 2017/1/30.
  */
-public class AttendFragment extends BaseFragment {
+public class AttendanceFragment extends BaseFragment {
 
-    private final String TAG = "AttendFragment";
+    private final String TAG = "AttendanceFragment";
 
     private static final String[] PARENT_TITLES = {"应出勤", "已考勤", "缺勤"};
 
@@ -44,13 +44,13 @@ public class AttendFragment extends BaseFragment {
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.fragment_attend;
+        return R.layout.fragment_attendance;
     }
 
-    public static AttendFragment newInstance() {
+    public static AttendanceFragment newInstance() {
         Bundle bundle = new Bundle();
-        AttendFragment attendFragment = new AttendFragment();
-        attendFragment.setArguments(bundle);
-        return attendFragment;
+        AttendanceFragment attendanceFragment = new AttendanceFragment();
+        attendanceFragment.setArguments(bundle);
+        return attendanceFragment;
     }
 }

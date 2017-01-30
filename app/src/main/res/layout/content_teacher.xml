@@ -8,26 +8,25 @@
     tools:context=".ui.teacher.home.TeacherHomeActivity"
     tools:showIn="@layout/activity_teacher_home">
 
-    <TextView
-        android:id="@+id/tv_current_course"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/textColorBlack"
-        android:padding="@dimen/tv_padding"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        tools:text="当前课程"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_current_course"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/textColorBlack"-->
+        <!--android:padding="@dimen/tv_padding"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--tools:text="当前课程"/>-->
 
-    <Button
-        android:id="@+id/btn_post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tv_current_course"
-        android:text="post"/>
+    <!--<Button-->
+        <!--android:id="@+id/btn_post"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_toRightOf="@+id/tv_current_course"-->
+        <!--android:text="post"/>-->
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tv_current_course"></FrameLayout>
+        android:layout_height="match_parent"></FrameLayout>
 </RelativeLayout>

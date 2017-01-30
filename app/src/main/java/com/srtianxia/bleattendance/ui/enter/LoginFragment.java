@@ -3,6 +3,7 @@ package com.srtianxia.bleattendance.ui.enter;
 import android.animation.Animator;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -52,8 +53,12 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
     @Override
     protected void initView() {
         DaggerLoginComponent.builder().loginModule(new LoginModule(this)).build().inject(this);
-
-
+        String flag = PreferenceManager.getInstance().getString(PreferenceManager.SP_LOGIN_FLAG, "");
+        if (TextUtils.equals(flag, PreferenceManager.SP_LOGIN_FLAG_STU)) {
+            UiHelper.startActivity(getActivity(), StudentHomeActivity.class);
+        } else if (TextUtils.equals(flag, PreferenceManager.SP_LOGIN_FLAG_TEA)) {
+            UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
+        }
     }
 
 

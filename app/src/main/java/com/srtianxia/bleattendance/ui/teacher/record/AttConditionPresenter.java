@@ -21,6 +21,9 @@ import java.util.List;
 
 public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.IAttConditionView> {
     private Api mApi;
+    private static final int UN_ATT = 0;
+    private static final int ATT = 1;
+
 
     public AttConditionPresenter(IAttConditionView baseView) {
         super(baseView);
@@ -36,15 +39,21 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
             for (StuInfoEntity data : stuListEntity.getData()) {
                 numberList.add(data.getStuNum());
             }
-            return mApi.postAttendanceInfo(token, course.jxbID, course.hash_day, course.hash_lesson, status, 3);
+            return mApi.postAttendanceInfo(token, course.jxbID, course.hash_day, course.hash_lesson, status, week);
         }).compose(RxSchedulersHelper.io2main())
                 .subscribe(postAttResultEntity -> {
                             Logger.d(postAttResultEntity);
-                            loadAttendanceInfo(course.jxbID);
+                            loadAttendanceInfo(course.jxbID, week);
                         },
                         throwable -> Logger.d(throwable));
     }
 
+
+    /**
+     * 请求应出勤列表
+     *
+     * @param course
+     */
     public void getAllStuList(NewCourseEntity.Course course) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
 
@@ -59,9 +68,9 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
     }
 
     // week 暂时都为3
-    public void loadAttendanceInfo(String jxbID) {
+    public void loadAttendanceInfo(String jxbID, int week) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
-        mApi.getAttendanceInfo(token, jxbID, 3).compose(RxSchedulersHelper.io2main()).subscribe(this::loadAttInfoSuccess, this::loadAttInfoFailure);
+        mApi.getAttendanceInfo(token, jxbID, week).compose(RxSchedulersHelper.io2main()).subscribe(this::loadAttInfoSuccess, this::loadAttInfoFailure);
     }
 
 
@@ -88,9 +97,9 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
         StringBuilder builder = new StringBuilder();
         for (StuInfoEntity e : entity.getData()) {
             if (attentionStuNumber.contains(e.getStuNum())) {
-                builder.append("1,");
+                builder.append(ATT + ",");
             } else {
-                builder.append("0,");
+                builder.append(UN_ATT + ",");
             }
         }
         builder.deleteCharAt(builder.length() - 1);

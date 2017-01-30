@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,14 +23,15 @@
                 android:layout_height="@dimen/toolbar_height"
                 android:background="?attr/colorPrimaryDark"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
+
                 <TextView
                     android:id="@+id/tv_toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="22sp"
-                    android:textStyle="normal"
+                    android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:layout_gravity="center"/>
+                    android:textSize="22sp"
+                    android:textStyle="normal" />
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
@@ -40,20 +40,36 @@
             android:id="@+id/bottom_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_bar_height"
+            android:layout_alignParentBottom="true"
+            app:itemBackground="@color/white"
             app:itemIconTint="@color/color_bottomnav_selector"
             app:itemTextColor="@color/color_bottomnav_selector"
-            android:layout_alignParentBottom="true"
-            app:menu="@menu/menu_bottom_teacher"
-            app:itemBackground="@color/white">
-        </android.support.design.widget.BottomNavigationView>
+            app:menu="@menu/menu_bottom_teacher"></android.support.design.widget.BottomNavigationView>
 
-        <include layout="@layout/content_teacher"
-            android:layout_height="match_parent"
+        <include
+            layout="@layout/content_teacher"
             android:layout_width="match_parent"
-            android:layout_below="@+id/appbarlayout"
-            android:layout_above="@+id/bottom_view" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_view"
+            android:layout_below="@+id/appbarlayout" />
+
 
     </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add_att_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="60dp"
+        android:layout_marginRight="10dp" />
+
+    <EditText
+        android:id="@+id/ed_test"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center" />
+
 
 </android.support.design.widget.CoordinatorLayout>
 

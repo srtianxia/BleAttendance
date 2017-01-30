@@ -43,8 +43,6 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
     private AttConditionPresenter mPresenter = new AttConditionPresenter(this);
 
 
-    private List<String> mTestList = new ArrayList<>();
-
     List<String> list_0 = new ArrayList<>();
     List<String> list_1 = new ArrayList<>();
     List<String> list_2 = new ArrayList<>();
@@ -67,8 +65,6 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
         list.add(list_2);
         list.add(list_3);
         expandableConditionList.setAdapter(mConditionAdapter = new AttConditionAdapter(/*getActivity(), */PARENT_TITLES, list));
-        mTestList.add("2014210542");
-//        mTestList.add();
     }
 
     @Override
@@ -111,7 +107,7 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
 
     @OnClick(R.id.btn_test)
     void test() {
-        mTestList.add(edTest.getText().toString());
+//        mTestList.add(edTest.getText().toString());
     }
 
 
@@ -136,8 +132,7 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public List<String> getBleAttendanceInfo() {
-//        return mHomeActivity.getNumberList();
-        return mTestList;
+        return mHomeActivity.getNumberList();
     }
 
 }

@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
@@ -14,8 +14,7 @@ import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
-import com.srtianxia.bleattendance.ui.teacher.record.AttConditionFragment;
-import com.srtianxia.bleattendance.ui.teacher.record.AttendFragment;
+import com.srtianxia.bleattendance.ui.teacher.record.AttendanceFragment;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
 import java.util.ArrayList;
@@ -33,18 +32,21 @@ public class TeacherHomeActivity extends BaseActivity
     BottomNavigationView mBottomView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.tv_current_course)
-    TextView tvCurrentCourse;
+    //    @BindView(R.id.tv_current_course)
+//    TextView tvCurrentCourse;
     @BindView(R.id.tv_toolbar_title)
     TextView toolbar_title;
-    @BindView(R.id.btn_post)
-    Button btnPost;
+    //    @BindView(R.id.btn_post)
+//    Button btnPost;
+    @BindView(R.id.ed_test)
+    EditText editText;
+
 
     private TeacherScanFragment mTeacherScanFragment = TeacherScanFragment.newInstance();
 
 //    private AttConditionFragment mAttConditionFragment = AttConditionFragment.newInstance();
 
-    private AttendFragment mAttendFragment = AttendFragment.newInstance();
+    private AttendanceFragment mAttendanceFragment = AttendanceFragment.newInstance();
 
     private List<Integer> mNumberList = new ArrayList<>();
 
@@ -54,7 +56,7 @@ public class TeacherHomeActivity extends BaseActivity
 
     // 考勤需要post
     private NewCourseEntity.Course mCurrentCourse;
-
+    private String mCurrentWeek;
 
     @Override
     protected void initView() {
@@ -62,15 +64,15 @@ public class TeacherHomeActivity extends BaseActivity
         mCourseContainerFragment = CourseContainerFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mTeacherScanFragment)
-                .add(R.id.fragment_container, mAttendFragment)
+                .add(R.id.fragment_container, mAttendanceFragment)
                 .add(R.id.fragment_container, mCourseContainerFragment)
                 .show(mTeacherScanFragment)
-                .hide(mAttendFragment)
+                .hide(mAttendanceFragment)
 //                .hide(mAttConditionFragment)
                 .hide(mCourseContainerFragment)
                 .commit();
 
-        tvCurrentCourse.setText(getPrefixText() + getText(R.string.current_course_no_choose));
+//        tvCurrentCourse.setText(getPrefixText() + getText(R.string.current_course_no_choose));
 
         mBottomView.setOnNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
@@ -118,20 +120,20 @@ public class TeacherHomeActivity extends BaseActivity
             case R.id.bottom_nav_scan:
                 toolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
-                        .hide(mAttendFragment).hide(mCourseContainerFragment)
+                        .hide(mAttendanceFragment).hide(mCourseContainerFragment)
                         .show(mTeacherScanFragment).commit();
                 break;
             case R.id.bottom_nav_attendance:
 //                toolbar.setVisibility(View.INVISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(mCourseContainerFragment)
-                        .show(mAttendFragment).commit();
+                        .show(mAttendanceFragment).commit();
 
                 break;
             case R.id.bottom_nav_table:
                 toolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
-                        .hide(mTeacherScanFragment).hide(mAttendFragment)
+                        .hide(mTeacherScanFragment).hide(mAttendanceFragment)
                         .show(mCourseContainerFragment).commit();
 
         }
@@ -146,6 +148,11 @@ public class TeacherHomeActivity extends BaseActivity
         return mCurrentCourse;
     }
 
+
+    public int getCurrentWeek() {
+        return Integer.parseInt(mCurrentWeek);
+    }
+
     public List<String> getNumberList() {
         List<String> list = new ArrayList<>();
         for (Integer i : mNumberList) {
@@ -154,9 +161,10 @@ public class TeacherHomeActivity extends BaseActivity
         return list;
     }
 
-    public void setAttCourse(CourseTableView.CourseList course) {
+    public void setAttCourse(CourseTableView.CourseList course, String week) {
         mCurrentCourse = course.list.get(0);
-        tvCurrentCourse.setText(getPrefixText() + mCurrentCourse.course);
+        mCurrentWeek = week;
+//        tvCurrentCourse.setText(getPrefixText() + mCurrentCourse.course);
     }
 
     // 获取textView 展示当前考勤课程的前缀文字
@@ -165,7 +173,12 @@ public class TeacherHomeActivity extends BaseActivity
     }
 
 
-    @OnClick(R.id.btn_post)
+    @OnClick(R.id.fab_add_att_info)
+    void onFabClick() {
+        mNumberList.add(Integer.valueOf(editText.getText().toString()));
+    }
+
+    //    @OnClick(R.id.btn_post)
     void onBtnPostClick() {
         // todo 携带考勤数据 week
 //        mAttConditionFragment.postAttendanceInfo(mCurrentCourse, 0);

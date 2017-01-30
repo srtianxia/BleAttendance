@@ -70,12 +70,12 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
         initDraw();
 
         mCourseTableView.setOnLongClickListener(courses -> {
-            DialogUtils.getInstance().showDialog(getActivity(), "课程选择", "是否选择：" + courses.list.get(0).course + " ？",
+            DialogUtils.getInstance().showDialog(getActivity(), "课程选择", "是否选择：第 " + getWeek() + "  周 " + courses.list.get(0).course + " ？",
                     new DialogUtils.OnButtonChooseListener() {
                         @Override
                         public void onPositive() {
                             if (mTeacherHomeActivity != null) {
-                                mTeacherHomeActivity.setAttCourse(courses);
+                                mTeacherHomeActivity.setAttCourse(courses, getWeek());
                             }
                         }
 
@@ -142,21 +142,20 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     @Override
     public void showRefreshing() {
-        if (mCourseSwipeRefreshLayout != null){
+        if (mCourseSwipeRefreshLayout != null) {
             mCourseSwipeRefreshLayout.setRefreshing(true);
         }
     }
 
     @Override
     public void unshowRefreshing() {
-        if (mCourseSwipeRefreshLayout != null){
+        if (mCourseSwipeRefreshLayout != null) {
             mCourseSwipeRefreshLayout.setRefreshing(false);
         }
     }
 
     public String getWeek() {
         return mWeek + "";
-
     }
 
     @Override

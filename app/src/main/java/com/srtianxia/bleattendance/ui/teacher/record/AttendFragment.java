@@ -17,24 +17,29 @@ import butterknife.BindView;
 /**
  * Created by 梅梅 on 2017/1/30.
  */
-public class AttendFragment extends BaseFragment{
+public class AttendFragment extends BaseFragment {
 
     private final String TAG = "AttendFragment";
 
-    private static final String[] PARENT_TITLES = {"应出勤学生学号", "本地已考勤学号", "已上传考勤学号", "缺勤学生学号"};
+    private static final String[] PARENT_TITLES = {"应出勤", "已考勤", "缺勤"};
 
-    @BindView(R.id.tab_attend)TabLayout mTab;
-    @BindView(R.id.vp_attend)ViewPager mViewPager;
+    @BindView(R.id.tab_attend)
+    TabLayout mTab;
+    @BindView(R.id.vp_attend)
+    ViewPager mViewPager;
 
     private List<BaseFragment> mFragmentList = new ArrayList<>();
     private List<String> mTitles = Arrays.asList(PARENT_TITLES);
 
+
     @Override
     protected void initView() {
-        TabPagerAdapter adapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(),mFragmentList,mTitles);
+        TabPagerAdapter adapter = new TabPagerAdapter(getChildFragmentManager(), mFragmentList, mTitles);
+        for (int i = 0; i < 3; i++) {
+            mFragmentList.add(AttListFragment.newInstance(i));
+        }
         mViewPager.setAdapter(adapter);
         mTab.setupWithViewPager(mViewPager);
-
     }
 
     @Override
@@ -42,7 +47,7 @@ public class AttendFragment extends BaseFragment{
         return R.layout.fragment_attend;
     }
 
-    public static AttendFragment newInstance(){
+    public static AttendFragment newInstance() {
         Bundle bundle = new Bundle();
         AttendFragment attendFragment = new AttendFragment();
         attendFragment.setArguments(bundle);

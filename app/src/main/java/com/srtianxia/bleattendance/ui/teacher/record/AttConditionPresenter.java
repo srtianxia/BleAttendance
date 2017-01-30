@@ -4,8 +4,8 @@ import com.orhanobut.logger.Logger;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.entity.AttInfoEntity;
-import com.srtianxia.bleattendance.entity.StuInfoEntity;
 import com.srtianxia.bleattendance.entity.NewCourseEntity;
+import com.srtianxia.bleattendance.entity.StuInfoEntity;
 import com.srtianxia.bleattendance.entity.StuListEntity;
 import com.srtianxia.bleattendance.http.ApiUtil;
 import com.srtianxia.bleattendance.http.api.Api;
@@ -14,7 +14,6 @@ import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Created by srtianxia on 2017/1/20.
@@ -37,7 +36,6 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
             for (StuInfoEntity data : stuListEntity.getData()) {
                 numberList.add(data.getStuNum());
             }
-            getView().loadAllAttendanceInfoSuccess(numberList);
             return mApi.postAttendanceInfo(token, course.jxbID, course.hash_day, course.hash_lesson, status, 3);
         }).compose(RxSchedulersHelper.io2main())
                 .subscribe(postAttResultEntity -> {
@@ -45,6 +43,19 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
                             loadAttendanceInfo(course.jxbID);
                         },
                         throwable -> Logger.d(throwable));
+    }
+
+    public void getAllStuList(NewCourseEntity.Course course) {
+        String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
+
+        mApi.getStuList(token, course.jxbID).compose(RxSchedulersHelper.io2main())
+                .subscribe(entity -> {
+                    List<String> numberList = new ArrayList<>();
+                    for (StuInfoEntity data : entity.getData()) {
+                        numberList.add(data.getStuNum());
+                    }
+                    getView().loadAllAttendanceInfoSuccess(numberList);
+                }, throwable -> Logger.d(throwable));
     }
 
     // week 暂时都为3

@@ -8,6 +8,8 @@ import com.paginate.Paginate;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 /**
@@ -52,6 +54,10 @@ public abstract class BaseListFragment<E, T extends BaseAdapter<E>> extends Base
     // 添加一个item数据
     public void addData(E data) {
         getAdapter().addData(data);
+    }
+
+    public void loadDataList(List<E> data) {
+        getAdapter().addDataList(data);
     }
 
     @Override

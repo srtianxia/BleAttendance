@@ -42,7 +42,7 @@ public class TeacherHomeActivity extends BaseActivity
 
     private TeacherScanFragment mTeacherScanFragment = TeacherScanFragment.newInstance();
 
-    private AttConditionFragment mAttConditionFragment = AttConditionFragment.newInstance();
+//    private AttConditionFragment mAttConditionFragment = AttConditionFragment.newInstance();
 
     private AttendFragment mAttendFragment = AttendFragment.newInstance();
 
@@ -65,7 +65,8 @@ public class TeacherHomeActivity extends BaseActivity
                 .add(R.id.fragment_container, mAttendFragment)
                 .add(R.id.fragment_container, mCourseContainerFragment)
                 .show(mTeacherScanFragment)
-                .hide(mAttConditionFragment)
+                .hide(mAttendFragment)
+//                .hide(mAttConditionFragment)
                 .hide(mCourseContainerFragment)
                 .commit();
 
@@ -141,6 +142,10 @@ public class TeacherHomeActivity extends BaseActivity
         mNumberList.add(number);
     }
 
+    public NewCourseEntity.Course getCourseInfo() {
+        return mCurrentCourse;
+    }
+
     public List<String> getNumberList() {
         List<String> list = new ArrayList<>();
         for (Integer i : mNumberList) {
@@ -163,6 +168,7 @@ public class TeacherHomeActivity extends BaseActivity
     @OnClick(R.id.btn_post)
     void onBtnPostClick() {
         // todo 携带考勤数据 week
-        mAttConditionFragment.postAttendanceInfo(mCurrentCourse, 0);
+//        mAttConditionFragment.postAttendanceInfo(mCurrentCourse, 0);
+
     }
 }

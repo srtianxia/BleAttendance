@@ -52,6 +52,12 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
+    public void addDataList(List<T> data) {
+        mDataController.clearData();
+        mDataController.addDataList(data);
+        notifyDataSetChanged();
+    }
+
 
     public DataController<T> getDataController() {
         return mDataController;

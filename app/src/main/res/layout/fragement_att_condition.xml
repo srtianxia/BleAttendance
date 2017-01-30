@@ -11,7 +11,8 @@
         <ExpandableListView
             android:id="@+id/expandable_condition_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ExpandableListView>
+            android:layout_height="match_parent">
+        </ExpandableListView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <!--<Button-->

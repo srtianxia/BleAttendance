@@ -5,6 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.record.AttConditionFragment;
+import com.srtianxia.bleattendance.ui.teacher.record.AttendFragment;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
 import java.util.ArrayList;
@@ -38,9 +40,12 @@ public class TeacherHomeActivity extends BaseActivity
     @BindView(R.id.btn_post)
     Button btnPost;
 
-    private TeacherScanFragment mTeacherScanFragment;
+    private TeacherScanFragment mTeacherScanFragment = TeacherScanFragment.newInstance();
 
     private AttConditionFragment mAttConditionFragment = AttConditionFragment.newInstance();
+
+    private AttendFragment mAttendFragment = AttendFragment.newInstance();
+
     private List<Integer> mNumberList = new ArrayList<>();
 
     private CourseContainerFragment mCourseContainerFragment;
@@ -53,12 +58,11 @@ public class TeacherHomeActivity extends BaseActivity
 
     @Override
     protected void initView() {
-        mTeacherScanFragment = TeacherScanFragment.newInstance();
 
         mCourseContainerFragment = CourseContainerFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mTeacherScanFragment)
-                .add(R.id.fragment_container, mAttConditionFragment)
+                .add(R.id.fragment_container, mAttendFragment)
                 .add(R.id.fragment_container, mCourseContainerFragment)
                 .show(mTeacherScanFragment)
                 .hide(mAttConditionFragment)
@@ -111,18 +115,22 @@ public class TeacherHomeActivity extends BaseActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.bottom_nav_scan:
+                toolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
-                        .hide(mAttConditionFragment).hide(mCourseContainerFragment)
+                        .hide(mAttendFragment).hide(mCourseContainerFragment)
                         .show(mTeacherScanFragment).commit();
                 break;
             case R.id.bottom_nav_attendance:
+//                toolbar.setVisibility(View.INVISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(mCourseContainerFragment)
-                        .show(mAttConditionFragment).commit();
+                        .show(mAttendFragment).commit();
+
                 break;
             case R.id.bottom_nav_table:
+                toolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
-                        .hide(mTeacherScanFragment).hide(mAttConditionFragment)
+                        .hide(mTeacherScanFragment).hide(mAttendFragment)
                         .show(mCourseContainerFragment).commit();
 
         }

@@ -22,7 +22,7 @@ public class CourseContainerFragment extends BaseFragment{
     @BindView(R.id.vp_course_container)ViewPager mViewPager;
 
     private TabPagerAdapter mAdapter;
-    private List<CourseFragment> mFragmentList = new ArrayList<>();
+    private List<BaseFragment> mFragmentList = new ArrayList<>();
     private List<String> mTitles = new ArrayList<>();
 
     private ViewPager.OnPageChangeListener mTabsListener;
@@ -36,7 +36,6 @@ public class CourseContainerFragment extends BaseFragment{
         mAdapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(),mFragmentList,mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabs.setupWithViewPager(mViewPager);
-        mTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
     }
 

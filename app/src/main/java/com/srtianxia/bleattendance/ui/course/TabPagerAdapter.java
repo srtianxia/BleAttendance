@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.srtianxia.bleattendance.base.view.BaseFragment;
+
 import java.util.List;
 
 /**
@@ -11,10 +13,10 @@ import java.util.List;
  */
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
-    private List<CourseFragment> mFragmentList;
+    private List<BaseFragment> mFragmentList;
     private List<String> mTitlesList;
 
-    public TabPagerAdapter(FragmentManager fm, List<CourseFragment> fragmentList, List<String> titlesList) {
+    public TabPagerAdapter(FragmentManager fm, List<BaseFragment> fragmentList, List<String> titlesList) {
         super(fm);
         this.mFragmentList = fragmentList;
         this.mTitlesList = titlesList;
@@ -30,7 +32,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        if (mFragmentList != null)
+        if (mFragmentList != null )
             return mFragmentList.size();
         return 0;
     }

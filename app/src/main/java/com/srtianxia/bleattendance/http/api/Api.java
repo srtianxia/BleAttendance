@@ -3,6 +3,7 @@ package com.srtianxia.bleattendance.http.api;
 import com.srtianxia.bleattendance.entity.AttInfoEntity;
 import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.entity.PostAttResultEntity;
+import com.srtianxia.bleattendance.entity.StuListEntity;
 import com.srtianxia.bleattendance.entity.StudentEntity;
 import com.srtianxia.bleattendance.entity.TeaCourseEntity;
 import com.srtianxia.bleattendance.entity.TeacherEntity;
@@ -31,12 +32,17 @@ public interface Api {
     Observable<PostAttResultEntity> postAttendanceInfo(@Field("token") String token, @Field("jxbID") String jxbID,
                                                        @Field("hash_day") int hash_day, @Field("hash_lesson") int hash_lesson,
                                                        @Field("status") String status, @Field("week") int week);
+
+
     // 根据周数获取考勤信息 todo  这里和后端再确认下 是否可以唯一的确定一节课程
     @GET("teacher/attendance")
     Observable<AttInfoEntity> getAttendanceInfo(@Query("token") String token,
                                                 @Query("jxbID") String jxbID,
                                                 @Query("week") int week);
 
+    // 获取一个班的人列表
+    @GET("teacher/stulist")
+    Observable<StuListEntity> getStuList(@Query("token") String token, @Query("jxbID") String jxbID);
 
     // student 部分
     @FormUrlEncoded

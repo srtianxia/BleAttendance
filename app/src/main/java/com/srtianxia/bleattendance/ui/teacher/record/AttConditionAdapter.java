@@ -74,7 +74,7 @@ public class AttConditionAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ParentHolder) convertView.getTag();
         }
-        holder.setData(mParentTitle[groupPosition]);
+        holder.setData(mParentTitle[groupPosition] + " size = " + mChildContent.get(groupPosition).size());
         return convertView;
     }
 

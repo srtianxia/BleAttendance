@@ -21,4 +21,16 @@
         <!--android:layout_gravity="bottom"-->
         <!--android:layout_marginBottom="100dp"-->
         <!--android:text="add" />-->
+
+    <EditText
+        android:id="@+id/ed_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
+
+    <Button
+        android:id="@+id/btn_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 </FrameLayout>

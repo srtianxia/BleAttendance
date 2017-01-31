@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.student.attendance;
 
+import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
+import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,12 +43,20 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
 
     private StuAttendancePresenter mPresenter;
 
+    private StudentHomeActivity mActivity;
+
     @Override
     protected void initView() {
         mPresenter = new StuAttendancePresenter(this);
         mFrameAnim = (AnimationDrawable) ContextCompat.getDrawable(getActivity(), R.drawable.adv_state_anim);
         imgAdvState.setBackground(mFrameAnim);
         tvAttentionState.setText(mAttState);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (StudentHomeActivity) activity;
     }
 
     @Override
@@ -109,5 +119,10 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     @Override
     public void setAttState() {
         tvAttentionState.setText(ATT);
+    }
+
+    @Override
+    public String getUuid() {
+        return mActivity.getUuid();
     }
 }

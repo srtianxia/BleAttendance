@@ -7,7 +7,6 @@ import com.srtianxia.bleattendance.base.view.BaseListFragment;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,7 +60,6 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
         } else if (mPosition == 1) {
             loadDataList(mHomeActivity.getNumberList());
             loadFinished();
-            // todo 获取本地蓝牙考勤信息
         } else if (mPosition == 2) {
             if (mHomeActivity.getCourseInfo() != null) {
                 mPresenter.postAttendanceInfo(mHomeActivity.getCourseInfo(), mHomeActivity.getCurrentWeek());
@@ -87,11 +85,6 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
     @Override
     public void loadAllAttendanceInfoFailure() {
 
-    }
-
-    public void postAttInfo() {
-        // todo  week  !!!
-        mPresenter.postAttendanceInfo(mHomeActivity.getCourseInfo(), 0);
     }
 
     @Override

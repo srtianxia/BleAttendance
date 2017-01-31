@@ -191,14 +191,14 @@ public class StuAttendanceModel implements IStuAttModel {
         }
     };
 
-
-    public StuAttendanceModel() {
+    @Override
+    public void initBle(String uuid) {
         mBluetoothManager = (BluetoothManager) BleApplication.getContext()
                 .getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
         mAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
         mBluetoothGattService = new BluetoothGattService(
-                UUID_SERVICE,
+                UUID.fromString(uuid),
                 BluetoothGattService.SERVICE_TYPE_PRIMARY);
         mWriteCharacteristic = new BluetoothGattCharacteristic(
                 UUID.fromString(BleUUID.ATTENDANCE_NOTIFY_WRITE),
@@ -213,7 +213,7 @@ public class StuAttendanceModel implements IStuAttModel {
                 .build();
         mAdvData = new AdvertiseData.Builder()
                 .setIncludeTxPowerLevel(true)
-                .addServiceUuid(new ParcelUuid(UUID_SERVICE))
+                .addServiceUuid(new ParcelUuid(UUID.fromString(uuid)))
                 .build();
         mAdvScanResponse = new AdvertiseData.Builder()
                 .setIncludeDeviceName(true)
@@ -223,6 +223,11 @@ public class StuAttendanceModel implements IStuAttModel {
                 mGattServerCallback);
         mGattServer.addService(mBluetoothGattService);
         mBluetoothDevices = new HashSet<>();
+    }
+
+
+    public StuAttendanceModel() {
+
 
     }
 
@@ -290,6 +295,5 @@ public class StuAttendanceModel implements IStuAttModel {
 
     @Override
     public void onDestroy() {
-//        EventBus.getDefault().unregister(this);
     }
 }

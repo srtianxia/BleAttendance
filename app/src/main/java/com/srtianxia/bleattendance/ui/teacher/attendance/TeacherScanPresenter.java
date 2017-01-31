@@ -65,12 +65,12 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     }
 
 
-    public void startScan() {
+    public void startScan(String uuid) {
         if (isScanning()) {
             mScanSubscription.unsubscribe();
         } else {
             mScanSubscription = mTeacherScanModel
-                    .startScan()
+                    .startScan(UUID.fromString(uuid))
                     .compose(getViewType().bindUntilEvent(DESTROY))
                     .compose(RxSchedulersHelper.io2main())
                     .subscribe(this::scanResult, this::handleScanError);

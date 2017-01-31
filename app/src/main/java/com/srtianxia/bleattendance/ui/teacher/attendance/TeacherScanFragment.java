@@ -92,7 +92,7 @@ public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherSc
 
     //    @OnClick(R.id.fab)
     public void startScan() {
-        mPresenter.startScan();
+        mPresenter.startScan(mHomeActivity.getUuid());
     }
 
 

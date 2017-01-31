@@ -32,13 +32,8 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
 
     public void postAttendanceInfo(NewCourseEntity.Course course, int week) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
-
         mApi.getStuList(token, course.jxbID).flatMap(stuListEntity -> {
             String status = mergeAttendanceStatus(stuListEntity, getView().getBleAttendanceInfo());
-            List<String> numberList = new ArrayList<>();
-            for (StuInfoEntity data : stuListEntity.getData()) {
-                numberList.add(data.getStuNum());
-            }
             return mApi.postAttendanceInfo(token, course.jxbID, course.hash_day, course.hash_lesson, status, week);
         }).compose(RxSchedulersHelper.io2main())
                 .subscribe(postAttResultEntity -> {
@@ -56,7 +51,6 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
      */
     public void getAllStuList(NewCourseEntity.Course course) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
-
         mApi.getStuList(token, course.jxbID).compose(RxSchedulersHelper.io2main())
                 .subscribe(entity -> {
                     List<String> numberList = new ArrayList<>();
@@ -67,12 +61,10 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
                 }, throwable -> Logger.d(throwable));
     }
 
-    // week 暂时都为3
     public void loadAttendanceInfo(String jxbID, int week) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getAttendanceInfo(token, jxbID, week).compose(RxSchedulersHelper.io2main()).subscribe(this::loadAttInfoSuccess, this::loadAttInfoFailure);
     }
-
 
     private void loadAttInfoSuccess(AttInfoEntity attInfoEntity) {
         List<String> list = new ArrayList<>();

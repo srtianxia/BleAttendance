@@ -76,6 +76,8 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
                         public void onPositive() {
                             if (mTeacherHomeActivity != null) {
                                 mTeacherHomeActivity.setAttCourse(courses, getWeek());
+                            } else if (mStudentHomeActivity != null) {
+                                mStudentHomeActivity.setAttCourse(courses, getWeek());
                             }
                         }
 
@@ -122,6 +124,8 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
         super.onAttach(activity);
         if (activity instanceof TeacherHomeActivity) {
             mTeacherHomeActivity = (TeacherHomeActivity) activity;
+        } else if (activity instanceof StudentHomeActivity) {
+            mStudentHomeActivity = (StudentHomeActivity) activity;
         }
     }
 

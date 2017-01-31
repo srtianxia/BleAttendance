@@ -27,6 +27,7 @@ public class StuAttendancePresenter extends BasePresenter<StuAttendancePresenter
     }
 
     public void startAdv() {
+        mStuAttendanceModel.initBle(getView().getUuid());
         mStuAttendanceModel.startAdvertise();
     }
 
@@ -54,5 +55,7 @@ public class StuAttendancePresenter extends BasePresenter<StuAttendancePresenter
 
     public interface IStuAttendanceView extends BaseView {
         void setAttState();
+
+        String getUuid();
     }
 }

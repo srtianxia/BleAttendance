@@ -32,6 +32,11 @@ public class StuRxAttModel implements IStuAttModel {
     }
 
     @Override
+    public void initBle(String uuid) {
+
+    }
+
+    @Override
     public void startAdvertise() {
         mPeripheralClient.advertise("")
                 .takeUntil(mDisconnectTriggerSubject)

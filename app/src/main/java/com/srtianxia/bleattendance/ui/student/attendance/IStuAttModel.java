@@ -10,6 +10,8 @@ import android.content.Context;
 public interface IStuAttModel {
     IStuAttModel getInstance(Context context);
 
+    void initBle(String uuid);
+
     void startAdvertise();
 
     void stopAdvertise();

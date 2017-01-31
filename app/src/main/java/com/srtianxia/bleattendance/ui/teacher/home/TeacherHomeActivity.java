@@ -15,6 +15,7 @@ import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.record.AttendanceFragment;
+import com.srtianxia.bleattendance.utils.UuidUtil;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
 import java.util.ArrayList;
@@ -57,6 +58,8 @@ public class TeacherHomeActivity extends BaseActivity
     // 考勤需要post
     private NewCourseEntity.Course mCurrentCourse;
     private String mCurrentWeek;
+
+    private String mUuid;
 
     @Override
     protected void initView() {
@@ -162,8 +165,9 @@ public class TeacherHomeActivity extends BaseActivity
     }
 
     public void setAttCourse(CourseTableView.CourseList course, String week) {
-        mCurrentCourse = course.list.get(0);
-        mCurrentWeek = week;
+        this.mCurrentCourse = course.list.get(0);
+        this.mCurrentWeek = week;
+        this.mUuid = UuidUtil.generateUuid(course.list.get(0).classroom);
 //        tvCurrentCourse.setText(getPrefixText() + mCurrentCourse.course);
     }
 
@@ -183,5 +187,10 @@ public class TeacherHomeActivity extends BaseActivity
         // todo 携带考勤数据 week
 //        mAttConditionFragment.postAttendanceInfo(mCurrentCourse, 0);
 
+    }
+
+
+    public String getUuid() {
+        return mUuid;
     }
 }

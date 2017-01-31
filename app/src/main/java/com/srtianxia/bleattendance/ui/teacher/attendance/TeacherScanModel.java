@@ -7,6 +7,9 @@ import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.RxBleScanResult;
 import com.srtianxia.bleattendance.BleApplication;
 import com.srtianxia.bleattendance.config.Constant;
+
+import java.util.UUID;
+
 import rx.Observable;
 
 /**
@@ -21,8 +24,8 @@ public class TeacherScanModel {
     }
 
 
-    public Observable<RxBleScanResult> startScan() {
-        return mRxBleClient.scanBleDevices();
+    public Observable<RxBleScanResult> startScan(UUID uuid) {
+        return mRxBleClient.scanBleDevices(uuid);
     }
 
 

@@ -283,8 +283,10 @@ public class StuAttendanceModel implements IStuAttModel {
             mGattServer.close();
         }
 
-        if (mBluetoothAdapter.isEnabled() && mAdvertiser != null) {
-            mAdvertiser.stopAdvertising(mCallback);
+        if (mBluetoothAdapter != null) {
+            if (mBluetoothAdapter.isEnabled() && mAdvertiser != null) {
+                mAdvertiser.stopAdvertising(mCallback);
+            }
         }
     }
 

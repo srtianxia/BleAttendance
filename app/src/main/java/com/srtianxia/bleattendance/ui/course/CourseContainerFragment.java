@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
+import com.srtianxia.bleattendance.widget.BetterVpAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,12 +17,15 @@ import butterknife.BindView;
 /**
  * Created by 梅梅 on 2017/1/26.
  */
-public class CourseContainerFragment extends BaseFragment{
+public class CourseContainerFragment extends BaseFragment {
 
-    @BindView(R.id.tab_course_container)TabLayout mTabs;
-    @BindView(R.id.vp_course_container)ViewPager mViewPager;
+    @BindView(R.id.tab_course_container)
+    TabLayout mTabs;
+    @BindView(R.id.vp_course_container)
+    ViewPager mViewPager;
 
-    private TabPagerAdapter mAdapter;
+    //    private TabPagerAdapter mAdapter;
+    private BetterVpAdapter mAdapter;
     private List<BaseFragment> mFragmentList = new ArrayList<>();
     private List<String> mTitles = new ArrayList<>();
 
@@ -30,10 +34,9 @@ public class CourseContainerFragment extends BaseFragment{
 
     @Override
     protected void initView() {
-
         initData();
         initListener();
-        mAdapter = new TabPagerAdapter(getActivity().getSupportFragmentManager(),mFragmentList,mTitles);
+        mAdapter = new BetterVpAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabs.setupWithViewPager(mViewPager);
 
@@ -43,11 +46,11 @@ public class CourseContainerFragment extends BaseFragment{
 
         mTitles.addAll(Arrays.asList(getResources().getStringArray(R.array.course_title_weeks)));
 
-        if (mFragmentList.isEmpty()){
-            for (int i = 0; i < mTitles.size(); i++){
+        if (mFragmentList.isEmpty()) {
+            for (int i = 0; i < mTitles.size(); i++) {
                 CourseFragment courseFragment = new CourseFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt(CourseFragment.BUNDLE_KEY,i);
+                bundle.putInt(CourseFragment.BUNDLE_KEY, i);
                 courseFragment.setArguments(bundle);
                 mFragmentList.add(courseFragment);
             }
@@ -81,7 +84,7 @@ public class CourseContainerFragment extends BaseFragment{
         return R.layout.fragment_course_container;
     }
 
-    public static CourseContainerFragment newInstance(){
+    public static CourseContainerFragment newInstance() {
         Bundle bundle = new Bundle();
         CourseContainerFragment fragment = new CourseContainerFragment();
         fragment.setArguments(bundle);

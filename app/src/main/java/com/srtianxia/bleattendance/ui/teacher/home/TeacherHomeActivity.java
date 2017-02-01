@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
@@ -14,7 +13,8 @@ import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
-import com.srtianxia.bleattendance.ui.teacher.record.AttendanceFragment;
+import com.srtianxia.bleattendance.ui.teacher.query.AttendanceFragment;
+import com.srtianxia.bleattendance.utils.DialogUtils;
 import com.srtianxia.bleattendance.utils.UuidUtil;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
@@ -39,8 +39,6 @@ public class TeacherHomeActivity extends BaseActivity
     TextView toolbar_title;
     //    @BindView(R.id.btn_post)
 //    Button btnPost;
-    @BindView(R.id.ed_test)
-    EditText editText;
 
 
     private TeacherScanFragment mTeacherScanFragment = TeacherScanFragment.newInstance();
@@ -179,7 +177,23 @@ public class TeacherHomeActivity extends BaseActivity
 
     @OnClick(R.id.fab_add_att_info)
     void onFabClick() {
-        mNumberList.add(Integer.valueOf(editText.getText().toString()));
+        DialogUtils.getInstance().showInputDialog(this, "输入学号", "请输入特殊考勤方式学生的学号 ", new DialogUtils.OnButtonChooseListener() {
+            @Override
+            public void onPositive() {
+
+            }
+
+            @Override
+            public void onNegative() {
+
+            }
+
+            @Override
+            public void onEditTextContent(String string) {
+                super.onEditTextContent(string);
+                mNumberList.add(Integer.valueOf(string));
+            }
+        });
     }
 
     //    @OnClick(R.id.btn_post)

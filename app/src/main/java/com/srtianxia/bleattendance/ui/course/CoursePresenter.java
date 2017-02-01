@@ -38,7 +38,7 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> 
 
         } else {
             getView().showRefreshing();
-            if (flag == PreferenceManager.SP_LOGIN_FLAG_STU) {
+            if (flag.equals(PreferenceManager.SP_LOGIN_FLAG_STU)) {
                 token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_STUDENT, "");
                 mApi.getStuCourse(token, getView().getWeek())
                         .compose(RxSchedulersHelper.io2main())

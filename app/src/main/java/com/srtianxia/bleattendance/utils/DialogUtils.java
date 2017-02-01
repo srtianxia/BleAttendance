@@ -3,6 +3,11 @@ package com.srtianxia.bleattendance.utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+
+import com.srtianxia.bleattendance.R;
 
 
 /**
@@ -16,7 +21,6 @@ public class DialogUtils {
     }
 
     public static DialogUtils getInstance() {
-
         return DialogInstance.instance;
     }
 
@@ -29,6 +33,23 @@ public class DialogUtils {
                 .setMessage(content)
                 .setTitle(title)
                 .setPositiveButton("确定", (dialog, which) -> listener.onPositive())
+                .setNegativeButton("取消", (dialog, which) -> listener.onNegative())
+                .setCancelable(false)
+                .create()
+                .show();
+    }
+
+    public void showInputDialog(Context context, String title, String content, OnButtonChooseListener listener) {
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_input_layout, null);
+        EditText editText = (EditText) view.findViewById(R.id.ed_input);
+        new AlertDialog.Builder(context).setView(view)
+                .setMessage(content)
+                .setTitle(title)
+                .setCancelable(false)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    listener.onPositive();
+                    listener.onEditTextContent(editText.getText().toString());
+                })
                 .setNegativeButton("取消", (dialog, which) -> listener.onNegative())
                 .create()
                 .show();
@@ -45,9 +66,12 @@ public class DialogUtils {
         mProgressDialog.dismiss();
     }
 
-    public interface OnButtonChooseListener {
-        void onPositive();
+    public static abstract class OnButtonChooseListener {
+        public abstract void onPositive();
 
-        void onNegative();
+        public abstract void onNegative();
+
+        public void onEditTextContent(String string) {
+        }
     }
 }

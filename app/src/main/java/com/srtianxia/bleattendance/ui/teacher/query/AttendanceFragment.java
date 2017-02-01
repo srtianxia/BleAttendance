@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.ui.teacher.record;
+package com.srtianxia.bleattendance.ui.teacher.query;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;

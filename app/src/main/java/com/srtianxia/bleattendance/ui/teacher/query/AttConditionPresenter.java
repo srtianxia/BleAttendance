@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.ui.teacher.record;
+package com.srtianxia.bleattendance.ui.teacher.query;
 
 import com.orhanobut.logger.Logger;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;

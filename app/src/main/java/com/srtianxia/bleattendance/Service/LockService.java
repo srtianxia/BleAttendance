@@ -46,7 +46,6 @@ public class LockService extends Service {
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         if (ProcessUtil.isNeededInBackground(this)) {
-
             ToastUtil.show(this, "23333~", true);
 
 

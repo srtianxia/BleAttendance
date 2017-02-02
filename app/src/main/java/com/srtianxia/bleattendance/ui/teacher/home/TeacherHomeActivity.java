@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
-import com.srtianxia.bleattendance.entity.NewCourseEntity;
+import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.query.AttendanceFragment;
@@ -54,7 +54,7 @@ public class TeacherHomeActivity extends BaseActivity
     public List<Integer> mStuNumber = new ArrayList<>();
 
     // 考勤需要post
-    private NewCourseEntity.Course mCurrentCourse;
+    private Course mCurrentCourse;
     private String mCurrentWeek;
 
     private String mUuid;
@@ -145,7 +145,7 @@ public class TeacherHomeActivity extends BaseActivity
         mNumberList.add(number);
     }
 
-    public NewCourseEntity.Course getCourseInfo() {
+    public Course getCourseInfo() {
         return mCurrentCourse;
     }
 

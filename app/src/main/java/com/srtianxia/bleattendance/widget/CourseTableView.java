@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
-import com.srtianxia.bleattendance.entity.NewCourseEntity;
+import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -80,11 +80,11 @@ public class CourseTableView extends FrameLayout {
      *
      * @param data 某周的所有课程信息（courselist<course>）
      */
-    public void addContentView(List<NewCourseEntity.Course> data) {
+    public void addContentView(List<Course> data) {
         Log.i(TAG, "addContentView");
         removeAllViews();
         initCourse();
-        for (NewCourseEntity.Course aData : data) {
+        for (Course aData : data) {
             //设置颜色
             courseColorSelector.addCourseColors(aData.begin_lesson, aData.hash_day);
 
@@ -119,7 +119,7 @@ public class CourseTableView extends FrameLayout {
      * @param courses 某个格子的课程、事件的courselist
      */
     private void createLessonText(CourseList courses) {
-        NewCourseEntity.Course course = courses.list.get(0);
+        Course course = courses.list.get(0);
         height = DensityUtil.dp2px(getContext(), 100);
 
         TextView tv = new TextView(context);
@@ -218,7 +218,7 @@ public class CourseTableView extends FrameLayout {
     }
 
     public static class CourseList {
-        public ArrayList<NewCourseEntity.Course> list = new ArrayList<>();
+        public ArrayList<Course> list = new ArrayList<>();
     }
 
     public interface OnLongClickListener {

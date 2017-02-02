@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
-import com.srtianxia.bleattendance.entity.NewCourseEntity;
+import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class CourseDialog {
     public static class CoursePagerAdapter extends PagerAdapter{
         private Context context;
         private LayoutInflater mInflater;
-        private ArrayList<NewCourseEntity.Course> mCourseList;
+        private ArrayList<Course> mCourseList;
         private Dialog mDialog;
 
 
@@ -68,7 +68,7 @@ public class CourseDialog {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View courseview = container.getChildAt(position);
-            NewCourseEntity.Course course = mCourseList.get(position);
+            Course course = mCourseList.get(position);
 
             if (courseview == null){
                 courseview = mInflater.inflate(R.layout.item_dialog_course,container,false);

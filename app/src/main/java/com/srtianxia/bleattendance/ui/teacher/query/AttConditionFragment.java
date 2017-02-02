@@ -9,7 +9,7 @@ import android.widget.ExpandableListView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
-import com.srtianxia.bleattendance.entity.NewCourseEntity;
+import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
         mConditionAdapter.notifyDataSetChanged();
     }
 
-    public void postAttendanceInfo(NewCourseEntity.Course course, int week) {
+    public void postAttendanceInfo(Course course, int week) {
         mPresenter.postAttendanceInfo(course, week);
 //        mPresenter.loadAttendanceInfo(course.jxbID);
 

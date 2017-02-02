@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
-import com.srtianxia.bleattendance.entity.NewCourseEntity;
+import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.entity.StuEntity;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
@@ -49,7 +49,7 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     private CoursePresenter coursePresenter;
 
-    private List<NewCourseEntity.Course> courseList = new ArrayList<>();
+    private List<Course> courseList = new ArrayList<>();
 
     private TeacherHomeActivity mTeacherHomeActivity;
     private StudentHomeActivity mStudentHomeActivity;
@@ -68,6 +68,9 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
         mMonth.setText("9" + "\n" + "月");
 
         initDraw();
+
+        // todo:如果mWeek = 本周，则……
+        coursePresenter.loadData();
 
         mCourseTableView.setOnLongClickListener(courses -> {
             DialogUtils.getInstance().showDialog(getActivity(), "课程选择", "是否选择：第 " + getWeek() + "  周 " + courses.list.get(0).course + " ？",
@@ -88,11 +91,8 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
                     });
         });
 
-        // todo:如果mWeek = 本周，则……
-        coursePresenter.loadData();
-
         mCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
-            coursePresenter.loadData();
+            coursePresenter.updateData();
         });
     }
 
@@ -130,8 +130,8 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
     }
 
     @Override
-    public void showCourse(List<NewCourseEntity.Course> courses) {
-        List<NewCourseEntity.Course> tempCourseList = new ArrayList<>();
+    public void showCourse(List<Course> courses) {
+        List<Course> tempCourseList = new ArrayList<>();
         tempCourseList.addAll(courses);
         if (mCourseTableView != null) {
             mCourseTableView.clearList();

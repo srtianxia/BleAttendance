@@ -4,7 +4,7 @@ import com.orhanobut.logger.Logger;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.entity.AttInfoEntity;
-import com.srtianxia.bleattendance.entity.NewCourseEntity;
+import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.entity.StuInfoEntity;
 import com.srtianxia.bleattendance.entity.StuListEntity;
 import com.srtianxia.bleattendance.http.ApiUtil;
@@ -30,7 +30,7 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
         mApi = ApiUtil.createApi(Api.class, ApiUtil.getBaseUrl());
     }
 
-    public void postAttendanceInfo(NewCourseEntity.Course course, int week) {
+    public void postAttendanceInfo(Course course, int week) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getStuList(token, course.jxbID).flatMap(stuListEntity -> {
             String status = mergeAttendanceStatus(stuListEntity, getView().getBleAttendanceInfo());
@@ -49,7 +49,7 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
      *
      * @param course
      */
-    public void getAllStuList(NewCourseEntity.Course course) {
+    public void getAllStuList(Course course) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getStuList(token, course.jxbID).compose(RxSchedulersHelper.io2main())
                 .subscribe(entity -> {

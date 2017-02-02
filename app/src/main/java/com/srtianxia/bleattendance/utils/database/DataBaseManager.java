@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Created by 梅梅 on 2017/1/30.
@@ -215,6 +216,34 @@ public class DataBaseManager {
             return stuCourse;
         }
         return null;
+    }
+
+    public boolean deleteTeaCourse(){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<DBTeaCourseEntity> results = realm.where(DBTeaCourseEntity.class).findAll();
+                if (results.size() == 0){
+                    return ;
+                }
+                results.deleteAllFromRealm();
+            }
+        });
+        return true;
+    }
+
+    public boolean deleteStuCourse(){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<DBStuCourseEntity> results = realm.where(DBStuCourseEntity.class).findAll();
+                if (results.size() == 0){
+                    return ;
+                }
+                results.deleteAllFromRealm();
+            }
+        });
+        return true;
     }
 
     public boolean isTeaCourse(int week){

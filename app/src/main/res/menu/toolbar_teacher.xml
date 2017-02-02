@@ -32,4 +32,9 @@
         android:title="@string/action_post_uuid"
         app:showAsAction="never"
         />
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/action_logout"
+        />
+
 </menu>

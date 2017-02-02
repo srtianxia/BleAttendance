@@ -11,11 +11,15 @@ import android.widget.TextView;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.entity.Course;
+import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.query.AttendanceFragment;
 import com.srtianxia.bleattendance.utils.DialogUtils;
+import com.srtianxia.bleattendance.utils.PreferenceManager;
+import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.utils.UuidUtil;
+import com.srtianxia.bleattendance.utils.database.DataBaseManager;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
 import java.util.ArrayList;
@@ -103,6 +107,13 @@ public class TeacherHomeActivity extends BaseActivity
                 break;
             case R.id.action_connect_all:
                 mTeacherScanFragment.connectAll();
+                break;
+            case R.id.action_logout:
+                PreferenceManager.getInstance().setString(PreferenceManager.SP_TOKEN_TEACHER,"");
+                PreferenceManager.getInstance().setString(PreferenceManager.SP_LOGIN_FLAG,"");
+                DataBaseManager.getInstance().deleteTeaCourse();
+                UiHelper.startActivity(this, MainActivity.class);
+                finish();
                 break;
         }
 

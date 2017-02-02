@@ -10,10 +10,14 @@ import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
+import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.student.attendance.StudentAttendanceFragment;
 import com.srtianxia.bleattendance.ui.student.table.CourseTableFragment;
+import com.srtianxia.bleattendance.utils.PreferenceManager;
+import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.utils.UuidUtil;
+import com.srtianxia.bleattendance.utils.database.DataBaseManager;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
 import butterknife.BindView;
@@ -67,12 +71,24 @@ public class StudentHomeActivity extends BaseActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.toolbar_student,menu);
+        return true;
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_logout:
+                PreferenceManager.getInstance().setString(PreferenceManager.SP_TOKEN_STUDENT,"");
+                PreferenceManager.getInstance().setString(PreferenceManager.SP_LOGIN_FLAG,"");
+                DataBaseManager.getInstance().deleteStuCourse();
+                UiHelper.startActivity(this, MainActivity.class);
+                finish();
+                break;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

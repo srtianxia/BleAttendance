@@ -56,8 +56,10 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
         String flag = PreferenceManager.getInstance().getString(PreferenceManager.SP_LOGIN_FLAG, "");
         if (TextUtils.equals(flag, PreferenceManager.SP_LOGIN_FLAG_STU)) {
             UiHelper.startActivity(getActivity(), StudentHomeActivity.class);
+            getActivity().finish();
         } else if (TextUtils.equals(flag, PreferenceManager.SP_LOGIN_FLAG_TEA)) {
             UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
+            getActivity().finish();
         }
     }
 
@@ -72,7 +74,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
     @OnClick(R.id.btn_login)
     void clickToStudent() {
         // todo 先放在这儿 这里保存的逻辑应该移动到model层
-        if ("".equals(getStuNum())) {
+        if ("".equals(getStuNum()) || "".equals(getPassword())) {
             ToastUtil.show(getActivity(), "not allow null", true);
             return;
         }
@@ -124,6 +126,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
         DialogUtils.getInstance().dismissProgressDialog();
         PreferenceManager.getInstance().setString(PreferenceManager.SP_LOGIN_FLAG, PreferenceManager.SP_LOGIN_FLAG_TEA);
         UiHelper.startActivity(getActivity(), TeacherHomeActivity.class);
+        getActivity().finish();
     }
 
     @Override
@@ -156,6 +159,7 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
                 startActivity(new Intent(getActivity(), StudentHomeActivity.class),
                         ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
                 getActivity().finishAfterTransition();
+                getActivity().finish();
             }
 
 

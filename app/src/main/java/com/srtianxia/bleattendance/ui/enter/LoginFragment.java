@@ -19,6 +19,7 @@ import com.srtianxia.bleattendance.di.module.LoginModule;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.DialogUtils;
+import com.srtianxia.bleattendance.utils.NetWorkUtils;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 import com.srtianxia.bleattendance.utils.UiHelper;
@@ -66,7 +67,14 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
     @OnClick(R.id.tv_link_teacher_enter)
     void clickToTeacher() {
-        DialogUtils.getInstance().showProgressDialog(getActivity(), "登录中...");
+        if ("".equals(getStuNum())) {
+            ToastUtil.show(getActivity(), getResources().getString(R.string.login_error_name_null), true);
+            return;
+        }else if ("".equals(getPassword())){
+            ToastUtil.show(getActivity(), getResources().getString(R.string.login_error_password_null), true);
+            return;
+        }
+        DialogUtils.getInstance().showProgressDialog(getActivity(), getResources().getString(R.string.login_dialog));
         mPresenter.teacherLogin();
     }
 
@@ -74,8 +82,11 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
     @OnClick(R.id.btn_login)
     void clickToStudent() {
         // todo 先放在这儿 这里保存的逻辑应该移动到model层
-        if ("".equals(getStuNum()) || "".equals(getPassword())) {
-            ToastUtil.show(getActivity(), "not allow null", true);
+        if ("".equals(getStuNum())) {
+            ToastUtil.show(getActivity(), getResources().getString(R.string.login_error_name_null), true);
+            return;
+        }else if ("".equals(getPassword())){
+            ToastUtil.show(getActivity(), getResources().getString(R.string.login_error_password_null), true);
             return;
         }
         mPresenter.studentLogin();
@@ -110,7 +121,11 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
     @Override
     public void studentLoginFailure() {
-        ToastUtil.show(getActivity(), "password error", true);
+        if (NetWorkUtils.isNetworkConnected(getActivity())){
+            ToastUtil.show(getActivity(),getResources().getString(R.string.login_error_passwork_error), true);
+        }else {
+            ToastUtil.show(getActivity(), getResources().getString(R.string.login_error_not_network),true);
+        }
         // 这边登录失败还要变回按钮才行
         btnLogin.executeLoginFailure();
         btnLogin.setClickable(true);
@@ -131,6 +146,11 @@ public class LoginFragment extends BaseFragment implements LoginPresenter.ILogin
 
     @Override
     public void teacherLoginFailure() {
+        if (NetWorkUtils.isNetworkConnected(getActivity())){
+            ToastUtil.show(getActivity(),getResources().getString(R.string.login_error_passwork_error), true);
+        }else {
+            ToastUtil.show(getActivity(), getResources().getString(R.string.login_error_not_network),true);
+        }
         DialogUtils.getInstance().dismissProgressDialog();
     }
 

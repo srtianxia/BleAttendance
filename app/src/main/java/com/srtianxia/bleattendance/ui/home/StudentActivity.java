@@ -21,8 +21,6 @@ import com.srtianxia.bleattendance.utils.SchoolCalendar;
 import com.srtianxia.bleattendance.utils.ScreenUtils;
 import com.srtianxia.bleattendance.widget.CoursesTableView;
 
-import java.util.Calendar;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -82,7 +80,7 @@ public class StudentActivity extends BaseActivity implements StudentPresenter.IS
 
             TextView monthData = new TextView(this);
             monthData.setLayoutParams(layoutParams);
-            monthData.setText(schoolCalendar.getCurrentDay().get(Calendar.DAY_OF_MONTH) + "");
+//            monthData.setText(schoolCalendar.getCurrentDay().get(Calendar.DAY_OF_MONTH) + "");
             monthData.setTextSize(14.0F);
             monthData.setGravity(Gravity.CENTER);
             containerCourseData.addView(monthData);

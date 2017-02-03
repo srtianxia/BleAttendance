@@ -29,8 +29,22 @@
     <!--课表的颜色-->
     <color name="course_Blue">#64d2f7</color>
     <color name="course_Yellow">#f9af58</color>
-    <color name="course_Green">#79dbc4</color>
+    <color name="course_Green">#86d9a1</color>
     <color name="course_Gray">#bdc3c7</color>
+    <color name="course_Red">#e79fa0</color>
+    <color name="course_Green1">#72bfab</color>
+    <color name="course_Blue1">#5fc0e3</color>
+    <color name="course_Yellow1">#e3c472</color>
+    <color name="course_Red1">#f1aa8a</color>
+    <color name="course_Green2">#9ed057</color>
+    <color name="course_Blue2">#7ba7e8</color>
+    <color name="course_Red2">#caa99d</color>
+    <color name="course_Blue3">#aaa3d9</color>
+    <color name="course_Blue4">#81d1d3</color>
+    <color name="course_Blue5">#7ba3c7</color>
+
+
+
 
     <color name="toolbar_text_Color_Primary">#43C6AC</color>
 

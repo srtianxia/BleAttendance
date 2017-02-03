@@ -45,7 +45,8 @@ public class AttListAdapter extends BaseAdapter<String> {
     }
 
 
-    @Override public void loadData(List<String> mData) {
+    @Override
+    public void loadData(List<String> mData) {
         super.loadData(mData);
     }
 
@@ -53,8 +54,6 @@ public class AttListAdapter extends BaseAdapter<String> {
     public void addData(String data) {
         super.addData(data);
     }
-
-
 
     public static class AttViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_child_content)

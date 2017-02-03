@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.utils.DensityUtil;
+import com.srtianxia.bleattendance.utils.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,13 +81,15 @@ public class CourseTableView extends FrameLayout {
      *
      * @param data 某周的所有课程信息（courselist<course>）
      */
-    public void addContentView(List<Course> data) {
+    public void addContentView(List<Course> data,String week) {
         Log.i(TAG, "addContentView");
         removeAllViews();
         initCourse();
         for (Course aData : data) {
             //设置颜色
-            courseColorSelector.addCourseColors(aData.begin_lesson, aData.hash_day);
+            if (week.equals("0")){
+                courseColorSelector.addCourseColors(aData.course);
+            }
 
             int x = aData.hash_day;
             int y = aData.hash_lesson;
@@ -140,7 +143,7 @@ public class CourseTableView extends FrameLayout {
 
         GradientDrawable gd = new GradientDrawable();
         gd.setCornerRadius(DensityUtil.dp2px(getContext(), 1));
-        gd.setColor(courseColorSelector.getCourseColors(course.begin_lesson, course.hash_day));
+        gd.setColor(courseColorSelector.getCourseColors(course.course));
 
         tv.setBackground(gd);
 
@@ -189,15 +192,26 @@ public class CourseTableView extends FrameLayout {
 
         private int[] courseColors = new int[]{
                 R.color.course_Blue,
-                R.color.course_Yellow,
                 R.color.course_Green,
-                R.color.course_Gray
+                R.color.course_Blue1,
+                R.color.course_Green1,
+                R.color.course_Blue5,
+                R.color.course_Green2,
+                R.color.course_Blue4,
+                R.color.course_Yellow1,
+                R.color.course_Blue2,
+                R.color.course_Red1,
+                R.color.course_Blue3,
+                R.color.course_Yellow,
+                R.color.course_Red2,
+                R.color.course_Gray,
+
         };
 
         HashMap<String, Integer> mCourseColorMap = new HashMap<>();
 
-        public void addCourseColors(int beginLesson, int hashDay) {
-            if (hashDay >= 5)
+        public void addCourseColors(String name) {
+            /*if (hashDay >= 5)
                 mCourseColorMap.put(beginLesson + "," + hashDay, courseColors[3]);
             else if (beginLesson < 5)
                 mCourseColorMap.put(beginLesson + "," + hashDay, courseColors[0]);
@@ -205,11 +219,16 @@ public class CourseTableView extends FrameLayout {
                 mCourseColorMap.put(beginLesson + "," + hashDay, courseColors[1]);
             else
                 mCourseColorMap.put(beginLesson + "," + hashDay, courseColors[2]);
-
+            */
+            if (!mCourseColorMap.containsKey(name)){
+                mCourseColorMap.put(name,courseColors[mCourseColorMap.size()]);
+                PreferenceManager.getInstance().setInteger(name,courseColors[mCourseColorMap.size()]);
+            }
         }
 
-        public int getCourseColors(int beginLesson, int hashDay) {
-            return getResources().getColor(mCourseColorMap.get(beginLesson + "," + hashDay));
+        public int getCourseColors(String name) {
+
+            return getResources().getColor(PreferenceManager.getInstance().getInteger(name));
         }
     }
 

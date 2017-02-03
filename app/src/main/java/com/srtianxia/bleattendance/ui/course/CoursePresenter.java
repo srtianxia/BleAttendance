@@ -102,14 +102,14 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> 
 
     private void loadStuSuccess(NewCourseEntity stuCourseEntity) {
         Log.i(TAG,"loadStuSuccess");
-        getView().showCourse(stuCourseEntity.data);
+        getView().showCourse(stuCourseEntity.data,getView().getWeek());
         DataBaseManager.getInstance().addStuCourse(stuCourseEntity,Integer.parseInt(getView().getWeek()));
         getView().unshowRefreshing();
     }
 
     private void loadTeaSuccess(TeaCourseEntity teaCourseEntity) {
         Log.i(TAG,"loadTeaSuccess");
-        getView().showCourse(NewCourseEntity.Tea2NewCourse(teaCourseEntity).data);
+        getView().showCourse(NewCourseEntity.Tea2NewCourse(teaCourseEntity).data,getView().getWeek());
         DataBaseManager.getInstance().addTeaCourse(teaCourseEntity,Integer.parseInt(getView().getWeek()));
         getView().unshowRefreshing();
     }
@@ -128,7 +128,7 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> 
 
     public interface ICourseView extends BaseView {
 
-        void showCourse(List<Course> courses);
+        void showCourse(List<Course> courses,String week);
 
         void showCourseFailure(Throwable throwable);
 

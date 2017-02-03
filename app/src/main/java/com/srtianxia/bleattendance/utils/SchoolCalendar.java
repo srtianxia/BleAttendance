@@ -9,9 +9,8 @@ import java.util.GregorianCalendar;
  */
 public class SchoolCalendar {
     //本学期开开学第一天 Calender的月份需要真实月份 -1
-    private Calendar firstDay = new GregorianCalendar(2016, 2 - 1, 29);
+    private Calendar firstDay = new GregorianCalendar(2016, 9 - 1, 5);
     private Calendar currentDay;
-
 
     /**
      * @param week 第几周
@@ -27,8 +26,12 @@ public class SchoolCalendar {
     }
 
 
-    public Calendar getCurrentDay() {
-        return currentDay;
+    public int getCurrentDay() {
+        return currentDay.get(Calendar.DATE);
+    }
+
+    public int getCurrentMonth(){
+        return currentDay.get(Calendar.MONTH)+1;
     }
 
 

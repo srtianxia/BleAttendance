@@ -36,10 +36,8 @@ public class CourseDialog {
                 .setTitle("详细信息")
                 .setCancelable(true)
                 .setView(layout, DensityUtil.dp2px(context, 12), DensityUtil.dp2px(context, 24)
-                        , DensityUtil.dp2px(context, 12), DensityUtil.dp2px(context, 24))
+                        , DensityUtil.dp2px(context, 12), 0/*DensityUtil.dp2px(context, 24)*/)
                 .create();
-
-
 
         CoursePagerAdapter adapter = new CoursePagerAdapter(context,inflater,courseList,dialog);
         courseDetailView.setAdapter(adapter);

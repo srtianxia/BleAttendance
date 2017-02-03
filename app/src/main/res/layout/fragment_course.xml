@@ -15,8 +15,9 @@
             android:id="@+id/text_month"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
+            android:paddingTop="4dp"
             android:gravity="center"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <!--日期和周数-->
         <LinearLayout
@@ -26,8 +27,8 @@
 
             <LinearLayout
                 android:id="@+id/linearlayout_weekday"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingRight="16dp"
                 android:paddingTop="4dp"/>
@@ -68,11 +69,10 @@
                     android:orientation="horizontal">
 
                     <!--课程节数-->
-                    <LinearLayout
-                        android:id="@+id/linearlayout_course_time"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view_course_time"
                         android:layout_width="40dp"
-                        android:layout_height="600dp"
-                        android:orientation="vertical"/>
+                        android:layout_height="600dp" />
 
                     <!--课表内容-->
                     <com.srtianxia.bleattendance.widget.CourseTableView

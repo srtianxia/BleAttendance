@@ -3,7 +3,10 @@ package com.srtianxia.bleattendance.ui.course;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,11 +14,13 @@ import android.widget.TextView;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.entity.Course;
+import com.srtianxia.bleattendance.entity.CourseTimeEntity;
 import com.srtianxia.bleattendance.entity.StuEntity;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.DensityUtil;
 import com.srtianxia.bleattendance.utils.DialogUtils;
+import com.srtianxia.bleattendance.utils.SchoolCalendar;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
 import java.util.ArrayList;
@@ -33,8 +38,8 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
     LinearLayout mWeekday;
     @BindView(R.id.linearlayout_weeks)
     LinearLayout mWeeks;
-    @BindView(R.id.linearlayout_course_time)
-    LinearLayout mCourse_time;
+    @BindView(R.id.recycler_view_course_time)
+    RecyclerView mCourse_time;
     @BindView(R.id.swipe_refresh_layout_course)
     SwipeRefreshLayout mCourseSwipeRefreshLayout;
     @BindView(R.id.course_tab_view_course)
@@ -57,6 +62,7 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
     @Override
     protected void initView() {
         mWeek = getArguments().getInt(BUNDLE_KEY);
+
         coursePresenter = new CoursePresenter(this);
         int mScreenHeight = DensityUtil.getScreenHeight(getContext());
 
@@ -65,7 +71,6 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
             mCourse_time.setLayoutParams(new LinearLayout.LayoutParams(DensityUtil.dp2px(getContext(), 40), mScreenHeight));
             mCourseTableView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
         }
-        mMonth.setText("9" + "\n" + "月");
 
         initDraw();
 
@@ -98,25 +103,47 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     private void initDraw() {
 
-        String[] data = getResources().getStringArray(R.array.course_weeks);
+        String[] str_weeks = getResources().getStringArray(R.array.course_weeks);
+        String[] str_times = getResources().getStringArray(R.array.course_time_1);
+        String month = new SchoolCalendar(mWeek,1).getCurrentMonth()+"";
+
+        if (mWeek == 0){
+            mWeekday.setVisibility(View.GONE);
+        }
+        else{
+            mMonth.setText(month + "\n" + "月");
+            mWeekday.setVisibility(View.VISIBLE);
+        }
 
         for (int i = 0; i < 7; i++) {
+            //添加日期
+            SchoolCalendar calendar = new SchoolCalendar(mWeek,i+1);
+            TextView tv_day = new TextView(getActivity());
+            LinearLayout.LayoutParams params_day = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1);
+            tv_day.setLayoutParams(params_day);
+            tv_day.setText(calendar.getCurrentDay()+"");
+            tv_day.setTextColor(getResources().getColor(R.color.colorGrey_content));
+            tv_day.setGravity(Gravity.CENTER);
+            mWeekday.addView(tv_day);
             //添加周数
             TextView tv = new TextView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
             tv.setLayoutParams(params);
-            tv.setText(data[i]);
+            tv.setText(str_weeks[i]);
             tv.setGravity(Gravity.CENTER);
             mWeeks.addView(tv);
         }
-        for (int i = 0; i < 12; i++) {
-            TextView tv_course_time = new TextView(getActivity());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
-            tv_course_time.setLayoutParams(params);
-            tv_course_time.setText(i + 1 + "");
-            tv_course_time.setGravity(Gravity.CENTER);
-            mCourse_time.addView(tv_course_time);
+
+        CourseTimeAdapter courseTimeAdapter = new CourseTimeAdapter(getContext());
+        mCourse_time.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mCourse_time.setAdapter(courseTimeAdapter);
+        List<CourseTimeEntity> courseTimeEntities = new ArrayList<>();
+        for (int i = 0; i < 12; i++){
+            CourseTimeEntity temp = new CourseTimeEntity(str_times[i],(i+1)+"");
+            courseTimeEntities.add(temp);
         }
+        courseTimeAdapter.loadData(courseTimeEntities);
+
     }
 
     @Override
@@ -130,12 +157,12 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
     }
 
     @Override
-    public void showCourse(List<Course> courses) {
+    public void showCourse(List<Course> courses,String week) {
         List<Course> tempCourseList = new ArrayList<>();
         tempCourseList.addAll(courses);
         if (mCourseTableView != null) {
             mCourseTableView.clearList();
-            mCourseTableView.addContentView(tempCourseList);
+            mCourseTableView.addContentView(tempCourseList,week);
         }
     }
 

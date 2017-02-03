@@ -11,4 +11,6 @@
     
     <dimen name="expandable_parent_tv_size">16sp</dimen>
     <dimen name="expandable_child_tv_size">14sp</dimen>
+
+    <dimen name="course_time_tv_size">12sp</dimen>
 </resources>

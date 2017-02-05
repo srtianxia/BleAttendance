@@ -41,6 +41,8 @@ public class CourseTableView extends FrameLayout {
 
     private Context context;
 
+    private String mWeek;
+
     public CourseTableView(Context context) {
         super(context);
     }
@@ -85,6 +87,7 @@ public class CourseTableView extends FrameLayout {
         Log.i(TAG, "addContentView");
         removeAllViews();
         initCourse();
+        mWeek = week;
         for (Course aData : data) {
             //设置颜色
             if (week.equals("0")){
@@ -142,7 +145,7 @@ public class CourseTableView extends FrameLayout {
 
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setCornerRadius(DensityUtil.dp2px(getContext(), 1));
+        gd.setCornerRadius(DensityUtil.dp2px(getContext(), 3));
         gd.setColor(courseColorSelector.getCourseColors(course.course));
 
         tv.setBackground(gd);
@@ -192,19 +195,23 @@ public class CourseTableView extends FrameLayout {
 
         private int[] courseColors = new int[]{
                 R.color.course_Blue,
-                R.color.course_Green,
                 R.color.course_Blue1,
-                R.color.course_Green1,
-                R.color.course_Blue5,
-                R.color.course_Green2,
-                R.color.course_Blue4,
-                R.color.course_Yellow1,
                 R.color.course_Blue2,
-                R.color.course_Red1,
+                R.color.course_Blue4,
                 R.color.course_Blue3,
-                R.color.course_Yellow,
-                R.color.course_Red2,
-                R.color.course_Gray,
+                R.color.course_Blue5,
+
+                R.color.course_Cyan1,
+                R.color.course_Cyan2,
+                R.color.course_Cyan3,
+                R.color.course_Cyan4,
+                R.color.course_Cyan5,
+
+                R.color.course_Green1,
+                R.color.course_Green2,
+                R.color.course_Green3,
+                R.color.course_Green4,
+
 
         };
 
@@ -227,6 +234,10 @@ public class CourseTableView extends FrameLayout {
         }
 
         public int getCourseColors(String name) {
+
+            if (mWeek.equals("0")){
+                return getResources().getColor(R.color.course_Gray);
+            }
 
             return getResources().getColor(PreferenceManager.getInstance().getInteger(name));
         }

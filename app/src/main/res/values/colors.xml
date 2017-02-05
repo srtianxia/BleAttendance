@@ -6,8 +6,8 @@
     <color name="colorAccent">#43C6AC</color>-->
 
     新主题颜色
-    <color name="colorPrimary">#82DAC9</color>
-    <color name="colorPrimaryDark">#43C6AC</color>
+    <color name="colorPrimary">#1D8AE7</color>
+    <color name="colorPrimaryDark">#166EB8</color>
     <color name="colorAccent">#757575</color>
     <color name="tabIndicatorColor">#c9c9c9</color>
     <color name="tabText">#66000000</color>
@@ -24,28 +24,44 @@
     <color name="colorBlack_title">#333333</color>
 
 
-    <color name="lollipop_status_bar_grey">#616161</color>
+    <color name="lollipop_status_bar_grey">#1D8AE7</color>
 
     <!--课表的颜色-->
-    <color name="course_Blue">#64d2f7</color>
-    <color name="course_Yellow">#f9af58</color>
+    <!--<color name="course_Blue">#64d2f7</color>
+    <color name="course_Yellow">#b3e5fc</color>
     <color name="course_Green">#86d9a1</color>
     <color name="course_Gray">#bdc3c7</color>
-    <color name="course_Red">#e79fa0</color>
+    <color name="course_Red">#0097a7</color>
     <color name="course_Green1">#72bfab</color>
     <color name="course_Blue1">#5fc0e3</color>
-    <color name="course_Yellow1">#e3c472</color>
-    <color name="course_Red1">#f1aa8a</color>
+    <color name="course_Yellow1">#4dd0e1</color>
+    <color name="course_Red1">#80cbc4</color>
     <color name="course_Green2">#9ed057</color>
     <color name="course_Blue2">#7ba7e8</color>
     <color name="course_Red2">#caa99d</color>
     <color name="course_Blue3">#aaa3d9</color>
     <color name="course_Blue4">#81d1d3</color>
-    <color name="course_Blue5">#7ba3c7</color>
+    <color name="course_Blue5">#7ba3c7</color>-->
+
+    <color name="course_Blue">#81d4fa</color>
+    <color name="course_Blue1">#4fc3f7</color>
+    <color name="course_Blue2">#29b6f6</color>
+    <color name="course_Blue3">#03a9f4</color>
+    <color name="course_Blue4">#039be5</color>
+    <color name="course_Blue5">#00acc1</color>
+    <color name="course_Cyan1">#80deea</color>
+    <color name="course_Cyan2">#4dd0e1</color>
+    <color name="course_Cyan3">#26c6da</color>
+    <color name="course_Cyan4">#00bcd4</color>
+    <color name="course_Cyan5">#4db6ac</color>
+    <color name="course_Green1">#26a69a</color>
+    <color name="course_Green2">#0096bb</color>
+    <color name="course_Green3">#00897b</color>
+    <color name="course_Green4">#00796b</color>
+
+    <color name="course_Gray">#bdc3c7</color>
 
 
-
-
-    <color name="toolbar_text_Color_Primary">#43C6AC</color>
+    <color name="toolbar_text_Color_Primary">#1D8AE7</color>
 
 </resources>

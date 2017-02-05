@@ -37,19 +37,19 @@
 
         <activity
             android:theme="@style/AppThemeNoActionbar"
-            android:name=".ui.lockactivity.LockActivity"
+            android:name=".ui.lock.LockActivity"
             android:launchMode="singleInstance"/>
         <activity
             android:theme="@style/AppThemeNoActionbar"
-            android:name=".ui.lockactivity.LockActivity1"
+            android:name=".ui.lock.LockActivity1"
             android:launchMode="singleInstance"/>
         <activity
             android:theme="@style/AppThemeNoActionbar"
-            android:name=".ui.lockactivity.LockActivity2"
+            android:name=".ui.lock.LockActivity2"
             android:launchMode="singleInstance"/>
         <activity
             android:theme="@style/AppThemeNoActionbar"
-            android:name=".ui.lockactivity.LockActivity3"
+            android:name=".ui.lock.LockActivity3"
             android:launchMode="singleInstance"/>
     </application>
 

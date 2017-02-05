@@ -9,8 +9,8 @@
         android:id="@+id/tab_course_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/colorPrimaryDark"
-        app:tabSelectedTextColor="@color/colorPrimaryDark"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/colorPrimary"
         app:tabMode="scrollable"
         app:tabTextColor="@color/tabText">
     </android.support.design.widget.TabLayout>

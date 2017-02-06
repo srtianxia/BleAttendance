@@ -3,6 +3,7 @@ package com.srtianxia.bleattendance.ui.course;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
@@ -24,6 +25,8 @@ public class CourseContainerFragment extends BaseFragment {
     @BindView(R.id.vp_course_container)
     ViewPager mViewPager;
 
+    private final String TAG = "CourseContainerFragment";
+
     //    private TabPagerAdapter mAdapter;
     private BetterVpAdapter mAdapter;
     private List<BaseFragment> mFragmentList = new ArrayList<>();
@@ -39,6 +42,8 @@ public class CourseContainerFragment extends BaseFragment {
         mAdapter = new BetterVpAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabs.setupWithViewPager(mViewPager);
+        Log.i(TAG,"initview");
+//        countDown(20);
 
     }
 
@@ -90,4 +95,5 @@ public class CourseContainerFragment extends BaseFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
+
 }

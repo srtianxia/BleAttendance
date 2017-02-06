@@ -57,5 +57,6 @@ public class StuAttendancePresenter extends BasePresenter<StuAttendancePresenter
         void setAttState();
 
         String getUuid();
+
     }
 }

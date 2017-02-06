@@ -34,7 +34,6 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     @BindView(R.id.tv_attention_state)
     TextView tvAttentionState;
 
-
     private AnimationDrawable mFrameAnim;
 
     private int mAdvState = STATE_DIS_ADV;
@@ -51,6 +50,7 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
         mFrameAnim = (AnimationDrawable) ContextCompat.getDrawable(getActivity(), R.drawable.adv_state_anim);
         imgAdvState.setBackground(mFrameAnim);
         tvAttentionState.setText(mAttState);
+
     }
 
     @Override
@@ -71,6 +71,7 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @OnClick(R.id.btn_advertise)
     void advertise() {

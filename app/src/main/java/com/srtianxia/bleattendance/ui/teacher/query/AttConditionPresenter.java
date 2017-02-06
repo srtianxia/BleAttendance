@@ -98,6 +98,8 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
         return builder.toString();
     }
 
+
+
     @Override
     public AttConditionFragment getViewType() {
         return (AttConditionFragment) getView();

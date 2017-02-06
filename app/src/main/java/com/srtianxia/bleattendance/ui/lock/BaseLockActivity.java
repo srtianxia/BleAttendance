@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.ui.lockactivity;
+package com.srtianxia.bleattendance.ui.lock;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,7 +6,7 @@ import android.content.Intent;
 /**
  * Created by 梅梅 on 2016/8/31.
  */
-public class BaseLockActivity extends Activity {
+public class BaseLockActivity extends Activity implements LockPresenter.ILockView{
 
     @Override
     public void onBackPressed() {
@@ -15,5 +15,10 @@ public class BaseLockActivity extends Activity {
         startActivity(MyIntent);
 
         finish();
+    }
+
+    @Override
+    public void showTime(String time) {
+
     }
 }

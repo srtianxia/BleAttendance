@@ -48,7 +48,6 @@ public class CourseTimeAdapter extends BaseAdapter<CourseTimeEntity>{
 
     @Override
     public void loadData(List<CourseTimeEntity> mData) {
-
         super.loadData(mData);
     }
 

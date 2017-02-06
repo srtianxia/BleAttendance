@@ -19,12 +19,15 @@
     <color name="white">#ffffff</color>
     <color name="colorWhite_bg">#F5F5F5</color>
     <color name="colorGrey_unselecte">#C8C8C8</color>
-    <color name="textColorBlack">#000000</color>
+    <color name="black">#000000</color>
     <color name="colorGrey_content">#888888</color>
     <color name="colorBlack_title">#333333</color>
 
 
     <color name="lollipop_status_bar_grey">#1D8AE7</color>
+
+    <color name="fab_color_pressed">#999999</color>
+    <color name="fab_color_ripple">#AA999999</color>
 
     <!--课表的颜色-->
     <!--<color name="course_Blue">#64d2f7</color>

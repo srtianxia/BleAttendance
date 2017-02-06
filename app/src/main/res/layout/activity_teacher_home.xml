@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -54,16 +55,82 @@
             android:layout_above="@+id/bottom_view"
             android:layout_below="@+id/appbarlayout" />
 
+        <TextView
+            android:id="@+id/tv_tea_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_view"
+            android:layout_below="@+id/appbarlayout"
+            android:visibility="invisible"
+            android:background="#AAFFFFFF"/>
 
     </RelativeLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add_att_info"
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_tea_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="60dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        app:menu_showShadow="true"
+        app:menu_colorNormal="@color/colorPrimary"
+        app:menu_colorPressed="@color/colorPrimary"
+        app:menu_labels_colorNormal="@color/white"
+        app:menu_labels_colorPressed="@color/fab_color_pressed"
+        app:menu_labels_colorRipple="@color/fab_color_ripple"
+        app:menu_labels_textColor="@color/black">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_tea_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_tea_scan"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/fab_color_pressed"
+            app:fab_colorRipple="@color/fab_color_ripple"
+            app:fab_size="mini"
+            app:fab_label="@string/fab_tea_scan"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_tea_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_tea_lock"
+            app:fab_showShadow="true"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/fab_color_pressed"
+            app:fab_colorRipple="@color/fab_color_ripple"
+            app:fab_size="mini"
+            app:fab_label="@string/fab_tea_write"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_tea_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_tea_connect"
+            app:fab_showShadow="true"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/fab_color_pressed"
+            app:fab_colorRipple="@color/fab_color_ripple"
+            app:fab_size="mini"
+            app:fab_label="@string/fab_tea_connect"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_tea_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_tea_input"
+            app:fab_colorNormal="@color/white"
+            app:fab_colorPressed="@color/fab_color_pressed"
+            app:fab_colorRipple="@color/fab_color_ripple"
+            app:fab_label="@string/fab_tea_input"
+            app:fab_size="mini"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>
 

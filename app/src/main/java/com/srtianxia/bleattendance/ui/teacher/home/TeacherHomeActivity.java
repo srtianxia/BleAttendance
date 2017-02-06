@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.entity.Course;
@@ -37,10 +39,23 @@ public class TeacherHomeActivity extends BaseActivity
     BottomNavigationView mBottomView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    //    @BindView(R.id.tv_current_course)
-//    TextView tvCurrentCourse;
     @BindView(R.id.tv_toolbar_title)
     TextView toolbar_title;
+    @BindView(R.id.tv_tea_cover)
+    TextView mCover;
+    @BindView(R.id.fab_tea_menu)
+    FloatingActionMenu mFabMenu;
+    @BindView(R.id.fab_tea_connect)
+    FloatingActionButton mFabConnect;
+    @BindView(R.id.fab_tea_input)
+    FloatingActionButton mFabInput;
+    @BindView(R.id.fab_tea_scan)
+    FloatingActionButton mFabScan;
+    @BindView(R.id.fab_tea_write)
+    FloatingActionButton mFabWrite;
+
+    //    @BindView(R.id.tv_current_course)
+//    TextView tvCurrentCourse;
     //    @BindView(R.id.btn_post)
 //    Button btnPost;
 
@@ -79,13 +94,15 @@ public class TeacherHomeActivity extends BaseActivity
 
 //        tvCurrentCourse.setText(getPrefixText() + getText(R.string.current_course_no_choose));
 
+        mFabMenu.setClosedOnTouchOutside(true);
+        mFabMenu.setOnMenuButtonClickListener(onMenuButton);
+
         mBottomView.setOnNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar_title.setText(getString(R.string.teacher_page_toolbar));
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -185,9 +202,44 @@ public class TeacherHomeActivity extends BaseActivity
         return getText(R.string.current_course_title) + " ";
     }
 
+    private View.OnClickListener onMenuButton = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (mFabMenu.isOpened()){
+                mFabMenu.close(true);
+                mCover.setVisibility(View.INVISIBLE);
+            }else {
+                mFabMenu.open(true);
+                mCover.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
-    @OnClick(R.id.fab_add_att_info)
-    void onFabClick() {
+    @OnClick(R.id.tv_tea_cover)
+    void onTvCover(){
+        if (mCover.getVisibility() == View.VISIBLE){
+            mFabMenu.close(true);
+            mCover.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @OnClick(R.id.fab_tea_write)
+    void onFabWrite(){
+
+    }
+
+    @OnClick(R.id.fab_tea_connect)
+    void onFabConnect(){
+
+    }
+
+    @OnClick(R.id.fab_tea_scan)
+    void onFabScan(){
+
+    }
+
+    @OnClick(R.id.fab_tea_input)
+    void onFabInput(){
         DialogUtils.getInstance().showInputDialog(this, "输入学号", "请输入特殊考勤方式学生的学号 ", new DialogUtils.OnButtonChooseListener() {
             @Override
             public void onPositive() {
@@ -217,5 +269,15 @@ public class TeacherHomeActivity extends BaseActivity
 
     public String getUuid() {
         return mUuid;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mFabMenu.isOpened()){
+            mFabMenu.close(true);
+            mCover.setVisibility(View.INVISIBLE);
+        }else {
+            super.onBackPressed();
+        }
     }
 }

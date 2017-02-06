@@ -49,5 +49,6 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     compile 'com.github.markomilos:paginate:0.5.1'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.clans:fab:1.6.4'
 
 }

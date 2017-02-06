@@ -31,6 +31,11 @@
     <string name="current_course_title">当前课程:</string>
     <string name="current_course_no_choose">未选定</string>
 
+    <string name="fab_tea_input">输入</string>
+    <string name="fab_tea_connect">连接</string>
+    <string name="fab_tea_scan">扫描</string>
+    <string name="fab_tea_write">锁屏</string>
+
     <string-array name="course_weeks">
         <item>周一</item>
         <item>周二</item>

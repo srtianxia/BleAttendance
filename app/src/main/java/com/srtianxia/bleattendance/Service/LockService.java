@@ -1,12 +1,18 @@
 package com.srtianxia.bleattendance.service;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 
+import com.srtianxia.bleattendance.receiver.LockReceiver;
+import com.srtianxia.bleattendance.ui.lock.LockActivity;
 import com.srtianxia.bleattendance.ui.student.attendance.StuAttendancePresenter;
+import com.srtianxia.bleattendance.utils.ProcessUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -44,6 +50,7 @@ public class LockService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        countDown(40*60);
     }
 
     /**
@@ -52,7 +59,7 @@ public class LockService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        /*AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         int time = (int) (INTERVAL * 1000);
         long triggerAtTime = SystemClock.elapsedRealtime() + time;   //实际触发时间等于系统当前时间 + 间隔时间
         Intent i = new Intent(this, LockReceiver.class);
@@ -60,18 +67,12 @@ public class LockService extends Service {
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         if (ProcessUtil.isNeededInBackground(this)) {
-            ToastUtil.show(this, "23333~", true);
+//            ToastUtil.show(this, "23333~", true);
 
-            //跳转至随机一个activity
-            *//*int ran_num = new Random().nextInt(4);
-            Intent activity_intent = null;
-            if (ran_num == 0) activity_intent = new Intent(this, LockActivity.class);
-            if (ran_num == 1) activity_intent = new Intent(this, LockActivity1.class);
-            if (ran_num == 2) activity_intent = new Intent(this, LockActivity2.class);
-            if (ran_num == 3) activity_intent = new Intent(this, LockActivity3.class);
+            Intent activity_intent = new Intent(this, LockActivity.class);
             activity_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(activity_intent);*//*
-        }*/
+            startActivity(activity_intent);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 

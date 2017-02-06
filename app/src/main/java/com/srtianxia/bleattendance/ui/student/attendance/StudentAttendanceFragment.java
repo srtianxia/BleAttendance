@@ -1,8 +1,13 @@
 package com.srtianxia.bleattendance.ui.student.attendance;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +15,7 @@ import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
+import com.srtianxia.bleattendance.service.LockService;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 
 import butterknife.BindView;
@@ -35,6 +41,8 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     TextView tvAttentionState;
 
     private AnimationDrawable mFrameAnim;
+
+    private LockService mLockService;
 
     private int mAdvState = STATE_DIS_ADV;
     private String mAttState = UN_ATT;
@@ -120,10 +128,25 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     @Override
     public void setAttState() {
         tvAttentionState.setText(ATT);
+        Intent intent = new Intent(getActivity(),LockService.class);
+        getActivity().bindService(intent,serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     public String getUuid() {
         return mActivity.getUuid();
     }
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            LockService.LockBinder lockBinder = (LockService.LockBinder) iBinder;
+            mLockService = lockBinder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
 }

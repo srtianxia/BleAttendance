@@ -51,8 +51,6 @@ public class TeacherHomeActivity extends BaseActivity
     FloatingActionButton mFabInput;
     @BindView(R.id.fab_tea_scan)
     FloatingActionButton mFabScan;
-    @BindView(R.id.fab_tea_write)
-    FloatingActionButton mFabWrite;
 
     //    @BindView(R.id.tv_current_course)
 //    TextView tvCurrentCourse;
@@ -221,11 +219,6 @@ public class TeacherHomeActivity extends BaseActivity
             mFabMenu.close(true);
             mCover.setVisibility(View.INVISIBLE);
         }
-    }
-
-    @OnClick(R.id.fab_tea_write)
-    void onFabWrite(){
-
     }
 
     @OnClick(R.id.fab_tea_connect)

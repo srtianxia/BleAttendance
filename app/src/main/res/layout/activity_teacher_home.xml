@@ -93,18 +93,6 @@
             app:fab_label="@string/fab_tea_scan"/>
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_tea_write"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_tea_lock"
-            app:fab_showShadow="true"
-            app:fab_colorNormal="@color/white"
-            app:fab_colorPressed="@color/fab_color_pressed"
-            app:fab_colorRipple="@color/fab_color_ripple"
-            app:fab_size="mini"
-            app:fab_label="@string/fab_tea_write"/>
-
-        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_tea_connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

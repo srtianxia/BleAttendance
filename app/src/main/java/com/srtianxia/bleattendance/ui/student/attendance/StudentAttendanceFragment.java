@@ -17,6 +17,7 @@ import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.service.LockService;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
+import com.srtianxia.bleattendance.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -81,33 +82,37 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     }
 
 
-    @OnClick(R.id.btn_advertise)
-    void advertise() {
-        mFrameAnim.start();
-        mPresenter.startAdv();
-    }
-
-    @OnClick(R.id.btn_dis_adv)
-    void disAdvertise() {
-        mFrameAnim.stop();
-        mPresenter.stopAdv();
-    }
-
-    @OnClick(R.id.btn_notify)
-    void notify_center() {
-        mPresenter.notifyCenter();
-    }
+//    @OnClick(R.id.btn_advertise)
+//    void advertise() {
+//        mFrameAnim.start();
+//        mPresenter.startAdv();
+//    }
+//
+//    @OnClick(R.id.btn_dis_adv)
+//    void disAdvertise() {
+//        mFrameAnim.stop();
+//        mPresenter.stopAdv();
+//    }
+//
+//    @OnClick(R.id.btn_notify)
+//    void notify_center() {
+//        mPresenter.notifyCenter();
+//    }
 
     @OnClick(R.id.img_adv_state)
     void clickImgAdvState() {
-        if (mAdvState == STATE_DIS_ADV) {
-            mAdvState = STATE_ADV;
-            startAdvStateAnim();
-            mPresenter.startAdv();
-        } else if (mAdvState == STATE_ADV) {
-            mAdvState = STATE_DIS_ADV;
-            stopAdvStateAnim();
-            mPresenter.stopAdv();
+        if (getUuid() != null) {
+            if (mAdvState == STATE_DIS_ADV) {
+                mAdvState = STATE_ADV;
+                startAdvStateAnim();
+                mPresenter.startAdv();
+            } else if (mAdvState == STATE_ADV) {
+                mAdvState = STATE_DIS_ADV;
+                stopAdvStateAnim();
+                mPresenter.stopAdv();
+            }
+        } else {
+            ToastUtil.show(getActivity(), "未选择考勤课程", true);
         }
     }
 
@@ -140,8 +145,8 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            LockService.LockBinder lockBinder = (LockService.LockBinder) iBinder;
-            mLockService = lockBinder.getService();
+//            LockService.LockBinder lockBinder = (LockService.LockBinder) iBinder;
+//            mLockService = lockBinder.getService();
         }
 
         @Override

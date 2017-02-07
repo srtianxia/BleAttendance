@@ -1,15 +1,10 @@
 package com.srtianxia.bleattendance.ui.student.attendance;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -134,7 +129,7 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     public void setAttState() {
         tvAttentionState.setText(ATT);
         Intent intent = new Intent(getActivity(),LockService.class);
-        getActivity().bindService(intent,serviceConnection, Context.BIND_AUTO_CREATE);
+        getActivity().startService(intent);
     }
 
     @Override
@@ -142,16 +137,4 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
         return mActivity.getUuid();
     }
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-//            LockService.LockBinder lockBinder = (LockService.LockBinder) iBinder;
-//            mLockService = lockBinder.getService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-        }
-    };
 }

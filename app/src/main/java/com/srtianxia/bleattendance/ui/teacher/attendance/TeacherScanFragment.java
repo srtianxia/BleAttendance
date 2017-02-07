@@ -3,19 +3,19 @@ package com.srtianxia.bleattendance.ui.teacher.attendance;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.RxBleScanResult;
 import com.srtianxia.bleattendance.base.view.BaseListFragment;
 import com.srtianxia.bleattendance.di.component.DaggerTeacherComponent;
 import com.srtianxia.bleattendance.di.module.TeacherModule;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
+import com.srtianxia.bleattendance.utils.ToastUtil;
 
 import javax.inject.Inject;
 
 /**
  * Created by srtianxia on 2016/7/31.
  */
-public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherScanAdapter> implements TeacherScanPresenter.ITeacherScanView {
+public class TeacherScanFragment extends BaseListFragment<RxBleScanResult, TeacherScanAdapter> implements TeacherScanPresenter.ITeacherScanView {
     @Inject
     TeacherScanPresenter mPresenter;
     private TeacherScanAdapter mAdapter = new TeacherScanAdapter();
@@ -27,6 +27,11 @@ public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherSc
         TeacherScanFragment fragment = new TeacherScanFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
     }
 
     @Override
@@ -62,15 +67,14 @@ public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherSc
     private void initRecyclerViewAdapter() {
         mAdapter.setOnItemClickListener(
                 position -> mPresenter.tryToConnect(
-                        mAdapter.getDataController().getData(position).getMacAddress()));
+                        mAdapter.getDataController().getData(position).getBleDevice().getMacAddress()));
     }
 
 
     @Override
     public void addScanResult(RxBleScanResult rxBleScanResult) {
-        addData(rxBleScanResult.getBleDevice());
+        addData(rxBleScanResult);
     }
-
 
     @Override
     public void handleScanError(Throwable throwable) {
@@ -90,9 +94,12 @@ public class TeacherScanFragment extends BaseListFragment<RxBleDevice, TeacherSc
     }
 
 
-    //    @OnClick(R.id.fab)
     public void startScan() {
-        mPresenter.startScan(mHomeActivity.getUuid());
+        if (mHomeActivity.getUuid() != null) {
+            mPresenter.startScan(mHomeActivity.getUuid());
+        } else {
+            ToastUtil.show(getActivity(), "尚未选择考勤课程", true);
+        }
     }
 
 

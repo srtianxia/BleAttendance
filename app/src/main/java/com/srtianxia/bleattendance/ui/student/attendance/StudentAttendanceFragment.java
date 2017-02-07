@@ -9,7 +9,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +16,7 @@ import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.service.LockService;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
+import com.srtianxia.bleattendance.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,8 +33,8 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     private static final String ATT = "已考勤";
 
 
-    @BindView(R.id.btn_advertise)
-    Button btnBroadcast;
+    //    @BindView(R.id.btn_advertise)
+//    Button btnBroadcast;
     @BindView(R.id.img_adv_state)
     ImageView imgAdvState;
     @BindView(R.id.tv_attention_state)
@@ -81,33 +81,37 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     }
 
 
-    @OnClick(R.id.btn_advertise)
+    //    @OnClick(R.id.btn_advertise)
     void advertise() {
         mFrameAnim.start();
         mPresenter.startAdv();
     }
 
-    @OnClick(R.id.btn_dis_adv)
+    //    @OnClick(R.id.btn_dis_adv)
     void disAdvertise() {
         mFrameAnim.stop();
         mPresenter.stopAdv();
     }
 
-    @OnClick(R.id.btn_notify)
+    //    @OnClick(R.id.btn_notify)
     void notify_center() {
         mPresenter.notifyCenter();
     }
 
     @OnClick(R.id.img_adv_state)
     void clickImgAdvState() {
-        if (mAdvState == STATE_DIS_ADV) {
-            mAdvState = STATE_ADV;
-            startAdvStateAnim();
-            mPresenter.startAdv();
-        } else if (mAdvState == STATE_ADV) {
-            mAdvState = STATE_DIS_ADV;
-            stopAdvStateAnim();
-            mPresenter.stopAdv();
+        if (getUuid() != null) {
+            if (mAdvState == STATE_DIS_ADV) {
+                mAdvState = STATE_ADV;
+                startAdvStateAnim();
+                mPresenter.startAdv();
+            } else if (mAdvState == STATE_ADV) {
+                mAdvState = STATE_DIS_ADV;
+                stopAdvStateAnim();
+                mPresenter.stopAdv();
+            }
+        } else {
+            ToastUtil.show(getActivity(), "未选择考勤课程", true);
         }
     }
 
@@ -128,8 +132,8 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     @Override
     public void setAttState() {
         tvAttentionState.setText(ATT);
-        Intent intent = new Intent(getActivity(),LockService.class);
-        getActivity().bindService(intent,serviceConnection, Context.BIND_AUTO_CREATE);
+        Intent intent = new Intent(getActivity(), LockService.class);
+        getActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override

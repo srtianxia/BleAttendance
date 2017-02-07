@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_advertise"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Advertise" />
+    <!--<Button-->
+        <!--android:id="@+id/btn_advertise"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Advertise" />-->
 
-    <Button
-        android:id="@+id/btn_notify"
-        android:layout_toRightOf="@+id/btn_dis_adv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="notify" />
+    <!--<Button-->
+        <!--android:id="@+id/btn_notify"-->
+        <!--android:layout_toRightOf="@+id/btn_dis_adv"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="notify" />-->
 
     <ImageView
         android:id="@+id/img_adv_state"
@@ -26,14 +26,16 @@
         android:id="@+id/tv_attention_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_advertise"/>
+        android:layout_below="@+id/img_adv_state"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"/>
 
-    <Button
-        android:id="@+id/btn_dis_adv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="disAdvertise"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/btn_advertise" />
+    <!--<Button-->
+        <!--android:id="@+id/btn_dis_adv"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="disAdvertise"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_toEndOf="@+id/btn_advertise" />-->
 
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,17 +26,17 @@ public class ProcessUtil {
             @Override
             public int compare(UsageStats lhs, UsageStats rhs) {
                 return (lhs.getLastTimeUsed() > rhs.getLastTimeUsed())
-                       ? -1
-                       : (lhs.getLastTimeUsed() == rhs.getLastTimeUsed()) ? 0 : 1;
+                        ? -1
+                        : (lhs.getLastTimeUsed() == rhs.getLastTimeUsed()) ? 0 : 1;
             }
         }
 
         RecentUseComparator mRecentUseComparator = new RecentUseComparator();
         long currentTime = System.currentTimeMillis();
         UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService(
-            Context.USAGE_STATS_SERVICE);
+                Context.USAGE_STATS_SERVICE);
         List<UsageStats> usageStats = mUsageStatsManager.queryUsageStats(
-            UsageStatsManager.INTERVAL_BEST, currentTime - 1000 * 10, currentTime);
+                UsageStatsManager.INTERVAL_BEST, currentTime - 1000 * 10, currentTime);
         if (isPermission(context) == false) {
             return false;
         }
@@ -58,15 +59,15 @@ public class ProcessUtil {
         try {
             PackageManager packageManager = context.getPackageManager();
             ApplicationInfo applicationInfo = packageManager.getApplicationInfo(
-                context.getPackageName(), 0);
+                    context.getPackageName(), 0);
             AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(
-                Context.APP_OPS_SERVICE);
+                    Context.APP_OPS_SERVICE);
             int mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-                applicationInfo.uid, applicationInfo.packageName);
+                    applicationInfo.uid, applicationInfo.packageName);
             return (mode == AppOpsManager.MODE_ALLOWED);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            return true;
+            return false;
         }
     }
 

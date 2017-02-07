@@ -223,12 +223,12 @@ public class TeacherHomeActivity extends BaseActivity
 
     @OnClick(R.id.fab_tea_connect)
     void onFabConnect(){
-
+        mTeacherScanFragment.connectAll();
     }
 
     @OnClick(R.id.fab_tea_scan)
     void onFabScan(){
-
+        mTeacherScanFragment.startScan();
     }
 
     @OnClick(R.id.fab_tea_input)

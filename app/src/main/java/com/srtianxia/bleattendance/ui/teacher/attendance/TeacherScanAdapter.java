@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.teacher.attendance;
 
+import android.bluetooth.le.ScanResult;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.polidea.rxandroidble.RxBleDevice;
+import com.polidea.rxandroidble.RxBleScanResult;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
 import com.srtianxia.bleattendance.base.OnItemClickListener;
@@ -17,7 +19,7 @@ import java.util.List;
 /**
  * Created by srtianxia on 2016/7/31.
  */
-public class TeacherScanAdapter extends BaseAdapter<RxBleDevice> implements View.OnClickListener {
+public class TeacherScanAdapter extends BaseAdapter<RxBleScanResult> implements View.OnClickListener {
     private OnItemClickListener mOnItemClickListener;
 
 
@@ -43,12 +45,12 @@ public class TeacherScanAdapter extends BaseAdapter<RxBleDevice> implements View
     }
 
 
-    @Override public void loadData(List<RxBleDevice> mData) {
+    @Override public void loadData(List<RxBleScanResult> mData) {
         super.loadData(mData);
     }
 
     @Override
-    public void addData(RxBleDevice data) {
+    public void addData(RxBleScanResult data) {
         super.addData(data);
     }
 
@@ -68,9 +70,9 @@ public class TeacherScanAdapter extends BaseAdapter<RxBleDevice> implements View
         }
 
 
-        public void setData(RxBleDevice device) {
-            tvDeviceName.setText(device.getName());
-            tvDeviceAddress.setText(device.getMacAddress());
+        public void setData(RxBleScanResult result) {
+            tvDeviceName.setText(result.getBleDevice().getName());
+            tvDeviceAddress.setText("mac地址 : " + result.getBleDevice().getMacAddress() + "信号强度" + result.getRssi());
         }
     }
 }

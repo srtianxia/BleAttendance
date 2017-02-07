@@ -1,5 +1,9 @@
 package com.srtianxia.bleattendance.ui.teacher.attendance;
 
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.le.ScanResult;
+
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
@@ -48,7 +52,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     private RxBleDevice mRxBleDevice;
 
     private int position = 0;
-    private List<RxBleDevice> deviceList = new ArrayList<>();
+    private List<RxBleScanResult> deviceList = new ArrayList<>();
 
 
     @Inject
@@ -84,7 +88,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
 
     //一次性连接列表中的设备
-    public void queueToConnect(List<RxBleDevice> deviceList) {
+    public void queueToConnect(List<RxBleScanResult> deviceList) {
         this.deviceList.addAll(deviceList);
         connectAll();
     }
@@ -124,12 +128,14 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
         if (position >= deviceList.size()) {
             return;
         }
-        String address = deviceList.get(position).getMacAddress();
+        String address = deviceList.get(position).getBleDevice().getMacAddress();
         prepareConnection(address);
         registerConnectStateCallBack();
         connect();
     }
 
+
+    // onNotificationReceived
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void event(NotificationEvent event) {
         position++;

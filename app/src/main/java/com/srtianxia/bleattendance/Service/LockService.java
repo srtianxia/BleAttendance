@@ -4,14 +4,13 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.srtianxia.bleattendance.receiver.LockReceiver;
 import com.srtianxia.bleattendance.ui.lock.LockActivity;
-import com.srtianxia.bleattendance.ui.student.attendance.StuAttendancePresenter;
 import com.srtianxia.bleattendance.utils.ProcessUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -26,24 +25,17 @@ import rx.functions.Func1;
  */
 public class LockService extends Service {
 
+    public static String NOW_TIME = "now_time";
+
     private static final float INTERVAL = 0.5f;//in seconds
 
-    private final IBinder mBinder = new LockBinder();
+    private int mNowTime = 40*60;
 
-    private String mNowTime = "00:00:00";
-
-    private StuAttendancePresenter.IStuAttendanceView mBindView;
-
-    public class LockBinder extends Binder {
-        public LockService getService(){
-            return LockService.this;
-        }
-    }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return mBinder;
+        return null;
     }
 
 
@@ -59,6 +51,7 @@ public class LockService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i("TAG","onStartCommand");
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         int time = (int) (INTERVAL * 1000);
         long triggerAtTime = SystemClock.elapsedRealtime() + time;   //实际触发时间等于系统当前时间 + 间隔时间
@@ -68,11 +61,13 @@ public class LockService extends Service {
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         if (ProcessUtil.isNeededInBackground(this)) {
 //            ToastUtil.show(this, "23333~", true);
-
+            Log.i("TAG","startActivity");
             Intent activity_intent = new Intent(this, LockActivity.class);
+            activity_intent.putExtra(NOW_TIME,mNowTime);
             activity_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(activity_intent);
         }
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -87,48 +82,15 @@ public class LockService extends Service {
                         return seconds - aLong.intValue();
                     }
                 })
-                .map(new Func1<Integer, String>() {
-                    @Override
-                    public String call(Integer time) {
-                        int hours = time/3600 ;
-                        int minutes = (time - hours*3600)/60;
-                        int seconds = time - hours*3600 - minutes*60;
-                        String str = "";
-
-                        if (hours < 10 ){
-                            str = "0" + hours + ":";
-                        }else
-                            str = "" + hours + ":";
-
-                        if (minutes < 10){
-                            str = str + "0" + minutes + ":";
-                        }else
-                            str = str + minutes + ":";
-
-                        if (seconds < 10){
-                            str = str + "0" + seconds ;
-                        }else
-                            str = str + seconds ;
-
-                        return str;
-                    }
-                })
                 .take(seconds + 1)
-                .subscribe(new Action1<String>() {
+                .subscribe(new Action1<Integer>() {
                     @Override
-                    public void call(String s) {
-                        mNowTime = s;
+                    public void call(Integer nowTime) {
+                        mNowTime = nowTime;
+                        Log.i("TAG",nowTime + "");
                     }
                 });
 
-    }
-
-    public String getNowTime(){
-        return mNowTime;
-    }
-
-    public void setActivity(StuAttendancePresenter.IStuAttendanceView view){
-        mBindView = view;
     }
 
 }

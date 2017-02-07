@@ -15,6 +15,7 @@ import java.util.List;
  * Created by 梅梅 on 2016/9/5.
  */
 public class ProcessUtil {
+
     private static final String PACKAGE_NAME_SYSTEM_UI = "systemui";
     private static final String PACKAGE_NAME_LAUNCHER = "launcher";
     private static final String PACKAGE_NAME_BLE = "bleattendance";
@@ -22,6 +23,7 @@ public class ProcessUtil {
 
 
     public static boolean isNeededInBackground(Context context) {
+
         class RecentUseComparator implements Comparator<UsageStats> {
             @Override
             public int compare(UsageStats lhs, UsageStats rhs) {
@@ -70,7 +72,6 @@ public class ProcessUtil {
             return false;
         }
     }
-
 
     public static boolean isCurrentDetection(String currentPackageName) {
         //通过包名的最后一部分判断是否和任务栏、主界面launcher、本app的包名相等

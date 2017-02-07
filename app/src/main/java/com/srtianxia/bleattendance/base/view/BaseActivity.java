@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
  * Created by srtianxia on 2016/7/23.
  */
 public abstract class BaseActivity extends AppCompatActivity {
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         initStatusBarColor();
         super.onCreate(savedInstanceState);

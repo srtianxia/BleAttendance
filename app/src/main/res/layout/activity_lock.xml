@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="在努力一会！"
+        android:text="再努力一会！"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:textSize="20sp"
@@ -30,7 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
-        android:text="20:00"
         android:textColor="@color/white"
         android:textSize="60sp"/>
 </RelativeLayout>

@@ -132,8 +132,15 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     @Override
     public void setAttState() {
         tvAttentionState.setText(ATT);
-        Intent intent = new Intent(getActivity(), LockService.class);
-        getActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getActivity(), LockService.class);
+                getActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+                getActivity().startService(intent);
+            }
+        });
+
     }
 
     @Override

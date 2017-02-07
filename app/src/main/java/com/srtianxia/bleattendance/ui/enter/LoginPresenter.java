@@ -52,6 +52,7 @@ public class LoginPresenter extends BasePresenter<LoginPresenter.ILoginView> {
 
     private void loginStudentSuccess(StudentEntity entity) {
         PreferenceManager.getInstance().setString(PreferenceManager.SP_TOKEN_STUDENT, entity.data);
+        PreferenceManager.getInstance().setInteger(PreferenceManager.SP_STUDENT_NUMBER, Integer.parseInt(getView().getStuNum()));
         getView().studentLoginSuccess();
     }
 

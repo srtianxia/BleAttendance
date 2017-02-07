@@ -1,9 +1,5 @@
 package com.srtianxia.bleattendance.ui.teacher.attendance;
 
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.le.ScanResult;
-
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
@@ -141,7 +137,8 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
         position++;
         if (position < deviceList.size()) {
             disconnect();
-            connectAll();
+            // 断开连接后再connectAll
+//            connectAll();
         }
     }
 
@@ -169,6 +166,10 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
 
     private void onConnectionStateCallBack(RxBleConnection.RxBleConnectionState state) {
+        if (state == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
+            connectAll();
+        }
+
         ToastUtil.show(getViewType().getActivity(), state.toString(), true);
     }
 

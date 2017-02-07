@@ -1,5 +1,7 @@
 package com.srtianxia.bleattendance.ui.student.home;
 
+import android.content.Intent;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
@@ -7,14 +9,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
+import com.srtianxia.bleattendance.ui.home.StudentActivity;
 import com.srtianxia.bleattendance.ui.student.attendance.StudentAttendanceFragment;
 import com.srtianxia.bleattendance.ui.student.table.CourseTableFragment;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
+import com.srtianxia.bleattendance.utils.ProcessUtil;
 import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.utils.UuidUtil;
 import com.srtianxia.bleattendance.utils.database.DataBaseManager;
@@ -61,6 +66,8 @@ public class StudentHomeActivity extends BaseActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar_title.setText(getString(R.string.student_page_toolbar));
+
+        openUsageAccess();
     }
 
 
@@ -71,7 +78,7 @@ public class StudentHomeActivity extends BaseActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_student,menu);
+        getMenuInflater().inflate(R.menu.toolbar_student, menu);
         return true;
     }
 
@@ -79,10 +86,10 @@ public class StudentHomeActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_logout:
-                PreferenceManager.getInstance().setString(PreferenceManager.SP_TOKEN_STUDENT,"");
-                PreferenceManager.getInstance().setString(PreferenceManager.SP_LOGIN_FLAG,"");
+                PreferenceManager.getInstance().setString(PreferenceManager.SP_TOKEN_STUDENT, "");
+                PreferenceManager.getInstance().setString(PreferenceManager.SP_LOGIN_FLAG, "");
                 DataBaseManager.getInstance().deleteStuCourse();
                 UiHelper.startActivity(this, MainActivity.class);
                 finish();
@@ -113,5 +120,15 @@ public class StudentHomeActivity extends BaseActivity
 
     public String getUuid() {
         return mUUid;
+    }
+
+    private void openUsageAccess() {
+        if (!ProcessUtil.isPermission(this)) {
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            Toast.makeText(this, "权限不够\n请打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -29,7 +29,7 @@ public class LockService extends Service {
 
     private static final float INTERVAL = 0.5f;//in seconds
 
-    private int mNowTime = 40*60;
+    private int mNowTime = 40 * 60;
 
 
     @Nullable
@@ -42,7 +42,7 @@ public class LockService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        countDown(40*60);
+        countDown(40 * 60);
     }
 
     /**
@@ -51,27 +51,28 @@ public class LockService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("TAG","onStartCommand");
+        Log.i("TAG", "onStartCommand");
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         int time = (int) (INTERVAL * 1000);
         long triggerAtTime = SystemClock.elapsedRealtime() + time;   //实际触发时间等于系统当前时间 + 间隔时间
         Intent i = new Intent(this, LockReceiver.class);
 
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         if (ProcessUtil.isNeededInBackground(this)) {
 //            ToastUtil.show(this, "23333~", true);
-            Log.i("TAG","startActivity");
+            Log.i("TAG", "startActivity");
             Intent activity_intent = new Intent(this, LockActivity.class);
-            activity_intent.putExtra(NOW_TIME,mNowTime);
+            activity_intent.putExtra(NOW_TIME, mNowTime);
             activity_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(activity_intent);
         }
 
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
-    public void countDown(int seconds){
+    public void countDown(int seconds) {
 
         Observable.interval(1, TimeUnit.SECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -87,7 +88,7 @@ public class LockService extends Service {
                     @Override
                     public void call(Integer nowTime) {
                         mNowTime = nowTime;
-                        Log.i("TAG",nowTime + "");
+                        Log.i("TAG", nowTime + "");
                     }
                 });
 

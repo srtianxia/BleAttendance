@@ -1,20 +1,20 @@
 package com.srtianxia.bleattendance.ui.teacher.attendance;
 
-import android.bluetooth.le.ScanResult;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import com.polidea.rxandroidble.RxBleDevice;
+
 import com.polidea.rxandroidble.RxBleScanResult;
 import com.srtianxia.bleattendance.R;
-import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
 import com.srtianxia.bleattendance.base.OnItemClickListener;
+import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by srtianxia on 2016/7/31.
@@ -72,7 +72,7 @@ public class TeacherScanAdapter extends BaseAdapter<RxBleScanResult> implements 
 
         public void setData(RxBleScanResult result) {
             tvDeviceName.setText(result.getBleDevice().getName());
-            tvDeviceAddress.setText("mac地址 : " + result.getBleDevice().getMacAddress() + "信号强度" + result.getRssi());
+            tvDeviceAddress.setText("mac地址 : " + result.getBleDevice().getMacAddress() + " Rssi: " + result.getRssi());
         }
     }
 }

@@ -138,7 +138,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
         if (position < deviceList.size()) {
             disconnect();
             // 断开连接后再connectAll
-//            connectAll();
+            connectAll();
         }
     }
 
@@ -166,9 +166,9 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
 
     private void onConnectionStateCallBack(RxBleConnection.RxBleConnectionState state) {
-        if (state == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
-            connectAll();
-        }
+//        if (state == RxBleConnection.RxBleConnectionState.DISCONNECTED) {
+//            connectAll();
+//        }
 
         ToastUtil.show(getViewType().getActivity(), state.toString(), true);
     }
@@ -209,7 +209,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     }
 
     private void onNotificationSetupFailure(Throwable throwable) {
-        Logger.d(throwable);
+        Logger.d("onNotificationSetupFailure" + throwable.getMessage());
         EventBus.getDefault().post(new NotificationEvent());
     }
 

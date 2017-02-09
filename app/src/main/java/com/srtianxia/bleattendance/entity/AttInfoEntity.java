@@ -15,6 +15,10 @@ public class AttInfoEntity {
     public static class AttInfo {
         public String stuNum;
         public String stuName;
-        public String status;
+//        public String status;
+        public List<String> week;
+        public List<String> hash_day;
+        public List<String> hash_lesson;
+        public List<String> status;
     }
 }

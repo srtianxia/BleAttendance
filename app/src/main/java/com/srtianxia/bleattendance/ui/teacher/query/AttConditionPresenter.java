@@ -38,7 +38,7 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
         }).compose(RxSchedulersHelper.io2main())
                 .subscribe(postAttResultEntity -> {
                             Logger.d(postAttResultEntity);
-                            loadAttendanceInfo(course.jxbID, week);
+                            loadAttendanceInfo(course.jxbID, week, course.hash_day, course.hash_lesson);
                         },
                         throwable -> Logger.d(throwable));
     }
@@ -61,9 +61,9 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
                 }, throwable -> Logger.d(throwable));
     }
 
-    public void loadAttendanceInfo(String jxbID, int week) {
+    public void loadAttendanceInfo(String jxbID, int week, int hash_day, int hash_lesson) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
-        mApi.getAttendanceInfo(token, jxbID, week).compose(RxSchedulersHelper.io2main()).subscribe(this::loadAttInfoSuccess, this::loadAttInfoFailure);
+        mApi.getAttendanceInfo(token, jxbID, week, hash_day, hash_lesson).compose(RxSchedulersHelper.io2main()).subscribe(this::loadAttInfoSuccess, this::loadAttInfoFailure);
     }
 
     private void loadAttInfoSuccess(AttInfoEntity attInfoEntity) {
@@ -97,7 +97,6 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
         builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
     }
-
 
 
     @Override

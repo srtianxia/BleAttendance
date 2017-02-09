@@ -152,7 +152,6 @@ public class StuAttendanceModel implements IStuAttModel {
         public void onNotificationSent(BluetoothDevice device, int status) {
             super.onNotificationSent(device, status);
             Logger.d("callback --->" + "onNotificationSent");
-            //todo notify发送后 就可以实施锁屏等操作了
             /* @Link com.srtianxia.bleattendance.ui.student.attendance.StuAttendancePresenter */
             EventBus.getDefault().post(new OnNotifySend());
         }

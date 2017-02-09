@@ -22,8 +22,8 @@ import butterknife.OnClick;
  */
 
 public class StudentAttendanceFragment extends BaseFragment implements StuAttendancePresenter.IStuAttendanceView {
-    private static final int STATE_ADV = 0;
-    private static final int STATE_DIS_ADV = 1;
+    private static final int STATE_ADV = 1;
+    private static final int STATE_DIS_ADV = 2;
 
     private static final String UN_ATT = "未考勤";
     private static final String ATT = "已考勤";

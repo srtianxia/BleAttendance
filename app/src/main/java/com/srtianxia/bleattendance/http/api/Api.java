@@ -38,7 +38,9 @@ public interface Api {
     @GET("teacher/attendance")
     Observable<AttInfoEntity> getAttendanceInfo(@Query("token") String token,
                                                 @Query("jxbID") String jxbID,
-                                                @Query("week") int week);
+                                                @Query("week") int week,
+                                                @Query("hash_day") int hash_day,
+                                                @Query("hash_lesson") int hash_lesson);
 
     // 获取一个班的人列表
     @GET("teacher/stulist")

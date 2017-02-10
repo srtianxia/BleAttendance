@@ -170,7 +170,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 //            connectAll();
 //        }
 
-        ToastUtil.show(getViewType().getActivity(), state.toString(), true);
+//        ToastUtil.show(getViewType().getActivity(), state.toString(), true);
     }
 
 
@@ -192,12 +192,12 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
 
     private void onWrite(byte[] bytes) {
-        ToastUtil.show(getViewType().getActivity(), "write", true);
+//        ToastUtil.show(getViewType().getActivity(), "write", true);
     }
 
 
     private void onWriteError(Throwable throwable) {
-        ToastUtil.show(getViewType().getActivity(), "write error" + throwable, true);
+//        ToastUtil.show(getViewType().getActivity(), "write error" + throwable, true);
     }
 
 
@@ -215,17 +215,17 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
 
 
     private void notificationHasBeenSetUp() {
-        ToastUtil.show(getViewType().getActivity(), "notificationHasBeenSetUp", true);
+//        ToastUtil.show(getViewType().getActivity(), "notificationHasBeenSetUp", true);
     }
 
 
     private void onConnect() {
-        ToastUtil.show(getViewType().getActivity(), "connectSuccess", true);
+//        ToastUtil.show(getViewType().getActivity(), "connectSuccess", true);
     }
 
 
     private void onConnectFailure(Throwable throwable) {
-        ToastUtil.show(getViewType().getActivity(), throwable.toString(), true);
+//        ToastUtil.show(getViewType().getActivity(), throwable.toString(), true);
         EventBus.getDefault().post(new NotificationEvent());
     }
 

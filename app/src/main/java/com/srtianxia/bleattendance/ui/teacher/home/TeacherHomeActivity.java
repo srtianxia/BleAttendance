@@ -18,12 +18,16 @@ import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.teacher.allattendance.BeforeAttendanceFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.query.AttendanceFragment;
+import com.srtianxia.bleattendance.ui.teacher.query.EventFabPost;
 import com.srtianxia.bleattendance.utils.DialogUtils;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.utils.UuidUtil;
 import com.srtianxia.bleattendance.utils.database.DataBaseManager;
 import com.srtianxia.bleattendance.widget.CourseTableView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBusBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -255,6 +259,13 @@ public class TeacherHomeActivity extends BaseActivity
     @OnClick(R.id.fab_tea_scan)
     void onFabScan(){
         mTeacherScanFragment.startScan();
+        closeFabMenu();
+    }
+
+
+    @OnClick(R.id.fab_tea_post)
+    void post() {
+        mAttendanceFragment.postAttInfo();
         closeFabMenu();
     }
 

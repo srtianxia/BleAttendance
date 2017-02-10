@@ -28,7 +28,7 @@ public class AttendanceFragment extends BaseFragment {
     @BindView(R.id.vp_attend)
     ViewPager mViewPager;
 
-    private List<BaseFragment> mFragmentList = new ArrayList<>();
+    private List<AttListFragment> mFragmentList = new ArrayList<>();
     private List<String> mTitles = Arrays.asList(PARENT_TITLES);
 
 
@@ -52,5 +52,9 @@ public class AttendanceFragment extends BaseFragment {
         AttendanceFragment attendanceFragment = new AttendanceFragment();
         attendanceFragment.setArguments(bundle);
         return attendanceFragment;
+    }
+
+    public void postAttInfo() {
+        mFragmentList.get(2).postAttInfo();
     }
 }

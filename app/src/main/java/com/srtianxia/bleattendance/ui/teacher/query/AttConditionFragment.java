@@ -21,7 +21,7 @@ import butterknife.OnClick;
 /**
  * Created by srtianxia on 2017/1/20.
  */
-
+@Deprecated
 public class AttConditionFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AttConditionPresenter.IAttConditionView {
     private static final String[] PARENT_TITLES = {"应出勤学生学号", "本地已考勤学号", "已上传考勤学号", "缺勤学生学号"};
 
@@ -133,6 +133,16 @@ public class AttConditionFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public List<String> getBleAttendanceInfo() {
         return mHomeActivity.getNumberList();
+    }
+
+    @Override
+    public void postSuccess() {
+
+    }
+
+    @Override
+    public void postFailure() {
+
     }
 
 }

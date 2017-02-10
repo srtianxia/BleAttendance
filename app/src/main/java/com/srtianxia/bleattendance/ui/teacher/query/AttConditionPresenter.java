@@ -38,9 +38,13 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
         }).compose(RxSchedulersHelper.io2main())
                 .subscribe(postAttResultEntity -> {
                             Logger.d(postAttResultEntity);
-                            loadAttendanceInfo(course.jxbID, week, course.hash_day, course.hash_lesson);
+                            getView().postSuccess();
+//                            loadAttendanceInfo(course.jxbID, week, course.hash_day, course.hash_lesson);
                         },
-                        throwable -> Logger.d(throwable));
+                        throwable -> {
+                            Logger.d(throwable);
+                            getView().postFailure();
+                        });
     }
 
 
@@ -100,8 +104,8 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
 
 
     @Override
-    public AttConditionFragment getViewType() {
-        return (AttConditionFragment) getView();
+    public AttListFragment getViewType() {
+        return (AttListFragment) getView();
     }
 
     public interface IAttConditionView extends BaseView {
@@ -112,5 +116,10 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
         void loadAllAttendanceInfoFailure();
 
         List<String> getBleAttendanceInfo();
+
+
+        void postSuccess();
+
+        void postFailure();
     }
 }

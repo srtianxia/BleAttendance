@@ -56,4 +56,5 @@ public interface Api {
 
     @GET("teacher/course")
     Observable<TeaCourseEntity> getTeaCourse(@Query("token") String token, @Query("week") String week);
+
 }

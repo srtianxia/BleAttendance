@@ -15,6 +15,7 @@ import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
+import com.srtianxia.bleattendance.ui.teacher.allattendance.BeforeAttendanceFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.query.AttendanceFragment;
 import com.srtianxia.bleattendance.utils.DialogUtils;
@@ -64,6 +65,8 @@ public class TeacherHomeActivity extends BaseActivity
 
     private AttendanceFragment mAttendanceFragment = AttendanceFragment.newInstance();
 
+    private BeforeAttendanceFragment mBeforeAttendanceFragment = BeforeAttendanceFragment.newInstance();
+
     private List<Integer> mNumberList = new ArrayList<>();
 
     private CourseContainerFragment mCourseContainerFragment;
@@ -84,15 +87,15 @@ public class TeacherHomeActivity extends BaseActivity
                 .add(R.id.fragment_container, mTeacherScanFragment)
                 .add(R.id.fragment_container, mAttendanceFragment)
                 .add(R.id.fragment_container, mCourseContainerFragment)
+                .add(R.id.fragment_container,mBeforeAttendanceFragment)
                 .show(mTeacherScanFragment)
                 .hide(mAttendanceFragment)
-//                .hide(mAttConditionFragment)
                 .hide(mCourseContainerFragment)
+                .hide(mBeforeAttendanceFragment)
                 .commit();
 
 //        tvCurrentCourse.setText(getPrefixText() + getText(R.string.current_course_no_choose));
 
-        mFabMenu.setClosedOnTouchOutside(true);
         mFabMenu.setOnMenuButtonClickListener(onMenuButton);
 
         mBottomView.setOnNavigationItemSelectedListener(this);
@@ -148,20 +151,42 @@ public class TeacherHomeActivity extends BaseActivity
                 toolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mAttendanceFragment).hide(mCourseContainerFragment)
-                        .show(mTeacherScanFragment).commit();
+                        .hide(mBeforeAttendanceFragment).show(mTeacherScanFragment)
+                        .commit();
+                if (mFabMenu.isOpened())
+                    closeFabMenu();
+
                 break;
             case R.id.bottom_nav_attendance:
 //                toolbar.setVisibility(View.INVISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(mCourseContainerFragment)
-                        .show(mAttendanceFragment).commit();
+                        .hide(mBeforeAttendanceFragment).show(mAttendanceFragment)
+                        .commit();
+                if (mFabMenu.isOpened())
+                    closeFabMenu();
 
                 break;
+            case R.id.bottom_nav_before:
+                getSupportFragmentManager().beginTransaction()
+                        .hide(mTeacherScanFragment).hide(mCourseContainerFragment)
+                        .hide(mAttendanceFragment).show(mBeforeAttendanceFragment)
+                        .commit();
+                if (mFabMenu.isOpened())
+                    closeFabMenu();
+
+                break;
+
             case R.id.bottom_nav_table:
                 toolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(mAttendanceFragment)
-                        .show(mCourseContainerFragment).commit();
+                        .hide(mBeforeAttendanceFragment).show(mCourseContainerFragment)
+                        .commit();
+                if (mFabMenu.isOpened())
+                    closeFabMenu();
+
+                break;
 
         }
         return true;
@@ -204,11 +229,9 @@ public class TeacherHomeActivity extends BaseActivity
         @Override
         public void onClick(View view) {
             if (mFabMenu.isOpened()){
-                mFabMenu.close(true);
-                mCover.setVisibility(View.INVISIBLE);
+                closeFabMenu();
             }else {
-                mFabMenu.open(true);
-                mCover.setVisibility(View.VISIBLE);
+                openFabMenu();
             }
         }
     };
@@ -216,19 +239,20 @@ public class TeacherHomeActivity extends BaseActivity
     @OnClick(R.id.tv_tea_cover)
     void onTvCover(){
         if (mCover.getVisibility() == View.VISIBLE){
-            mFabMenu.close(true);
-            mCover.setVisibility(View.INVISIBLE);
+            closeFabMenu();
         }
     }
 
     @OnClick(R.id.fab_tea_connect)
     void onFabConnect(){
         mTeacherScanFragment.connectAll();
+        closeFabMenu();
     }
 
     @OnClick(R.id.fab_tea_scan)
     void onFabScan(){
         mTeacherScanFragment.startScan();
+        closeFabMenu();
     }
 
     @OnClick(R.id.fab_tea_input)
@@ -236,12 +260,12 @@ public class TeacherHomeActivity extends BaseActivity
         DialogUtils.getInstance().showInputDialog(this, "输入学号", "请输入特殊考勤方式学生的学号 ", new DialogUtils.OnButtonChooseListener() {
             @Override
             public void onPositive() {
-
+                closeFabMenu();
             }
 
             @Override
             public void onNegative() {
-
+                closeFabMenu();
             }
 
             @Override
@@ -264,11 +288,20 @@ public class TeacherHomeActivity extends BaseActivity
         return mUuid;
     }
 
+    private void closeFabMenu(){
+        mFabMenu.close(true);
+        mCover.setVisibility(View.INVISIBLE);
+    }
+
+    private void openFabMenu(){
+        mFabMenu.open(true);
+        mCover.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onBackPressed() {
         if (mFabMenu.isOpened()){
-            mFabMenu.close(true);
-            mCover.setVisibility(View.INVISIBLE);
+            closeFabMenu();
         }else {
             super.onBackPressed();
         }

@@ -27,10 +27,9 @@ public class LockService extends Service {
 
     public static String NOW_TIME = "now_time";
 
-    private static final float INTERVAL = 0.5f;//in seconds
+    private static final float INTERVAL = 1f;//in seconds
 
     private int mNowTime = 40 * 60;
-
 
     @Nullable
     @Override
@@ -51,15 +50,18 @@ public class LockService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         Log.i("TAG", "onStartCommand");
+
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int time = (int) (INTERVAL * 1000);
+        int time = (int) INTERVAL * 1000;
         long triggerAtTime = SystemClock.elapsedRealtime() + time;   //实际触发时间等于系统当前时间 + 间隔时间
         Intent i = new Intent(this, LockReceiver.class);
 
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
 
-        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
+        manager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
+
         if (ProcessUtil.isNeededInBackground(this)) {
 //            ToastUtil.show(this, "23333~", true);
             Log.i("TAG", "startActivity");
@@ -71,6 +73,7 @@ public class LockService extends Service {
 
         return START_STICKY;
     }
+
 
     public void countDown(int seconds) {
 
@@ -90,8 +93,13 @@ public class LockService extends Service {
                         mNowTime = nowTime;
                         Log.i("TAG", nowTime + "");
                     }
-                });
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.i("TAG",throwable.toString());
 
+                    }
+                });
     }
 
 }

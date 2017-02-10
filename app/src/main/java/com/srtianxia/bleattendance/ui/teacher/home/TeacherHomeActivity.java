@@ -15,7 +15,7 @@ import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
-import com.srtianxia.bleattendance.ui.teacher.allattendance.BeforeAttendanceFragment;
+mport com.srtianxia.bleattendance.ui.teacher.allattendance.BeforeAttendanceFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.query.AttendanceFragment;
 import com.srtianxia.bleattendance.utils.DialogUtils;
@@ -96,6 +96,7 @@ public class TeacherHomeActivity extends BaseActivity
 
 //        tvCurrentCourse.setText(getPrefixText() + getText(R.string.current_course_no_choose));
 
+        mFabMenu.setClosedOnTouchOutside(true);
         mFabMenu.setOnMenuButtonClickListener(onMenuButton);
 
         mBottomView.setOnNavigationItemSelectedListener(this);
@@ -127,8 +128,8 @@ public class TeacherHomeActivity extends BaseActivity
                 mTeacherScanFragment.connectAll();
                 break;
             case R.id.action_logout:
-                PreferenceManager.getInstance().setString(PreferenceManager.SP_TOKEN_TEACHER,"");
-                PreferenceManager.getInstance().setString(PreferenceManager.SP_LOGIN_FLAG,"");
+                PreferenceManager.getInstance().setString(PreferenceManager.SP_TOKEN_TEACHER, "");
+                PreferenceManager.getInstance().setString(PreferenceManager.SP_LOGIN_FLAG, "");
                 DataBaseManager.getInstance().deleteTeaCourse();
                 UiHelper.startActivity(this, MainActivity.class);
                 finish();
@@ -187,13 +188,14 @@ public class TeacherHomeActivity extends BaseActivity
                     closeFabMenu();
 
                 break;
-
         }
         return true;
     }
 
     public void addNumber(Integer number) {
-        mNumberList.add(number);
+        if (!mNumberList.contains(number)) {
+            mNumberList.add(number);
+        }
     }
 
     public Course getCourseInfo() {

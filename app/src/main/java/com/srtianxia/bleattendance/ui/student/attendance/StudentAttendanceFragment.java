@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.service.LockService;
 import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
+import com.srtianxia.bleattendance.utils.DialogUtils;
+import com.srtianxia.bleattendance.utils.ProcessUtil;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -29,7 +33,7 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     private static final String ATT = "已考勤";
 
 
-//    @BindView(R.id.btn_advertise)
+    //    @BindView(R.id.btn_advertise)
 //    Button btnBroadcast;
     @BindView(R.id.img_adv_state)
     ImageView imgAdvState;
@@ -54,7 +58,7 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
         mFrameAnim = (AnimationDrawable) ContextCompat.getDrawable(getActivity(), R.drawable.adv_state_anim);
         imgAdvState.setBackground(mFrameAnim);
         tvAttentionState.setText(mAttState);
-
+        dialogOpenAccess();
     }
 
     @Override
@@ -128,13 +132,38 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     @Override
     public void setAttState() {
         tvAttentionState.setText(ATT);
-        Intent intent = new Intent(getActivity(),LockService.class);
+        Intent intent = new Intent(getActivity(), LockService.class);
         getActivity().startService(intent);
     }
 
     @Override
     public String getUuid() {
         return mActivity.getUuid();
+    }
+
+
+    private void dialogOpenAccess() {
+        if (!ProcessUtil.isPermission(getActivity())) {
+            DialogUtils.getInstance().showDialog(getActivity(), "申请必要权限", "请在有权查看使用情况的应用中，为这个App打上勾!", new DialogUtils.OnButtonChooseListener() {
+                @Override
+                public void onPositive() {
+                    openUsageAccess();
+                }
+
+                @Override
+                public void onNegative() {
+                    ToastUtil.show(getActivity(), "必须取得权限", true);
+                    getActivity().finish();
+                }
+            });
+        }
+    }
+
+    // todo 申请权限的result
+    private void openUsageAccess() {
+        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 }

@@ -67,7 +67,7 @@ public class StudentHomeActivity extends BaseActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar_title.setText(getString(R.string.student_page_toolbar));
 
-        openUsageAccess();
+//        openUsageAccess();
     }
 
 

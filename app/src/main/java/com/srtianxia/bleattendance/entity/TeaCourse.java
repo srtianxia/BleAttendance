@@ -22,6 +22,8 @@ public class TeaCourse{
     public String rawWeek;
     public String period;
     public List<Integer> week;
+    //操作系统（04011403）
+    public String course_class;
 
     public String toString(){
         return course + "@" + classroom;

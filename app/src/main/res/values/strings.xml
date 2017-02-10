@@ -35,6 +35,7 @@
     <string name="fab_tea_connect">连接</string>
     <string name="fab_tea_scan">扫描</string>
     <string name="fab_tea_write">锁屏</string>
+    <string name="fab_tea_post">上传</string>
 
     <string-array name="course_weeks">
         <item>周一</item>

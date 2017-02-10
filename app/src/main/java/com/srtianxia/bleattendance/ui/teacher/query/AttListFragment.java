@@ -3,8 +3,10 @@ package com.srtianxia.bleattendance.ui.teacher.query;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.orhanobut.logger.Logger;
 import com.srtianxia.bleattendance.base.view.BaseListFragment;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
+import com.srtianxia.bleattendance.utils.DialogUtils;
 import com.srtianxia.bleattendance.utils.ToastUtil;
 
 import java.util.List;
@@ -62,7 +64,7 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
             loadFinished();
         } else if (mPosition == 2) {
             if (mHomeActivity.getCourseInfo() != null) {
-                mPresenter.postAttendanceInfo(mHomeActivity.getCourseInfo(), mHomeActivity.getCurrentWeek());
+                mPresenter.loadAttendanceInfo(mHomeActivity.getCourseInfo().jxbID, mHomeActivity.getCurrentWeek(), mHomeActivity.getCourseInfo().hash_day, mHomeActivity.getCourseInfo().hash_lesson);
             } else {
                 ToastUtil.show(getActivity(), "尚未选择考勤课程", true);
                 loadFinished();
@@ -90,5 +92,27 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
     @Override
     public List<String> getBleAttendanceInfo() {
         return mHomeActivity.getNumberList();
+    }
+
+    @Override
+    public void postSuccess() {
+        ToastUtil.show(getActivity(), "上传成功", true);
+        DialogUtils.getInstance().dismissProgressDialog();
+    }
+
+    @Override
+    public void postFailure() {
+        DialogUtils.getInstance().dismissProgressDialog();
+    }
+
+    public void postAttInfo() {
+        Logger.d("eventBus -----> postAttInfo");
+        if (mHomeActivity.getCourseInfo() != null) {
+            DialogUtils.getInstance().showProgressDialog(getActivity(), "考勤信息上传中,请稍后");
+            mPresenter.postAttendanceInfo(mHomeActivity.getCourseInfo(), mHomeActivity.getCurrentWeek());
+        } else {
+            ToastUtil.show(getActivity(), "尚未选择考勤课程", true);
+            loadFinished();
+        }
     }
 }

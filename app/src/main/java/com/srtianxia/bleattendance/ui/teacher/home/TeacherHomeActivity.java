@@ -15,7 +15,7 @@ import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
-mport com.srtianxia.bleattendance.ui.teacher.allattendance.BeforeAttendanceFragment;
+import com.srtianxia.bleattendance.ui.teacher.allattendance.BeforeAttendanceFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.query.AttendanceFragment;
 import com.srtianxia.bleattendance.utils.DialogUtils;
@@ -30,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 
 /**
  * Created by srtianxia on 2016/7/30.

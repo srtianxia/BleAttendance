@@ -18,16 +18,12 @@ import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.teacher.allattendance.BeforeAttendanceFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.query.AttendanceFragment;
-import com.srtianxia.bleattendance.ui.teacher.query.EventFabPost;
 import com.srtianxia.bleattendance.utils.DialogUtils;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.UiHelper;
 import com.srtianxia.bleattendance.utils.UuidUtil;
 import com.srtianxia.bleattendance.utils.database.DataBaseManager;
 import com.srtianxia.bleattendance.widget.CourseTableView;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.EventBusBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +40,7 @@ public class TeacherHomeActivity extends BaseActivity
     @BindView(R.id.bottom_view)
     BottomNavigationView mBottomView;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
     @BindView(R.id.tv_toolbar_title)
     TextView toolbar_title;
     @BindView(R.id.tv_tea_cover)
@@ -105,8 +101,9 @@ public class TeacherHomeActivity extends BaseActivity
         mFabMenu.setOnMenuButtonClickListener(onMenuButton);
 
         mBottomView.setOnNavigationItemSelectedListener(this);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         toolbar_title.setText(getString(R.string.teacher_page_toolbar));
 
     }
@@ -139,6 +136,10 @@ public class TeacherHomeActivity extends BaseActivity
                 UiHelper.startActivity(this, MainActivity.class);
                 finish();
                 break;
+            case R.id.home:
+                mBeforeAttendanceFragment.showBeforeAttFragment();
+                hideHome();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -154,7 +155,7 @@ public class TeacherHomeActivity extends BaseActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.bottom_nav_scan:
-                toolbar.setVisibility(View.VISIBLE);
+                mToolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mAttendanceFragment).hide(mCourseContainerFragment)
                         .hide(mBeforeAttendanceFragment).show(mTeacherScanFragment)
@@ -184,7 +185,7 @@ public class TeacherHomeActivity extends BaseActivity
                 break;
 
             case R.id.bottom_nav_table:
-                toolbar.setVisibility(View.VISIBLE);
+                mToolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(mAttendanceFragment)
                         .hide(mBeforeAttendanceFragment).show(mCourseContainerFragment)
@@ -195,6 +196,21 @@ public class TeacherHomeActivity extends BaseActivity
                 break;
         }
         return true;
+    }
+
+    public void showHome(){
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBeforeAttendanceFragment.showBeforeAttFragment();
+                hideHome();
+            }
+        });
+    }
+
+    public void hideHome(){
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     public void addNumber(Integer number) {

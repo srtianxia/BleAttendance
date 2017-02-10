@@ -87,15 +87,13 @@
             android:id="@+id/fab_tea_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_tea_connect"
+            android:src="@mipmap/ic_tea_post"
             app:fab_showShadow="true"
             app:fab_colorNormal="@color/white"
             app:fab_colorPressed="@color/fab_color_pressed"
             app:fab_colorRipple="@color/fab_color_ripple"
             app:fab_size="mini"
             app:fab_label="@string/fab_tea_post"/>
-
-
 
 
         <com.github.clans.fab.FloatingActionButton

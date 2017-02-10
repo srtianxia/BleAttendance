@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.entity.AttInfoEntity;
+import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 
 import butterknife.BindView;
 
@@ -22,9 +23,10 @@ public class BeforeAttendanceFragment extends BaseFragment implements BeforeAtte
 
     private BeforeAttendancePresenter mPresenter = new BeforeAttendancePresenter(this);
 
-    private AttendInfoFragment mAttInfoFragment = AttendInfoFragment.newInstance();
-
     private BeforeAttendanceAdapter mAdapter = new BeforeAttendanceAdapter();
+
+    private AttendInfoFragment mAttInfoFragment;
+
 
     private AttInfoEntity mAttInfoEntity;
 
@@ -35,32 +37,29 @@ public class BeforeAttendanceFragment extends BaseFragment implements BeforeAtte
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.loadData(mPresenter.getData());
 
-        getChildFragmentManager().beginTransaction()
-                .add(R.id.framelayout_before,mAttInfoFragment)
-                .hide(mAttInfoFragment)
-                .commit();
-
         mAdapter.setOnBeforeAttItemClickListener(new BeforeAttendanceAdapter.OnBeforeAttItemClickListener() {
             @Override
             public void onClick(int position, String jxbID) {
                 mRecyclerView.setVisibility(View.INVISIBLE);
                 mFrameLayout.setVisibility(View.VISIBLE);
                 mPresenter.requestAttInfoForNet(jxbID);
-                getChildFragmentManager().beginTransaction()
-                        .show(mAttInfoFragment)
-                        .commit();
+
             }
         });
 
     }
 
     public void showAttInfoFragment(){
+        mAttInfoFragment = AttendInfoFragment.newInstance();
+
+        ((TeacherHomeActivity)getActivity()).showHome();
+
         getChildFragmentManager().beginTransaction()
-                .show(mAttInfoFragment)
+                .add(R.id.framelayout_before,mAttInfoFragment)
                 .commit();
     }
 
-    public void setAttInfoEntity(AttInfoEntity entity){
+    public void saveAttInfoEntity(AttInfoEntity entity){
         mAttInfoEntity = entity;
     }
 
@@ -74,6 +73,12 @@ public class BeforeAttendanceFragment extends BaseFragment implements BeforeAtte
     @Override
     public void loadFinish() {
 
+    }
+
+    public void showBeforeAttFragment(){
+        getChildFragmentManager().beginTransaction()
+                .remove(mAttInfoFragment).commit();
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override

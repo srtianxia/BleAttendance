@@ -16,6 +16,12 @@ public class AttendInfoFragment extends BaseListFragment implements AttendInfoPr
     private AttendInfoPresenter mPresenter = new AttendInfoPresenter(this);
 
     @Override
+    protected void initView() {
+        super.initView();
+        loadListData();
+    }
+
+    @Override
     public BaseAdapter getAdapter() {
         return mAdapter;
     }

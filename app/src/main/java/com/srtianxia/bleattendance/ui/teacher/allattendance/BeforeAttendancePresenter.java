@@ -98,13 +98,15 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
     }
 
     private void requestAttInfoSuccess(AttInfoEntity entity){
-        getView().setAttInfoEntity(entity);
+        getView().saveAttInfoEntity(entity);
+        getView().showAttInfoFragment();
     }
 
     public interface IBeforeAttendanceView extends BaseView{
 
         void loadFinish();
-        void setAttInfoEntity(AttInfoEntity entity);
+        void saveAttInfoEntity(AttInfoEntity entity);
+        void showAttInfoFragment();
     }
 
 }

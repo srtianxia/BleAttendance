@@ -3,6 +3,7 @@ package com.srtianxia.bleattendance.http.api;
 import com.srtianxia.bleattendance.entity.AttInfoEntity;
 import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.entity.PostAttResultEntity;
+import com.srtianxia.bleattendance.entity.StuAttInfoEntity;
 import com.srtianxia.bleattendance.entity.StuListEntity;
 import com.srtianxia.bleattendance.entity.StudentEntity;
 import com.srtianxia.bleattendance.entity.TeaCourseEntity;
@@ -56,5 +57,11 @@ public interface Api {
 
     @GET("teacher/course")
     Observable<TeaCourseEntity> getTeaCourse(@Query("token") String token, @Query("week") String week);
+
+    @GET("student/attendance")
+    Observable<StuAttInfoEntity> getStuAttendanceInfo(@Query("token")String token,
+                                                      @Query("week")int week,
+                                                      @Query("hash_day")int hash_day,
+                                                      @Query("hash_lesson")int hash_lesson);
 
 }

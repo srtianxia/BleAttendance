@@ -12,10 +12,13 @@ import com.srtianxia.bleattendance.entity.TeaCourse;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by 梅梅 on 2017/2/10.
  */
-public class BeforeAttendanceAdapter extends RecyclerView.Adapter{
+public class TeaBeforeAttendanceAdapter extends RecyclerView.Adapter{
 
     private OnBeforeAttItemClickListener onBeforeAttItemClickListener;
 
@@ -55,11 +58,11 @@ public class BeforeAttendanceAdapter extends RecyclerView.Adapter{
 
     public class BeforeAttendanceViewHolder extends RecyclerView.ViewHolder{
 
-        TextView course_class;
+        @BindView(R.id.tv_search_class)TextView course_class;
 
         public BeforeAttendanceViewHolder(View itemView) {
             super(itemView);
-            course_class = (TextView) itemView.findViewById(R.id.tv_search_class);
+            ButterKnife.bind(this,itemView);
         }
 
         public void setData(int position){

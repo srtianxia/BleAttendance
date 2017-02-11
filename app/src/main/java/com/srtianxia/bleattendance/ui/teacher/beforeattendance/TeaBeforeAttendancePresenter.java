@@ -17,13 +17,13 @@ import java.util.List;
 /**
  * Created by 梅梅 on 2017/2/9.
  */
-public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePresenter.IBeforeAttendanceView>{
+public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttendancePresenter.IBeforeAttendanceView> {
 
     private Api mApi;
 
     private TeaCourseEntity teaCourseEntity;
 
-    public BeforeAttendancePresenter(IBeforeAttendanceView baseView) {
+    public TeaBeforeAttendancePresenter(IBeforeAttendanceView baseView) {
         super(baseView);
         mApi = ApiUtil.createApi(Api.class, ApiUtil.getBaseUrl());
     }
@@ -33,18 +33,18 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
         return getView();
     }
 
-    public List<TeaCourse> getData(){
+    public List<TeaCourse> getData() {
 
-        if (DataBaseManager.getInstance().queryTeaCourse(0) == null){
+        if (DataBaseManager.getInstance().queryTeaCourse(0) == null) {
             requestTeaDataForNet("0");
-        }else {
+        } else {
             teaCourseEntity = DataBaseManager.getInstance().queryTeaCourse(0);
         }
 
         List<TeaCourse> teaCourseList = classFilter(teaCourseEntity);
 
-        if (teaCourseList != null){
-            for (int i=0; i<teaCourseList.size(); i++){
+        if (teaCourseList != null) {
+            for (int i = 0; i < teaCourseList.size(); i++) {
                 teaCourseList.get(i).course_class = (teaCourseList.get(i).course + " ( " + teaCourseList.get(i).scNum + ")");
             }
             return teaCourseList;
@@ -52,13 +52,13 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
         return null;
     }
 
-    public List<TeaCourse> classFilter(TeaCourseEntity teaCourseEntity){
-        if (teaCourseEntity != null){
+    public List<TeaCourse> classFilter(TeaCourseEntity teaCourseEntity) {
+        if (teaCourseEntity != null) {
             List<TeaCourse> teaCourseList = new ArrayList<>();
             List<String> stringList = new ArrayList<>();
-            for (int i = 0; i < teaCourseEntity.data.size(); i++){
+            for (int i = 0; i < teaCourseEntity.data.size(); i++) {
                 String str = teaCourseEntity.data.get(i).course + " ( " + teaCourseEntity.data.get(i).scNum + ")";
-                if (!stringList.contains(str)){
+                if (!stringList.contains(str)) {
                     stringList.add(str);
                     teaCourseList.add(teaCourseEntity.data.get(i));
                 }
@@ -68,13 +68,13 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
         return null;
     }
 
-    public TeaCourseEntity getTeaCourseEntity(){
+    public TeaCourseEntity getTeaCourseEntity() {
         if (teaCourseEntity != null)
             return teaCourseEntity;
         return null;
     }
 
-    public void requestTeaDataForNet(String week){
+    public void requestTeaDataForNet(String week) {
 
         String teaToken = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getTeaCourse(teaToken, week)
@@ -88,8 +88,8 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
 
         List<TeaCourse> teaCourseList = classFilter(teaCourseEntity);
 
-        if (teaCourseList != null){
-            for (int i=0; i<teaCourseList.size(); i++){
+        if (teaCourseList != null) {
+            for (int i = 0; i < teaCourseList.size(); i++) {
                 teaCourseList.get(i).course_class = (teaCourseList.get(i).course + " ( " + teaCourseList.get(i).scNum + ")");
             }
 
@@ -102,24 +102,28 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
         getView().showFailure();
     }
 
-    public void requestAttInfoForNet(String jxbID){
-        String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER,"");
-        mApi.getAttendanceInfo(token,jxbID,0,0,0)
+    public void requestAttInfoForNet(String jxbID) {
+        String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
+        mApi.getAttendanceInfo(token, jxbID, 0, 0, 0)
                 .compose(RxSchedulersHelper.io2main())
-                .subscribe(this::requestAttInfoSuccess,this::loadFailure);
+                .subscribe(this::requestAttInfoSuccess, this::loadFailure);
     }
 
-    private void requestAttInfoSuccess(AttInfoEntity entity){
+    private void requestAttInfoSuccess(AttInfoEntity entity) {
         getView().saveAttInfoEntity(entity);
         getView().showAttInfoFragment();
     }
 
-    public interface IBeforeAttendanceView extends BaseView{
+    public interface IBeforeAttendanceView extends BaseView {
 
         void loadFinish();
+
         void saveAttInfoEntity(AttInfoEntity entity);
+
         void showAttInfoFragment();
+
         void showFailure();
+
         void loadData(List<TeaCourse> teaCourseList);
     }
 

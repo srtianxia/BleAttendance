@@ -32,10 +32,12 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
 
     public void postAttendanceInfo(Course course, int week) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
-        mApi.getStuList(token, course.jxbID).flatMap(stuListEntity -> {
+        mApi.getStuList(token, course.jxbID)
+                .flatMap(stuListEntity -> {
             String status = mergeAttendanceStatus(stuListEntity, getView().getBleAttendanceInfo());
             return mApi.postAttendanceInfo(token, course.jxbID, course.hash_day, course.hash_lesson, status, week);
-        }).compose(RxSchedulersHelper.io2main())
+        })
+                .compose(RxSchedulersHelper.io2main())
                 .subscribe(postAttResultEntity -> {
                             Logger.d(postAttResultEntity);
                             getView().postSuccess();

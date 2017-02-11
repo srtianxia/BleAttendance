@@ -15,7 +15,7 @@ import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
-import com.srtianxia.bleattendance.ui.teacher.beforeattendance.BeforeAttendanceFragment;
+import com.srtianxia.bleattendance.ui.teacher.beforeattendance.TeaBeforeAttendanceFragment;
 import com.srtianxia.bleattendance.ui.teacher.attendance.TeacherScanFragment;
 import com.srtianxia.bleattendance.ui.teacher.query.AttendanceFragment;
 import com.srtianxia.bleattendance.utils.DialogUtils;
@@ -66,7 +66,7 @@ public class TeacherHomeActivity extends BaseActivity
 
     private AttendanceFragment mAttendanceFragment = AttendanceFragment.newInstance();
 
-    private BeforeAttendanceFragment mBeforeAttendanceFragment = BeforeAttendanceFragment.newInstance();
+    private TeaBeforeAttendanceFragment mTeaBeforeAttendanceFragment = TeaBeforeAttendanceFragment.newInstance();
 
     private List<Integer> mNumberList = new ArrayList<>();
 
@@ -88,11 +88,11 @@ public class TeacherHomeActivity extends BaseActivity
                 .add(R.id.fragment_container, mTeacherScanFragment)
                 .add(R.id.fragment_container, mAttendanceFragment)
                 .add(R.id.fragment_container, mCourseContainerFragment)
-                .add(R.id.fragment_container, mBeforeAttendanceFragment)
+                .add(R.id.fragment_container, mTeaBeforeAttendanceFragment)
                 .show(mTeacherScanFragment)
                 .hide(mAttendanceFragment)
                 .hide(mCourseContainerFragment)
-                .hide(mBeforeAttendanceFragment)
+                .hide(mTeaBeforeAttendanceFragment)
                 .commit();
 
 //        tvCurrentCourse.setText(getPrefixText() + getText(R.string.current_course_no_choose));
@@ -137,7 +137,7 @@ public class TeacherHomeActivity extends BaseActivity
                 finish();
                 break;
             case R.id.home:
-                mBeforeAttendanceFragment.showBeforeAttFragment();
+                mTeaBeforeAttendanceFragment.showBeforeAttFragment();
                 hideHome();
                 break;
         }
@@ -153,7 +153,7 @@ public class TeacherHomeActivity extends BaseActivity
                 mToolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mAttendanceFragment).hide(mCourseContainerFragment)
-                        .hide(mBeforeAttendanceFragment).show(mTeacherScanFragment)
+                        .hide(mTeaBeforeAttendanceFragment).show(mTeacherScanFragment)
                         .commit();
                 if (mFabMenu.isOpened())
                     closeFabMenu();
@@ -163,7 +163,7 @@ public class TeacherHomeActivity extends BaseActivity
 //                toolbar.setVisibility(View.INVISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(mCourseContainerFragment)
-                        .hide(mBeforeAttendanceFragment).show(mAttendanceFragment)
+                        .hide(mTeaBeforeAttendanceFragment).show(mAttendanceFragment)
                         .commit();
                 if (mFabMenu.isOpened())
                     closeFabMenu();
@@ -172,7 +172,7 @@ public class TeacherHomeActivity extends BaseActivity
             case R.id.bottom_nav_before:
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(mCourseContainerFragment)
-                        .hide(mAttendanceFragment).show(mBeforeAttendanceFragment)
+                        .hide(mAttendanceFragment).show(mTeaBeforeAttendanceFragment)
                         .commit();
                 if (mFabMenu.isOpened())
                     closeFabMenu();
@@ -183,7 +183,7 @@ public class TeacherHomeActivity extends BaseActivity
                 mToolbar.setVisibility(View.VISIBLE);
                 getSupportFragmentManager().beginTransaction()
                         .hide(mTeacherScanFragment).hide(mAttendanceFragment)
-                        .hide(mBeforeAttendanceFragment).show(mCourseContainerFragment)
+                        .hide(mTeaBeforeAttendanceFragment).show(mCourseContainerFragment)
                         .commit();
                 if (mFabMenu.isOpened())
                     closeFabMenu();
@@ -198,7 +198,7 @@ public class TeacherHomeActivity extends BaseActivity
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBeforeAttendanceFragment.showBeforeAttFragment();
+                mTeaBeforeAttendanceFragment.showBeforeAttFragment();
                 hideHome();
             }
         });
@@ -256,7 +256,7 @@ public class TeacherHomeActivity extends BaseActivity
 
     @OnClick(R.id.tv_tea_cover)
     void onTvCover() {
-        if (mCover.getVisibility() == View.VISIBLE){
+        if (mCover.getVisibility() == View.VISIBLE) {
             closeFabMenu();
         }
     }
@@ -313,12 +313,12 @@ public class TeacherHomeActivity extends BaseActivity
         return mUuid;
     }
 
-    private void closeFabMenu(){
+    private void closeFabMenu() {
         mFabMenu.close(true);
         mCover.setVisibility(View.INVISIBLE);
     }
 
-    private void openFabMenu(){
+    private void openFabMenu() {
         mFabMenu.open(true);
         mCover.setVisibility(View.VISIBLE);
     }
@@ -331,10 +331,10 @@ public class TeacherHomeActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        if (mFabMenu.isOpened()){
+        if (mFabMenu.isOpened()) {
             closeFabMenu();
-        } else if (mBeforeAttendanceFragment.isShowAttInfoFragment()){
-            mBeforeAttendanceFragment.showBeforeAttFragment();
+        } else if (mTeaBeforeAttendanceFragment.isShowAttInfoFragment()) {
+            mTeaBeforeAttendanceFragment.showBeforeAttFragment();
             hideHome();
         } else {
             super.onBackPressed();

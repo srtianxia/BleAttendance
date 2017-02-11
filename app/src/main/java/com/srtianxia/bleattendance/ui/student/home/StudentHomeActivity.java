@@ -16,6 +16,7 @@ import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.student.attendance.StudentAttendanceFragment;
+import com.srtianxia.bleattendance.ui.student.beforeattendance.StuBeforeAttendanceFragment;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ProcessUtil;
 import com.srtianxia.bleattendance.utils.UiHelper;
@@ -42,6 +43,7 @@ public class StudentHomeActivity extends BaseActivity
 
     private StudentAttendanceFragment mAttendanceFragment;
     private CourseContainerFragment mCourseContainerFragment;
+    private StuBeforeAttendanceFragment mBeforeAttendanceFragment;
 
     private CourseTableView.CourseList mCourse;
     private String mWeek;
@@ -52,11 +54,16 @@ public class StudentHomeActivity extends BaseActivity
     protected void initView() {
         mAttendanceFragment = StudentAttendanceFragment.newInstance();
         mCourseContainerFragment = CourseContainerFragment.newInstance();
+        mBeforeAttendanceFragment = StuBeforeAttendanceFragment.newInstance();
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mAttendanceFragment)
                 .add(R.id.fragment_container, mCourseContainerFragment)
-                .hide(mCourseContainerFragment).show(mAttendanceFragment).commit();
+                .add(R.id.fragment_container, mBeforeAttendanceFragment)
+                .hide(mCourseContainerFragment)
+                .hide(mBeforeAttendanceFragment)
+                .show(mAttendanceFragment)
+                .commit();
         bottomViewStudent.setOnNavigationItemSelectedListener(this);
 
         setSupportActionBar(toolbar);
@@ -93,11 +100,24 @@ public class StudentHomeActivity extends BaseActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.bottom_nav_attendance:
-                getSupportFragmentManager().beginTransaction().hide(mCourseContainerFragment).show(mAttendanceFragment).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .hide(mCourseContainerFragment)
+                        .hide(mBeforeAttendanceFragment)
+                        .show(mAttendanceFragment).commit();
                 break;
             case R.id.bottom_nav_table:
-                getSupportFragmentManager().beginTransaction().hide(mAttendanceFragment).show(mCourseContainerFragment).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .hide(mAttendanceFragment)
+                        .hide(mBeforeAttendanceFragment)
+                        .show(mCourseContainerFragment).commit();
                 break;
+            case R.id.bottom_before_att:
+                getSupportFragmentManager().beginTransaction()
+                        .hide(mAttendanceFragment)
+                        .hide(mCourseContainerFragment)
+                        .show(mBeforeAttendanceFragment)
+                        .commit();
+
         }
         return true;
     }

@@ -28,14 +28,22 @@ public class AttendInfoFragment extends BaseListFragment implements AttendInfoPr
 
     @Override
     protected void loadListData() {
-        AttInfoEntity firstEntity = ((BeforeAttendanceFragment)getParentFragment()).getAttInfoEntity();
+        AttInfoEntity firstEntity = ((TeaBeforeAttendanceFragment)getParentFragment()).getAttInfoEntity();
         AttInfoEntity secondEntity = mPresenter.absenceFiler(firstEntity);
 
         loadDataList(mPresenter.sortForAbsence(secondEntity.data));
         loadFinish();
     }
 
+    @Override
+    public void onRefresh() {
 
+    }
+
+    public void onAttInfoRefresh(){
+        getAdapter().clearData();
+        loadListData();
+    }
 
     private void loadFinish(){
         loadFinished();

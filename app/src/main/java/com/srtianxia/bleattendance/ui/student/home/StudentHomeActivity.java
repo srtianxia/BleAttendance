@@ -16,7 +16,6 @@ import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.student.attendance.StudentAttendanceFragment;
-import com.srtianxia.bleattendance.ui.student.table.CourseTableFragment;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ProcessUtil;
 import com.srtianxia.bleattendance.utils.UiHelper;
@@ -42,7 +41,6 @@ public class StudentHomeActivity extends BaseActivity
     TextView toolbar_title;
 
     private StudentAttendanceFragment mAttendanceFragment;
-    private CourseTableFragment mCourseTableFragment;
     private CourseContainerFragment mCourseContainerFragment;
 
     private CourseTableView.CourseList mCourse;
@@ -53,7 +51,6 @@ public class StudentHomeActivity extends BaseActivity
     @Override
     protected void initView() {
         mAttendanceFragment = StudentAttendanceFragment.newInstance();
-        mCourseTableFragment = CourseTableFragment.newInstance();
         mCourseContainerFragment = CourseContainerFragment.newInstance();
 
         getSupportFragmentManager().beginTransaction()

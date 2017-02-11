@@ -88,7 +88,7 @@ public class TeacherHomeActivity extends BaseActivity
                 .add(R.id.fragment_container, mTeacherScanFragment)
                 .add(R.id.fragment_container, mAttendanceFragment)
                 .add(R.id.fragment_container, mCourseContainerFragment)
-                .add(R.id.fragment_container,mBeforeAttendanceFragment)
+                .add(R.id.fragment_container, mBeforeAttendanceFragment)
                 .show(mTeacherScanFragment)
                 .hide(mAttendanceFragment)
                 .hide(mCourseContainerFragment)
@@ -136,10 +136,15 @@ public class TeacherHomeActivity extends BaseActivity
                 UiHelper.startActivity(this, MainActivity.class);
                 finish();
                 break;
+            case R.id.home:
+                mBeforeAttendanceFragment.showBeforeAttFragment();
+                hideHome();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -188,7 +193,7 @@ public class TeacherHomeActivity extends BaseActivity
         return true;
     }
 
-    public void showHome(){
+    public void showHome() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +204,7 @@ public class TeacherHomeActivity extends BaseActivity
         });
     }
 
-    public void hideHome(){
+    public void hideHome() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
@@ -241,29 +246,29 @@ public class TeacherHomeActivity extends BaseActivity
     private View.OnClickListener onMenuButton = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (mFabMenu.isOpened()){
+            if (mFabMenu.isOpened()) {
                 closeFabMenu();
-            }else {
+            } else {
                 openFabMenu();
             }
         }
     };
 
     @OnClick(R.id.tv_tea_cover)
-    void onTvCover(){
+    void onTvCover() {
         if (mCover.getVisibility() == View.VISIBLE){
             closeFabMenu();
         }
     }
 
     @OnClick(R.id.fab_tea_connect)
-    void onFabConnect(){
+    void onFabConnect() {
         mTeacherScanFragment.connectAll();
         closeFabMenu();
     }
 
     @OnClick(R.id.fab_tea_scan)
-    void onFabScan(){
+    void onFabScan() {
         mTeacherScanFragment.startScan();
         closeFabMenu();
     }
@@ -276,7 +281,7 @@ public class TeacherHomeActivity extends BaseActivity
     }
 
     @OnClick(R.id.fab_tea_input)
-    void onFabInput(){
+    void onFabInput() {
         DialogUtils.getInstance().showInputDialog(this, "输入学号", "请输入特殊考勤方式学生的学号 ", new DialogUtils.OnButtonChooseListener() {
             @Override
             public void onPositive() {
@@ -328,10 +333,10 @@ public class TeacherHomeActivity extends BaseActivity
     public void onBackPressed() {
         if (mFabMenu.isOpened()){
             closeFabMenu();
-        }else if (mBeforeAttendanceFragment.isShowAttInfoFragment()){
+        } else if (mBeforeAttendanceFragment.isShowAttInfoFragment()){
             mBeforeAttendanceFragment.showBeforeAttFragment();
             hideHome();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }

@@ -29,7 +29,6 @@
 
         <activity android:name=".ui.teacher.home.TeacherHomeActivity"/>
         <activity android:name=".ui.student.home.StudentHomeActivity"/>
-        <activity android:name=".ui.home.StudentActivity"/>
 
         <service android:name=".service.LockService"></service>
 
@@ -38,18 +37,6 @@
         <activity
             android:theme="@style/AppThemeNoActionbar"
             android:name=".ui.lock.LockActivity"
-            android:launchMode="singleInstance"/>
-        <activity
-            android:theme="@style/AppThemeNoActionbar"
-            android:name=".ui.lock.LockActivity1"
-            android:launchMode="singleInstance"/>
-        <activity
-            android:theme="@style/AppThemeNoActionbar"
-            android:name=".ui.lock.LockActivity2"
-            android:launchMode="singleInstance"/>
-        <activity
-            android:theme="@style/AppThemeNoActionbar"
-            android:name=".ui.lock.LockActivity3"
             android:launchMode="singleInstance"/>
     </application>
 

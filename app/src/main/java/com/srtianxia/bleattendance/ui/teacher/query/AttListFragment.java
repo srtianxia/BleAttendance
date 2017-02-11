@@ -3,7 +3,6 @@ package com.srtianxia.bleattendance.ui.teacher.query;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.orhanobut.logger.Logger;
 import com.srtianxia.bleattendance.base.view.BaseListFragment;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.DialogUtils;
@@ -105,8 +104,9 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
         DialogUtils.getInstance().dismissProgressDialog();
     }
 
+
+    // 这里写的 太差了  = =
     public void postAttInfo() {
-        Logger.d("eventBus -----> postAttInfo");
         if (mHomeActivity.getCourseInfo() != null) {
             DialogUtils.getInstance().showProgressDialog(getActivity(), "考勤信息上传中,请稍后");
             mPresenter.postAttendanceInfo(mHomeActivity.getCourseInfo(), mHomeActivity.getCurrentWeek());

@@ -4,7 +4,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.paginate.Paginate;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
 
@@ -16,13 +15,12 @@ import butterknife.BindView;
  * Created by srtianxia on 2017/1/16.
  */
 
-public abstract class BaseListFragment<E, T extends BaseAdapter<E>> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, Paginate.Callbacks {
+public abstract class BaseListFragment<E, T extends BaseAdapter<E>> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.base_recycler_view)
     RecyclerView baseRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private Paginate mPaginate;
 
     @Override
     protected int getLayoutRes() {
@@ -35,9 +33,6 @@ public abstract class BaseListFragment<E, T extends BaseAdapter<E>> extends Base
         baseRecyclerView.setAdapter(getAdapter());
         baseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-//        if (needLoadMore()) {
-//            mPaginate = Paginate.with(baseRecyclerView, this).build();
-//        }
     }
 
     @Override
@@ -46,10 +41,6 @@ public abstract class BaseListFragment<E, T extends BaseAdapter<E>> extends Base
         loadListData();
     }
 
-    @Override
-    public void onLoadMore() {
-
-    }
 
     // 添加一个item数据
     public void addData(E data) {
@@ -58,17 +49,6 @@ public abstract class BaseListFragment<E, T extends BaseAdapter<E>> extends Base
 
     public void loadDataList(List<E> data) {
         getAdapter().addDataList(data);
-    }
-
-    @Override
-    public boolean isLoading() {
-        return false;
-    }
-
-
-    @Override
-    public boolean hasLoadedAllItems() {
-        return false;
     }
 
 

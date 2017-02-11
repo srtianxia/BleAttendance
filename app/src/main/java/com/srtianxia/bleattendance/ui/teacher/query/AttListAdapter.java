@@ -41,7 +41,7 @@ public class AttListAdapter extends BaseAdapter<String> {
 
     @Override protected RecyclerView.ViewHolder createHolder(ViewGroup parent, int viewType) {
         return new AttViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_expandable_child, parent, false));
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_att_list, parent, false));
     }
 
 

@@ -95,7 +95,7 @@ public class BeforeAttendanceFragment extends BaseFragment implements BeforeAtte
     public void showBeforeAttFragment(){
         getChildFragmentManager().beginTransaction()
                 .remove(mAttInfoFragment).commit();
-        mFrameLayout.setVisibility(View.INVISIBLE);
+//        mFrameLayout.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 

@@ -45,7 +45,7 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
 
         if (teaCourseList != null){
             for (int i=0; i<teaCourseList.size(); i++){
-                teaCourseList.get(i).course_class = (teaCourseList.get(i).course + " (" + teaCourseList.get(i).scNum + ")");
+                teaCourseList.get(i).course_class = (teaCourseList.get(i).course + " ( " + teaCourseList.get(i).scNum + ")");
             }
             return teaCourseList;
         }
@@ -57,7 +57,7 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
             List<TeaCourse> teaCourseList = new ArrayList<>();
             List<String> stringList = new ArrayList<>();
             for (int i = 0; i < teaCourseEntity.data.size(); i++){
-                String str = teaCourseEntity.data.get(i).course + " (" + teaCourseEntity.data.get(i).scNum + ")";
+                String str = teaCourseEntity.data.get(i).course + " ( " + teaCourseEntity.data.get(i).scNum + ")";
                 if (!stringList.contains(str)){
                     stringList.add(str);
                     teaCourseList.add(teaCourseEntity.data.get(i));
@@ -74,20 +74,32 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
         return null;
     }
 
-    private void requestTeaDataForNet(String week){
+    public void requestTeaDataForNet(String week){
 
         String teaToken = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getTeaCourse(teaToken, week)
                 .compose(RxSchedulersHelper.io2main())
                 .subscribe(this::loadTeaSuccess, this::loadFailure);
+
     }
 
     private void loadTeaSuccess(TeaCourseEntity teaCourseEntity) {
         this.teaCourseEntity = teaCourseEntity;
+
+        List<TeaCourse> teaCourseList = classFilter(teaCourseEntity);
+
+        if (teaCourseList != null){
+            for (int i=0; i<teaCourseList.size(); i++){
+                teaCourseList.get(i).course_class = (teaCourseList.get(i).course + " ( " + teaCourseList.get(i).scNum + ")");
+            }
+
+        }
+        getView().loadData(teaCourseList);
+        getView().loadFinish();
     }
 
     private void loadFailure(Throwable throwable) {
-
+        getView().showFailure();
     }
 
     public void requestAttInfoForNet(String jxbID){
@@ -107,6 +119,8 @@ public class BeforeAttendancePresenter extends BasePresenter<BeforeAttendancePre
         void loadFinish();
         void saveAttInfoEntity(AttInfoEntity entity);
         void showAttInfoFragment();
+        void showFailure();
+        void loadData(List<TeaCourse> teaCourseList);
     }
 
 }

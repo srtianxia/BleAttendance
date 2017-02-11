@@ -15,7 +15,6 @@ import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseActivity;
 import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
-import com.srtianxia.bleattendance.ui.home.StudentActivity;
 import com.srtianxia.bleattendance.ui.student.attendance.StudentAttendanceFragment;
 import com.srtianxia.bleattendance.ui.student.table.CourseTableFragment;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
@@ -70,12 +69,6 @@ public class StudentHomeActivity extends BaseActivity
 //        openUsageAccess();
     }
 
-
-    @Override
-    protected int getLayoutRes() {
-        return R.layout.activity_student_home;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_student, menu);
@@ -120,6 +113,11 @@ public class StudentHomeActivity extends BaseActivity
 
     public String getUuid() {
         return mUUid;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_student_home;
     }
 
     private void openUsageAccess() {

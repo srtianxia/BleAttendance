@@ -35,6 +35,8 @@ public class AttendInfoFragment extends BaseListFragment implements AttendInfoPr
         loadFinish();
     }
 
+
+
     private void loadFinish(){
         loadFinished();
     }

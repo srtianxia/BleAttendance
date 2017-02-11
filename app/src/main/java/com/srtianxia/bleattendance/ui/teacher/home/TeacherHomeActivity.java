@@ -136,19 +136,9 @@ public class TeacherHomeActivity extends BaseActivity
                 UiHelper.startActivity(this, MainActivity.class);
                 finish();
                 break;
-            case R.id.home:
-                mBeforeAttendanceFragment.showBeforeAttFragment();
-                hideHome();
-                break;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    protected int getLayoutRes() {
-        return R.layout.activity_teacher_home;
     }
 
     @Override
@@ -328,10 +318,19 @@ public class TeacherHomeActivity extends BaseActivity
         mCover.setVisibility(View.VISIBLE);
     }
 
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_teacher_home;
+    }
+
     @Override
     public void onBackPressed() {
         if (mFabMenu.isOpened()){
             closeFabMenu();
+        }else if (mBeforeAttendanceFragment.isShowAttInfoFragment()){
+            mBeforeAttendanceFragment.showBeforeAttFragment();
+            hideHome();
         }else {
             super.onBackPressed();
         }

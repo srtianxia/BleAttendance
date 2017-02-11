@@ -108,4 +108,7 @@
     <string name="login_error_password_null">密码不能为空</string>
     <string name="login_error_not_network">网络不给力，请检查网络设置</string>
     <string name="login_error_passwork_error">账号或密码错误</string>
+
+    <string name="request_error_for_net">网络请求失败,请检查网络设置</string>
+
 </resources>

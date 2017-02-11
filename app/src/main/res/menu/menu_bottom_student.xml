@@ -16,6 +16,6 @@
     <item android:id="@+id/bottom_na"
         android:enabled="true"
         app:showAsAction="ifRoom"
-        android:title="其他"
+        android:title="历史考勤"
         android:icon="@mipmap/ic_search"/>
 </menu>

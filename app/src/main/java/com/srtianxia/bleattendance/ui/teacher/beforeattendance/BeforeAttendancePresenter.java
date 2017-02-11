@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.ui.teacher.allattendance;
+package com.srtianxia.bleattendance.ui.teacher.beforeattendance;
 
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;

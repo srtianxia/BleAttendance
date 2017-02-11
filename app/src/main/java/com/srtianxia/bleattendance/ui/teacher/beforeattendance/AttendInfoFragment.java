@@ -1,4 +1,4 @@
-package com.srtianxia.bleattendance.ui.teacher.allattendance;
+package com.srtianxia.bleattendance.ui.teacher.beforeattendance;
 
 import android.os.Bundle;
 

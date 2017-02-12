@@ -1,15 +1,21 @@
 package com.srtianxia.bleattendance.ui.teacher.beforeattendance;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
-import com.srtianxia.bleattendance.base.view.BaseListFragment;
+import com.srtianxia.bleattendance.R;
+import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.entity.AttInfoEntity;
+
+import butterknife.BindView;
 
 /**
  * Created by 梅梅 on 2017/2/10.
  */
-public class AttendInfoFragment extends BaseListFragment implements AttendInfoPresenter.AttendInfoView{
+public class AttendInfoFragment extends BaseFragment implements AttendInfoPresenter.AttendInfoView{
+
+    @BindView(R.id.recycler_view_tea_att_info)RecyclerView mRecyclerView;
 
     private AttendInfoAdapter mAdapter = new AttendInfoAdapter();
 
@@ -17,36 +23,25 @@ public class AttendInfoFragment extends BaseListFragment implements AttendInfoPr
 
     @Override
     protected void initView() {
-        super.initView();
-        loadListData();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(mAdapter);
+        loadData();
     }
 
-    @Override
-    public BaseAdapter getAdapter() {
-        return mAdapter;
-    }
-
-    @Override
-    protected void loadListData() {
+    public void loadData() {
         AttInfoEntity firstEntity = ((TeaBeforeAttendanceFragment)getParentFragment()).getAttInfoEntity();
         AttInfoEntity secondEntity = mPresenter.absenceFiler(firstEntity);
 
-        loadDataList(mPresenter.sortForAbsence(secondEntity.data));
-        loadFinish();
+        mAdapter.loadData(mPresenter.sortForAbsence(secondEntity.data));
+    }
+
+    public void onRefresh(){
+        loadData();
     }
 
     @Override
-    public void onRefresh() {
-
-    }
-
-    public void onAttInfoRefresh(){
-        getAdapter().clearData();
-        loadListData();
-    }
-
-    private void loadFinish(){
-        loadFinished();
+    protected int getLayoutRes() {
+        return R.layout.fragment_tea_att_info;
     }
 
     public static AttendInfoFragment newInstance(){

@@ -84,6 +84,7 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
             getChildFragmentManager().beginTransaction()
                     .show(mAttInfoFragment)
                     .commit();
+            mAttInfoFragment.loadData();
             isShowAttInfoFragment = true;
         }
 
@@ -103,6 +104,10 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
     @Override
     public void showFailure() {
         ToastUtil.show(getActivity(), getResources().getString(R.string.request_error_for_net), true);
+    }
+
+    public void loading(){
+        mSwipeRefresh.setRefreshing(true);
     }
 
     @Override
@@ -137,8 +142,9 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
             mPresenter.requestTeaDataForNet("0");
 
         } else {
-            mAttInfoFragment.onAttInfoRefresh();
+            mAttInfoFragment.onRefresh();
         }
+        loadFinish();
 
     }
 

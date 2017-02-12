@@ -95,14 +95,10 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
 
         }
         getView().loadData(teaCourseList);
-        getView().loadFinish();
-    }
-
-    private void loadFailure(Throwable throwable) {
-        getView().showFailure();
     }
 
     public void requestAttInfoForNet(String jxbID) {
+        getView().loading();
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getAttendanceInfo(token, jxbID, 0, 0, 0)
                 .compose(RxSchedulersHelper.io2main())
@@ -112,9 +108,17 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
     private void requestAttInfoSuccess(AttInfoEntity entity) {
         getView().saveAttInfoEntity(entity);
         getView().showAttInfoFragment();
+        getView().loadFinish();
+    }
+
+    private void loadFailure(Throwable throwable) {
+        getView().showFailure();
+        getView().loadFinish();
     }
 
     public interface IBeforeAttendanceView extends BaseView {
+
+        void loading();
 
         void loadFinish();
 

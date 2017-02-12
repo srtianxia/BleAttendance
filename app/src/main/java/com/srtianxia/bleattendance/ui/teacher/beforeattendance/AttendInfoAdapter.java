@@ -7,16 +7,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
-import com.srtianxia.bleattendance.base.adapter.BaseAdapter;
 import com.srtianxia.bleattendance.entity.AttInfoEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 梅梅 on 2017/2/10.
  */
-public class AttendInfoAdapter extends BaseAdapter<AttInfoEntity.AttInfo>{
+public class AttendInfoAdapter extends RecyclerView.Adapter{
+
+    private List<AttInfoEntity.AttInfo> dataList = new ArrayList<>();
 
     @Override
-    protected RecyclerView.ViewHolder createHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new AttendInfoViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_att_info,parent,false));
     }
@@ -24,7 +28,22 @@ public class AttendInfoAdapter extends BaseAdapter<AttInfoEntity.AttInfo>{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         AttendInfoViewHolder viewHolder = (AttendInfoViewHolder) holder;
-        viewHolder.setData(getDataController().getData(position));
+        viewHolder.setData(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return dataList.size();
+    }
+
+    public void loadData(List<AttInfoEntity.AttInfo> dataList){
+        this.dataList.clear();
+        this.dataList.addAll(dataList);
+        notifyDataSetChanged();
+    }
+
+    public void clearData(){
+        dataList.clear();
     }
 
     public class AttendInfoViewHolder extends RecyclerView.ViewHolder{
@@ -40,10 +59,10 @@ public class AttendInfoAdapter extends BaseAdapter<AttInfoEntity.AttInfo>{
             mWeek = (TextView) itemView.findViewById(R.id.tv_search_att_info_week);
         }
 
-        public void setData(AttInfoEntity.AttInfo info){
-            mName.setText(info.stuName);
-            mNum.setText(info.stuNum);
-            mWeek.setText(info.absence + "");
+        public void setData(int position){
+            mName.setText(dataList.get(position).stuName);
+            mNum.setText(dataList.get(position).stuNum);
+            mWeek.setText(dataList.get(position).absence + "");
         }
     }
 

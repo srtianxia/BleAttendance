@@ -15,14 +15,14 @@ import java.util.List;
 /**
  * Created by 梅梅 on 2017/2/10.
  */
-public class AttendInfoAdapter extends RecyclerView.Adapter{
+public class AttendInfoAdapter extends RecyclerView.Adapter {
 
     private List<AttInfoEntity.AttInfo> dataList = new ArrayList<>();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new AttendInfoViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_att_info,parent,false));
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_att_info, parent, false));
     }
 
     @Override
@@ -36,17 +36,17 @@ public class AttendInfoAdapter extends RecyclerView.Adapter{
         return dataList.size();
     }
 
-    public void loadData(List<AttInfoEntity.AttInfo> dataList){
+    public void loadData(List<AttInfoEntity.AttInfo> dataList) {
         this.dataList.clear();
         this.dataList.addAll(dataList);
         notifyDataSetChanged();
     }
 
-    public void clearData(){
+    public void clearData() {
         dataList.clear();
     }
 
-    public class AttendInfoViewHolder extends RecyclerView.ViewHolder{
+    public class AttendInfoViewHolder extends RecyclerView.ViewHolder {
 
         TextView mName;
         TextView mNum;
@@ -59,7 +59,7 @@ public class AttendInfoAdapter extends RecyclerView.Adapter{
             mWeek = (TextView) itemView.findViewById(R.id.tv_search_att_info_week);
         }
 
-        public void setData(int position){
+        public void setData(int position) {
             mName.setText(dataList.get(position).stuName);
             mNum.setText(dataList.get(position).stuNum);
             mWeek.setText(dataList.get(position).absence + "");

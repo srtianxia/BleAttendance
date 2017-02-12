@@ -106,7 +106,7 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
         ToastUtil.show(getActivity(), getResources().getString(R.string.request_error_for_net), true);
     }
 
-    public void loading(){
+    public void loading() {
         mSwipeRefresh.setRefreshing(true);
     }
 

@@ -13,9 +13,10 @@ import butterknife.BindView;
 /**
  * Created by 梅梅 on 2017/2/10.
  */
-public class AttendInfoFragment extends BaseFragment implements AttendInfoPresenter.AttendInfoView{
+public class AttendInfoFragment extends BaseFragment implements AttendInfoPresenter.AttendInfoView {
 
-    @BindView(R.id.recycler_view_tea_att_info)RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_view_tea_att_info)
+    RecyclerView mRecyclerView;
 
     private AttendInfoAdapter mAdapter = new AttendInfoAdapter();
 
@@ -29,13 +30,13 @@ public class AttendInfoFragment extends BaseFragment implements AttendInfoPresen
     }
 
     public void loadData() {
-        AttInfoEntity firstEntity = ((TeaBeforeAttendanceFragment)getParentFragment()).getAttInfoEntity();
+        AttInfoEntity firstEntity = ((TeaBeforeAttendanceFragment) getParentFragment()).getAttInfoEntity();
         AttInfoEntity secondEntity = mPresenter.absenceFiler(firstEntity);
 
         mAdapter.loadData(mPresenter.sortForAbsence(secondEntity.data));
     }
 
-    public void onRefresh(){
+    public void onRefresh() {
         loadData();
     }
 
@@ -44,7 +45,7 @@ public class AttendInfoFragment extends BaseFragment implements AttendInfoPresen
         return R.layout.fragment_tea_att_info;
     }
 
-    public static AttendInfoFragment newInstance(){
+    public static AttendInfoFragment newInstance() {
         Bundle bundle = new Bundle();
         AttendInfoFragment fragment = new AttendInfoFragment();
         fragment.setArguments(bundle);

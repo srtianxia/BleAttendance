@@ -12,13 +12,13 @@ import java.util.List;
 /**
  * Created by 梅梅 on 2017/2/10.
  */
-public class AttendInfoPresenter extends BasePresenter{
+public class AttendInfoPresenter extends BasePresenter {
 
     private Api mApi;
 
     public AttendInfoPresenter(BaseView baseView) {
         super(baseView);
-        mApi = ApiUtil.createApi(Api.class,ApiUtil.getBaseUrl());
+        mApi = ApiUtil.createApi(Api.class, ApiUtil.getBaseUrl());
     }
 
     @Override
@@ -26,11 +26,11 @@ public class AttendInfoPresenter extends BasePresenter{
         return getView();
     }
 
-    public AttInfoEntity absenceFiler(AttInfoEntity entity){
-        if (entity != null){
-            for (int i=0; i<entity.data.size(); i++){
+    public AttInfoEntity absenceFiler(AttInfoEntity entity) {
+        if (entity != null) {
+            for (int i = 0; i < entity.data.size(); i++) {
                 int counter = 0;
-                for (int j=0; j<entity.data.get(i).status.size(); j++){
+                for (int j = 0; j < entity.data.get(i).status.size(); j++) {
                     if (entity.data.get(i).status.get(j).equals("1"))
                         counter++;
                 }
@@ -41,10 +41,10 @@ public class AttendInfoPresenter extends BasePresenter{
         return null;
     }
 
-    public List<AttInfoEntity.AttInfo> sortForAbsence(List<AttInfoEntity.AttInfo> attInfos){
-        if (attInfos != null){
+    public List<AttInfoEntity.AttInfo> sortForAbsence(List<AttInfoEntity.AttInfo> attInfos) {
+        if (attInfos != null) {
             List<AttInfoEntity.AttInfo> attInfoList = attInfos;
-            for (int i=0; i<attInfoList.size(); i++){
+            for (int i = 0; i < attInfoList.size(); i++) {
                 Collections.sort(attInfoList);
             }
             return attInfoList;
@@ -52,7 +52,7 @@ public class AttendInfoPresenter extends BasePresenter{
         return null;
     }
 
-    public interface AttendInfoView extends BaseView{
+    public interface AttendInfoView extends BaseView {
 
     }
 }

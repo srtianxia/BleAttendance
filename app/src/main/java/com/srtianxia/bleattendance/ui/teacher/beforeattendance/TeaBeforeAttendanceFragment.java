@@ -48,8 +48,8 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.loadData(mPresenter.getData());
-        mPresenter.requestTeaDataForNet("0");
+
+        mPresenter.getData();
 
         mSwipeRefresh.setOnRefreshListener(this);
 
@@ -139,7 +139,7 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
     public void onRefresh() {
 
         if (!isShowAttInfoFragment()) {
-            mPresenter.requestTeaDataForNet("0");
+            mPresenter.getData();
 
         } else {
             mAttInfoFragment.onRefresh();

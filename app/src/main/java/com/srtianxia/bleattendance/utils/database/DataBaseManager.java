@@ -6,6 +6,7 @@ import com.srtianxia.bleattendance.entity.TeaCourse;
 import com.srtianxia.bleattendance.entity.TeaCourseEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -17,11 +18,14 @@ import io.realm.RealmResults;
  */
 public class DataBaseManager {
 
-    private final String TAG= "DataBaseManager";
+    private final String TAG = "DataBaseManager";
 
     private Realm realm;
 
     private static DataBaseManager dataBaseManager;
+
+    private List<Integer> isTeaCourse = new ArrayList<>();
+    private List<Integer> isStuCourse = new ArrayList<>();
 
     public DataBaseManager() {
         RealmConfiguration config = new RealmConfiguration.Builder()
@@ -30,16 +34,16 @@ public class DataBaseManager {
         realm = Realm.getInstance(config);
     }
 
-    public static DataBaseManager getInstance(){
-        if (dataBaseManager == null){
+    public static DataBaseManager getInstance() {
+        if (dataBaseManager == null) {
             dataBaseManager = new DataBaseManager();
         }
         return dataBaseManager;
     }
 
-    public void addTeaCourse(TeaCourseEntity teaCourseEntity, int week){
+    public void addTeaCourse(TeaCourseEntity teaCourseEntity, int week) {
 
-        if (teaCourseEntity != null){
+        if (teaCourseEntity != null) {
 
             DBTeaCourseEntity teaCourses = new DBTeaCourseEntity();
             teaCourses.data = new RealmList<>();
@@ -48,9 +52,9 @@ public class DataBaseManager {
             teaCourses.message = teaCourseEntity.message;
             teaCourses.version = teaCourseEntity.version;
 
-            for (int i = 0; i < teaCourseEntity.data.size(); i++){
+            for (int i = 0; i < teaCourseEntity.data.size(); i++) {
                 DBTeaCourse tempTeaCourse = new DBTeaCourse();
-                tempTeaCourse.trid =  teaCourseEntity.data.get(i).trid;
+                tempTeaCourse.trid = teaCourseEntity.data.get(i).trid;
                 tempTeaCourse.scNum = teaCourseEntity.data.get(i).scNum;
                 tempTeaCourse.jxbID = teaCourseEntity.data.get(i).jxbID;
                 tempTeaCourse.hash_day = teaCourseEntity.data.get(i).hash_day;
@@ -65,8 +69,8 @@ public class DataBaseManager {
                 tempTeaCourse.rawWeek = teaCourseEntity.data.get(i).rawWeek;
                 tempTeaCourse.period = teaCourseEntity.data.get(i).period;
                 tempTeaCourse.week = new RealmList<>();
-                if (teaCourseEntity.data.get(i).week != null){
-                    for (int j = 0; j < teaCourseEntity.data.get(i).week.size(); j++){
+                if (teaCourseEntity.data.get(i).week != null) {
+                    for (int j = 0; j < teaCourseEntity.data.get(i).week.size(); j++) {
                         tempTeaCourse.week.add(new RealmInteger(teaCourseEntity.data.get(i).week.get(j)));
                     }
                 }
@@ -80,16 +84,17 @@ public class DataBaseManager {
 
 //                    DBTeaCourseEntity teaCourses = realm.createObject(DBTeaCourseEntity.class,week);
                     realm.copyToRealmOrUpdate(teaCourses);
-
+                    //// todo: 没有判断是否成功
+                    isTeaCourse.add(week);
                 }
             });
         }
 
     }
 
-    public void addStuCourse(NewCourseEntity stuCourseEntity,int week){
+    public void addStuCourse(NewCourseEntity stuCourseEntity, int week) {
 
-        if (stuCourseEntity != null){
+        if (stuCourseEntity != null) {
 
             DBStuCourseEntity stuCourses = new DBStuCourseEntity();
             stuCourses.id = week;
@@ -99,7 +104,7 @@ public class DataBaseManager {
             stuCourses.stuNum = stuCourseEntity.stuNum;
             stuCourses.data = new RealmList<>();
 
-            for (int i = 0; i < stuCourseEntity.data.size(); i++){
+            for (int i = 0; i < stuCourseEntity.data.size(); i++) {
                 DBStuCourse tempStuCourse = new DBStuCourse();
                 tempStuCourse.hash_day = stuCourseEntity.data.get(i).hash_day;
                 tempStuCourse.hash_lesson = stuCourseEntity.data.get(i).hash_lesson;
@@ -117,8 +122,8 @@ public class DataBaseManager {
                 tempStuCourse.period = stuCourseEntity.data.get(i).period;
                 tempStuCourse.id = stuCourseEntity.data.get(i).id;
                 tempStuCourse.week = new RealmList<>();
-                if (stuCourseEntity.data.get(i).week != null){
-                    for (int j = 0; j < stuCourseEntity.data.get(i).week.size(); j++){
+                if (stuCourseEntity.data.get(i).week != null) {
+                    for (int j = 0; j < stuCourseEntity.data.get(i).week.size(); j++) {
                         tempStuCourse.week.add(new RealmInteger(stuCourseEntity.data.get(i).week.get(j)));
                     }
                 }
@@ -129,132 +134,161 @@ public class DataBaseManager {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-
                     realm.copyToRealmOrUpdate(stuCourses);
+                    //// todo: 没有判断是否成功
+                    isStuCourse.add(week);
                 }
             });
         }
     }
 
+    public void queryTeaCourse(int week, OnQueryTeaSuccessListener listener) {
 
-    public TeaCourseEntity queryTeaCourse(int week){
-        DBTeaCourseEntity teaCourseEntity = realm.where(DBTeaCourseEntity.class)
-                .equalTo("id",week).findFirst();
+        TeaCourseEntity teaCourse = new TeaCourseEntity();
 
-        if (teaCourseEntity != null){
-            TeaCourseEntity teaCourse = new TeaCourseEntity();
-            teaCourse.status = teaCourseEntity.status;
-            teaCourse.message = teaCourseEntity.message;
-            teaCourse.version = teaCourseEntity.version;
-            teaCourse.data = new ArrayList<>();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
 
-            for (int i=0; i<teaCourseEntity.data.size(); i++){
-                TeaCourse tempCourse = new TeaCourse();
-                tempCourse.trid =  teaCourseEntity.data.get(i).trid;
-                tempCourse.scNum = teaCourseEntity.data.get(i).scNum;
-                tempCourse.jxbID = teaCourseEntity.data.get(i).jxbID;
-                tempCourse.hash_day = teaCourseEntity.data.get(i).hash_day;
-                tempCourse.hash_lesson = teaCourseEntity.data.get(i).hash_lesson;
-                tempCourse.begin_lesson = teaCourseEntity.data.get(i).begin_lesson;
-                tempCourse.day = teaCourseEntity.data.get(i).day;
-                tempCourse.lesson = teaCourseEntity.data.get(i).lesson;
-                tempCourse.course = teaCourseEntity.data.get(i).course;
-                tempCourse.teacher = teaCourseEntity.data.get(i).teacher;
-                tempCourse.type = teaCourseEntity.data.get(i).type;
-                tempCourse.classroom = teaCourseEntity.data.get(i).classroom;
-                tempCourse.rawWeek = teaCourseEntity.data.get(i).rawWeek;
-                tempCourse.period = teaCourseEntity.data.get(i).period;
-                tempCourse.week = new ArrayList<>();
-                if (teaCourseEntity.data.get(i).week != null){
-                    for (int j = 0; j < teaCourseEntity.data.get(i).week.size(); j++){
-                        tempCourse.week.add(teaCourseEntity.data.get(i).week.get(j).wek);
+                DBTeaCourseEntity teaCourseEntity = realm.where(DBTeaCourseEntity.class)
+                        .equalTo("id", week).findFirst();
+
+                if (teaCourseEntity != null) {
+
+                    teaCourse.status = teaCourseEntity.status;
+                    teaCourse.message = teaCourseEntity.message;
+                    teaCourse.version = teaCourseEntity.version;
+                    teaCourse.data = new ArrayList<>();
+
+                    for (int i = 0; i < teaCourseEntity.data.size(); i++) {
+                        TeaCourse tempCourse = new TeaCourse();
+                        tempCourse.trid = teaCourseEntity.data.get(i).trid;
+                        tempCourse.scNum = teaCourseEntity.data.get(i).scNum;
+                        tempCourse.jxbID = teaCourseEntity.data.get(i).jxbID;
+                        tempCourse.hash_day = teaCourseEntity.data.get(i).hash_day;
+                        tempCourse.hash_lesson = teaCourseEntity.data.get(i).hash_lesson;
+                        tempCourse.begin_lesson = teaCourseEntity.data.get(i).begin_lesson;
+                        tempCourse.day = teaCourseEntity.data.get(i).day;
+                        tempCourse.lesson = teaCourseEntity.data.get(i).lesson;
+                        tempCourse.course = teaCourseEntity.data.get(i).course;
+                        tempCourse.teacher = teaCourseEntity.data.get(i).teacher;
+                        tempCourse.type = teaCourseEntity.data.get(i).type;
+                        tempCourse.classroom = teaCourseEntity.data.get(i).classroom;
+                        tempCourse.rawWeek = teaCourseEntity.data.get(i).rawWeek;
+                        tempCourse.period = teaCourseEntity.data.get(i).period;
+                        tempCourse.week = new ArrayList<>();
+                        if (teaCourseEntity.data.get(i).week != null) {
+                            for (int j = 0; j < teaCourseEntity.data.get(i).week.size(); j++) {
+                                tempCourse.week.add(teaCourseEntity.data.get(i).week.get(j).wek);
+                            }
+                        }
+
+                        teaCourse.data.add(tempCourse);
                     }
                 }
-
-                teaCourse.data.add(tempCourse);
             }
-            return teaCourse;
-        }
-        return null;
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                listener.onSuccess(teaCourse);
+            }
+
+        });
+
     }
 
-    public NewCourseEntity queryStuCourse(int week){
-        DBStuCourseEntity stuCourseEntity = realm.where(DBStuCourseEntity.class)
-                .equalTo("id",week).findFirst();
+    public void queryStuCourse(int week,OnQueryStuSuccessListener listener) {
 
-        if (stuCourseEntity != null){
-            NewCourseEntity stuCourse = new NewCourseEntity();
-            stuCourse.status = stuCourseEntity.status;
-            stuCourse.version = stuCourseEntity.version;
-            stuCourse.term = stuCourseEntity.term;
-            stuCourse.stuNum = stuCourseEntity.stuNum;
-            stuCourse.data = new ArrayList<>();
+        NewCourseEntity stuCourse = new NewCourseEntity();
 
-            for (int i=0; i<stuCourseEntity.data.size(); i++){
-                Course tempCourse = new Course();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
 
-                tempCourse.hash_day = stuCourseEntity.data.get(i).hash_day;
-                tempCourse.hash_lesson = stuCourseEntity.data.get(i).hash_lesson;
-                tempCourse.begin_lesson = stuCourseEntity.data.get(i).begin_lesson;
-                tempCourse.day = stuCourseEntity.data.get(i).day;
-                tempCourse.lesson = stuCourseEntity.data.get(i).lesson;
-                tempCourse.course = stuCourseEntity.data.get(i).course;
-                tempCourse.teacher = stuCourseEntity.data.get(i).teacher;
-                tempCourse.type = stuCourseEntity.data.get(i).type;
-                tempCourse.classroom = stuCourseEntity.data.get(i).classroom;
-                tempCourse.rawWeek = stuCourseEntity.data.get(i).rawWeek;
-                tempCourse.period = stuCourseEntity.data.get(i).period;
-                tempCourse.week = new ArrayList<>();
-                if (stuCourseEntity.data.get(i).week != null){
-                    for (int j = 0; j < stuCourseEntity.data.get(i).week.size(); j++){
-                        tempCourse.week.add(stuCourseEntity.data.get(i).week.get(j).wek);
+                DBStuCourseEntity stuCourseEntity = realm.where(DBStuCourseEntity.class)
+                        .equalTo("id", week).findFirst();
+
+                stuCourse.status = stuCourseEntity.status;
+                stuCourse.version = stuCourseEntity.version;
+                stuCourse.term = stuCourseEntity.term;
+                stuCourse.stuNum = stuCourseEntity.stuNum;
+                stuCourse.data = new ArrayList<>();
+
+                for (int i = 0; i < stuCourseEntity.data.size(); i++) {
+                    Course tempCourse = new Course();
+
+                    tempCourse.hash_day = stuCourseEntity.data.get(i).hash_day;
+                    tempCourse.hash_lesson = stuCourseEntity.data.get(i).hash_lesson;
+                    tempCourse.begin_lesson = stuCourseEntity.data.get(i).begin_lesson;
+                    tempCourse.day = stuCourseEntity.data.get(i).day;
+                    tempCourse.lesson = stuCourseEntity.data.get(i).lesson;
+                    tempCourse.course = stuCourseEntity.data.get(i).course;
+                    tempCourse.teacher = stuCourseEntity.data.get(i).teacher;
+                    tempCourse.type = stuCourseEntity.data.get(i).type;
+                    tempCourse.classroom = stuCourseEntity.data.get(i).classroom;
+                    tempCourse.rawWeek = stuCourseEntity.data.get(i).rawWeek;
+                    tempCourse.period = stuCourseEntity.data.get(i).period;
+                    tempCourse.week = new ArrayList<>();
+                    if (stuCourseEntity.data.get(i).week != null) {
+                        for (int j = 0; j < stuCourseEntity.data.get(i).week.size(); j++) {
+                            tempCourse.week.add(stuCourseEntity.data.get(i).week.get(j).wek);
+                        }
                     }
-                }
 
-                stuCourse.data.add(tempCourse);
+                    stuCourse.data.add(tempCourse);
+                }
             }
-            return stuCourse;
-        }
-        return null;
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                listener.onSuccess(stuCourse);
+            }
+        });
+
     }
 
-    public boolean deleteTeaCourse(){
+    public boolean deleteTeaCourse() {
+
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RealmResults<DBTeaCourseEntity> results = realm.where(DBTeaCourseEntity.class).findAll();
-                if (results.size() == 0){
-                    return ;
+                if (results.size() == 0) {
+                    return;
                 }
                 results.deleteAllFromRealm();
+                isTeaCourse.clear();
             }
         });
         return true;
     }
 
-    public boolean deleteStuCourse(){
+    public boolean deleteStuCourse() {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RealmResults<DBStuCourseEntity> results = realm.where(DBStuCourseEntity.class).findAll();
-                if (results.size() == 0){
-                    return ;
+                if (results.size() == 0) {
+                    return;
                 }
                 results.deleteAllFromRealm();
+                isStuCourse.clear();
             }
         });
         return true;
     }
 
-    public boolean isTeaCourse(int week){
-        if (DataBaseManager.getInstance().queryTeaCourse(week) == null)
+    public boolean isTeaCourse(int week) {
+        /*if (DataBaseManager.getInstance().queryTeaCourse(week) == null)
             return false;
-        return true;
+        return true;*/
+        return isTeaCourse.contains(week);
     }
 
-    public boolean isStuCourse(int week){
-        if (DataBaseManager.getInstance().queryStuCourse(week) == null)
+    public boolean isStuCourse(int week) {
+        /*if (DataBaseManager.getInstance().queryStuCourse(week) == null)
             return false;
-        return true;
+        return true;*/
+        return isStuCourse.contains(week);
     }
 }

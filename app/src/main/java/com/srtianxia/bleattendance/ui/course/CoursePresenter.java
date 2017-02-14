@@ -12,6 +12,8 @@ import com.srtianxia.bleattendance.http.api.Api;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 import com.srtianxia.bleattendance.utils.database.DataBaseManager;
+import com.srtianxia.bleattendance.utils.database.OnQueryStuSuccessListener;
+import com.srtianxia.bleattendance.utils.database.OnQueryTeaSuccessListener;
 
 import java.util.List;
 
@@ -36,7 +38,6 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> 
      * 第二次加载后，则从数据库取数据。
      */
     public void loadData() {
-        Log.i(TAG, "loadData");
 //        mCourseModel.getData(token,week);
         String flag = PreferenceManager.getInstance().getString(PreferenceManager.SP_LOGIN_FLAG, "");
 
@@ -45,18 +46,20 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> 
         //如果从数据库获取不到数据，才进行网络加载。获取到数据了，则直接返回显示。
 
         if (flag.equals(PreferenceManager.SP_LOGIN_FLAG_STU)) {
-            if (DataBaseManager.getInstance().isStuCourse(Integer.parseInt(getView().getWeek())))
+
+            if (DataBaseManager.getInstance().isStuCourse(Integer.parseInt(getView().getWeek()))){
                 requestStuDataForDB(Integer.parseInt(getView().getWeek()));
-            else
+            }
+            else{
                 requestStuDataForNet(getView().getWeek());
+            }
 
         } else {
             if (DataBaseManager.getInstance().isTeaCourse(Integer.parseInt(getView().getWeek())))
                 requestTeaDataForDB(Integer.parseInt(getView().getWeek()));
             else
                 requestTeaDataForNet(getView().getWeek());
-
-        }
+            }
         }
 
 
@@ -75,13 +78,23 @@ public class CoursePresenter extends BasePresenter<CoursePresenter.ICourseView> 
     }
 
     private void requestStuDataForDB(int week){
-        NewCourseEntity stuEntity = DataBaseManager.getInstance().queryStuCourse(week);
-        loadStuSuccess(stuEntity);
+        DataBaseManager.getInstance().queryStuCourse(week, new OnQueryStuSuccessListener() {
+            @Override
+            public void onSuccess(NewCourseEntity stuEntity) {
+                loadStuSuccess(stuEntity);
+            }
+        });
     }
 
     private void requestTeaDataForDB(int week){
-        TeaCourseEntity teaEntity = DataBaseManager.getInstance().queryTeaCourse(week);
-        loadTeaSuccess(teaEntity);
+
+        DataBaseManager.getInstance().queryTeaCourse(week, new OnQueryTeaSuccessListener() {
+            @Override
+            public void onSuccess(TeaCourseEntity teaCourse) {
+                loadTeaSuccess(teaCourse);
+            }
+        });
+
     }
 
     private void requestStuDataForNet(String week){

@@ -10,6 +10,7 @@ import com.srtianxia.bleattendance.http.api.Api;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 import com.srtianxia.bleattendance.utils.database.DataBaseManager;
+import com.srtianxia.bleattendance.utils.database.OnQueryTeaSuccessListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,20 +36,25 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
 
     public List<TeaCourse> getData() {
 
-        if (DataBaseManager.getInstance().queryTeaCourse(0) == null) {
+        if (!DataBaseManager.getInstance().isTeaCourse(0)) {
             requestTeaDataForNet("0");
         } else {
-            teaCourseEntity = DataBaseManager.getInstance().queryTeaCourse(0);
+            DataBaseManager.getInstance().queryTeaCourse(0, new OnQueryTeaSuccessListener() {
+                @Override
+                public void onSuccess(TeaCourseEntity teaCourse) {
+                    loadTeaSuccess(teaCourse);
+                }
+            });
         }
 
-        List<TeaCourse> teaCourseList = classFilter(teaCourseEntity);
+        /*List<TeaCourse> teaCourseList = classFilter(teaCourseEntity);
 
         if (teaCourseList != null) {
             for (int i = 0; i < teaCourseList.size(); i++) {
                 teaCourseList.get(i).course_class = (teaCourseList.get(i).course + " ( " + teaCourseList.get(i).scNum + ")");
             }
             return teaCourseList;
-        }
+        }*/
         return null;
     }
 
@@ -84,6 +90,7 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
     }
 
     private void loadTeaSuccess(TeaCourseEntity teaCourseEntity) {
+
         this.teaCourseEntity = teaCourseEntity;
 
         List<TeaCourse> teaCourseList = classFilter(teaCourseEntity);
@@ -94,6 +101,7 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
             }
 
         }
+
         getView().loadData(teaCourseList);
     }
 

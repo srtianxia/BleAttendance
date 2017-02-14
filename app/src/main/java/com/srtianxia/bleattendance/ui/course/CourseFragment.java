@@ -3,8 +3,7 @@ package com.srtianxia.bleattendance.ui.course;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,12 +37,12 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
     LinearLayout mWeekday;
     @BindView(R.id.linearlayout_weeks)
     LinearLayout mWeeks;
-    @BindView(R.id.recycler_view_course_time)
-    RecyclerView mCourse_time;
     @BindView(R.id.swipe_refresh_layout_course)
     SwipeRefreshLayout mCourseSwipeRefreshLayout;
     @BindView(R.id.course_tab_view_course)
     CourseTableView mCourseTableView;
+    @BindView(R.id.linearlayout_course_time)
+    LinearLayout mCourse_Time;
 
     private static final String TAG = "CourseFragment";
 
@@ -68,7 +67,7 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
         //适配屏幕高度大于700dp的设备
         if (mScreenHeight > DensityUtil.dp2px(getContext(), 700)) {
-            mCourse_time.setLayoutParams(new LinearLayout.LayoutParams(DensityUtil.dp2px(getContext(), 40), mScreenHeight));
+            mCourse_Time.setLayoutParams(new LinearLayout.LayoutParams(DensityUtil.dp2px(getContext(), 40), mScreenHeight));
             mCourseTableView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
         }
 
@@ -134,15 +133,31 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
             mWeeks.addView(tv);
         }
 
-        CourseTimeAdapter courseTimeAdapter = new CourseTimeAdapter(getContext());
-        mCourse_time.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mCourse_time.setAdapter(courseTimeAdapter);
+        for(int i=0; i<12; i++){
+            TextView time = new TextView(getContext());
+            TextView course = new TextView(getContext());
+            time.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL);
+            time.setText(str_times[i]);
+            time.setTextColor(getResources().getColor(R.color.colorGrey_content));
+            time.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
+            course.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL);
+            course.setText((i+1)+"");
+            LinearLayout.LayoutParams time_lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,1);
+            LinearLayout.LayoutParams course_lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0,1);
+
+            time.setLayoutParams(time_lp);
+            course.setLayoutParams(course_lp);
+
+            mCourse_Time.addView(time);
+            mCourse_Time.addView(course);
+
+        }
+
         List<CourseTimeEntity> courseTimeEntities = new ArrayList<>();
         for (int i = 0; i < 12; i++){
             CourseTimeEntity temp = new CourseTimeEntity(str_times[i],(i+1)+"");
             courseTimeEntities.add(temp);
         }
-        courseTimeAdapter.loadData(courseTimeEntities);
 
     }
 

@@ -13,7 +13,12 @@ import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by srtianxia on 2017/1/20.
@@ -34,14 +39,13 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getStuList(token, course.jxbID)
                 .flatMap(stuListEntity -> {
-            String status = mergeAttendanceStatus(stuListEntity, getView().getBleAttendanceInfo());
-            return mApi.postAttendanceInfo(token, course.jxbID, course.hash_day, course.hash_lesson, status, week);
-        })
+                    String status = mergeAttendanceStatus(stuListEntity, getView().getBleAttendanceInfo());
+                    return mApi.postAttendanceInfo(token, course.jxbID, course.hash_day, course.hash_lesson, status, week);
+                })
                 .compose(RxSchedulersHelper.io2main())
                 .subscribe(postAttResultEntity -> {
                             Logger.d(postAttResultEntity);
                             getView().postSuccess();
-//                            loadAttendanceInfo(course.jxbID, week, course.hash_day, course.hash_lesson);
                         },
                         throwable -> {
                             Logger.d(throwable);
@@ -57,28 +61,47 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
      */
     public void getAllStuList(Course course) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
-        mApi.getStuList(token, course.jxbID).compose(RxSchedulersHelper.io2main())
-                .subscribe(entity -> {
+        mApi.getStuList(token, course.jxbID)
+                .map(entity -> {
                     List<String> numberList = new ArrayList<>();
                     for (StuInfoEntity data : entity.getData()) {
-                        numberList.add(data.getStuNum());
+                        numberList.add("学号: " + data.getStuNum() + "\n" + "姓名: " + data.getName());
                     }
+                    return numberList;
+                })
+                .compose(RxSchedulersHelper.io2main())
+                .subscribe(numberList -> {
                     getView().loadAllAttendanceInfoSuccess(numberList);
                 }, throwable -> Logger.d(throwable));
     }
 
     public void loadAttendanceInfo(String jxbID, int week, int hash_day, int hash_lesson) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
-        mApi.getAttendanceInfo(token, jxbID, week, hash_day, hash_lesson).compose(RxSchedulersHelper.io2main()).subscribe(this::loadAttInfoSuccess, this::loadAttInfoFailure);
+        mApi.getAttendanceInfo(token, jxbID, week, hash_day, hash_lesson)
+                .map(attInfoEntity -> {
+                    List<String> list = new ArrayList<>();
+                    Collections.sort(attInfoEntity.data, (o1, o2) -> {
+                        int i = Integer.valueOf(o1.status.get(0));
+                        int j = Integer.valueOf(o2.status.get(0));
+                        if (i == j) {
+                            return 0;
+                        } else {
+                            return i < j ? -1 : 1;
+                        }
+                    });
+                    for (AttInfoEntity.AttInfo info : attInfoEntity.data) {
+                        String s = Integer.valueOf(info.status.get(0)) == ATT ? "出勤" : "缺勤";
+                        list.add("学号: " + info.stuNum + "\n" + "\n" + "姓名: " + info.stuName + " 考勤状态: " + s);
+                    }
+                    return list;
+                })
+                .compose(RxSchedulersHelper.io2main())
+                .subscribe(this::loadAttInfoSuccess, this::loadAttInfoFailure);
     }
 
-    private void loadAttInfoSuccess(AttInfoEntity attInfoEntity) {
-        List<String> list = new ArrayList<>();
-        for (AttInfoEntity.AttInfo info : attInfoEntity.data) {
-            list.add(info.stuNum + " status " + info.status);
-        }
+    private void loadAttInfoSuccess(List<String> list) {
         getView().loadAttendanceInfo(list);
-        Logger.d(attInfoEntity);
+        Logger.d(list);
     }
 
     private void loadAttInfoFailure(Throwable throwable) {

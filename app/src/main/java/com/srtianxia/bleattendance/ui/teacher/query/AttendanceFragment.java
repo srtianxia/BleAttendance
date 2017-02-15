@@ -21,7 +21,7 @@ public class AttendanceFragment extends BaseFragment {
 
     private final String TAG = "AttendanceFragment";
 
-    private static final String[] PARENT_TITLES = {"应出勤", "已考勤", "缺勤"};
+    private static final String[] PARENT_TITLES = {"应出勤", "BLE接收考勤", "考勤情况"};
 
     @BindView(R.id.tab_attend)
     TabLayout mTab;

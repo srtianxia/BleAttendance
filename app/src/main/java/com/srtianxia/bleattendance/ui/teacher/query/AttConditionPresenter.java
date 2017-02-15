@@ -14,11 +14,7 @@ import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 /**
  * Created by srtianxia on 2017/1/20.
@@ -62,13 +58,7 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
     public void getAllStuList(Course course) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getStuList(token, course.jxbID)
-                .map(entity -> {
-                    List<String> numberList = new ArrayList<>();
-                    for (StuInfoEntity data : entity.getData()) {
-                        numberList.add("学号: " + data.getStuNum() + "\n" + "姓名: " + data.getName());
-                    }
-                    return numberList;
-                })
+                .map(entity -> stuListEntity2StringList(entity))
                 .compose(RxSchedulersHelper.io2main())
                 .subscribe(numberList -> {
                     getView().loadAllAttendanceInfoSuccess(numberList);
@@ -78,23 +68,7 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
     public void loadAttendanceInfo(String jxbID, int week, int hash_day, int hash_lesson) {
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getAttendanceInfo(token, jxbID, week, hash_day, hash_lesson)
-                .map(attInfoEntity -> {
-                    List<String> list = new ArrayList<>();
-                    Collections.sort(attInfoEntity.data, (o1, o2) -> {
-                        int i = Integer.valueOf(o1.status.get(0));
-                        int j = Integer.valueOf(o2.status.get(0));
-                        if (i == j) {
-                            return 0;
-                        } else {
-                            return i < j ? -1 : 1;
-                        }
-                    });
-                    for (AttInfoEntity.AttInfo info : attInfoEntity.data) {
-                        String s = Integer.valueOf(info.status.get(0)) == ATT ? "出勤" : "缺勤";
-                        list.add("学号: " + info.stuNum + "\n" + "\n" + "姓名: " + info.stuName + " 考勤状态: " + s);
-                    }
-                    return list;
-                })
+                .map(attInfoEntity -> attInfoEntity2SortStringList(attInfoEntity))
                 .compose(RxSchedulersHelper.io2main())
                 .subscribe(this::loadAttInfoSuccess, this::loadAttInfoFailure);
     }
@@ -125,6 +99,32 @@ public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.I
         }
         builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
+    }
+
+    private List<String> stuListEntity2StringList(StuListEntity entity) {
+        List<String> numberList = new ArrayList<>();
+        for (StuInfoEntity data : entity.getData()) {
+            numberList.add("学号: " + data.getStuNum() + "\n" + "姓名: " + data.getName());
+        }
+        return numberList;
+    }
+
+    private List<String> attInfoEntity2SortStringList(AttInfoEntity attInfoEntity) {
+        List<String> list = new ArrayList<>();
+        Collections.sort(attInfoEntity.data, (o1, o2) -> {
+            int i = Integer.valueOf(o1.status.get(0));
+            int j = Integer.valueOf(o2.status.get(0));
+            if (i == j) {
+                return 0;
+            } else {
+                return i < j ? -1 : 1;
+            }
+        });
+        for (AttInfoEntity.AttInfo info : attInfoEntity.data) {
+            String s = Integer.valueOf(info.status.get(0)) == ATT ? "出勤" : "缺勤";
+            list.add("学号: " + info.stuNum + "\n" + "\n" + "姓名: " + info.stuName + " 考勤状态: " + s);
+        }
+        return list;
     }
 
 

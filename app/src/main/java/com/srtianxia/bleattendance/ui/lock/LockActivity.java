@@ -2,11 +2,13 @@ package com.srtianxia.bleattendance.ui.lock;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.service.LockService;
+import com.srtianxia.bleattendance.utils.TimeUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -24,6 +27,8 @@ public class LockActivity extends BaseLockActivity implements LockPresenter.ILoc
 
     @BindView(R.id.tv_lock_back)TextView mTextView;
     @BindView(R.id.tv_lock_time)TextView mLockTime;
+
+    private final String TAG = "LockActivity";
 
     private final int DEFAULT_TIME = 40*60;
 
@@ -52,38 +57,25 @@ public class LockActivity extends BaseLockActivity implements LockPresenter.ILoc
     private void countDown(int seconds){
 
         Observable.interval(1, TimeUnit.SECONDS)
+                .onBackpressureDrop()
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mLockTime.setText(TimeUtil.timeTransform(seconds));
+                    }
+                })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<Long, Integer>() {
                     @Override
                     public Integer call(Long aLong) {
-                        return seconds - aLong.intValue();
+                        return seconds - aLong.intValue() - 1;
                     }
                 })
                 .map(new Func1<Integer, String>() {
                     @Override
                     public String call(Integer time) {
-                        int hours = time/3600 ;
-                        int minutes = (time - hours*3600)/60;
-                        int seconds = time - hours*3600 - minutes*60;
-                        String str = "";
-
-                        if (hours < 10 ){
-                            str = "0" + hours + ":";
-                        }else
-                            str = "" + hours + ":";
-
-                        if (minutes < 10){
-                            str = str + "0" + minutes + ":";
-                        }else
-                            str = str + minutes + ":";
-
-                        if (seconds < 10){
-                            str = str + "0" + seconds ;
-                        }else
-                            str = str + seconds ;
-
-                        return str;
+                        return TimeUtil.timeTransform(time);
                     }
                 })
                 .take(seconds + 1)
@@ -91,6 +83,11 @@ public class LockActivity extends BaseLockActivity implements LockPresenter.ILoc
                     @Override
                     public void call(String nowTime) {
                         mLockTime.setText(nowTime);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.i(TAG,throwable.toString());
                     }
                 });
     }

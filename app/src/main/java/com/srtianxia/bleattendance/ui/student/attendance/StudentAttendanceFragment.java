@@ -6,6 +6,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     ImageView imgAdvState;
     @BindView(R.id.tv_attention_state)
     TextView tvAttentionState;
+    @BindView(R.id.tv_start)Button start;
 
     private AnimationDrawable mFrameAnim;
 
@@ -97,6 +99,12 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
 //        mPresenter.notifyCenter();
 //    }
 
+    @OnClick(R.id.tv_start)
+    void start(){
+        Intent intent = new Intent(getActivity(), LockService.class);
+        getActivity().startService(intent);
+    }
+
     @OnClick(R.id.img_adv_state)
     void clickImgAdvState() {
         if (getUuid() != null) {
@@ -126,6 +134,13 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     public void onStop() {
         super.onStop();
         mPresenter.stopAdv();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(getActivity(),LockService.class);
+        getActivity().stopService(intent);
     }
 
     @Override

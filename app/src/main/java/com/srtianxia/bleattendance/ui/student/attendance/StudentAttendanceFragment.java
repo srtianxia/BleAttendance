@@ -39,7 +39,8 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     ImageView imgAdvState;
     @BindView(R.id.tv_attention_state)
     TextView tvAttentionState;
-    @BindView(R.id.tv_start)Button start;
+    @BindView(R.id.tv_start)
+    Button start;
 
     private AnimationDrawable mFrameAnim;
 
@@ -100,7 +101,7 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
 //    }
 
     @OnClick(R.id.tv_start)
-    void start(){
+    void start() {
         Intent intent = new Intent(getActivity(), LockService.class);
         getActivity().startService(intent);
     }
@@ -139,7 +140,7 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(getActivity(),LockService.class);
+        Intent intent = new Intent(getActivity(), LockService.class);
         getActivity().stopService(intent);
     }
 

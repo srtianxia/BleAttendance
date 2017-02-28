@@ -22,7 +22,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
     }
 
-
     private void initStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            getWindow().getDecorView().setSystemUiVisibility(

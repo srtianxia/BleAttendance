@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
-import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.entity.CourseTimeEntity;
 import com.srtianxia.bleattendance.entity.StuEntity;
@@ -20,6 +19,7 @@ import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.DensityUtil;
 import com.srtianxia.bleattendance.utils.DialogUtils;
 import com.srtianxia.bleattendance.utils.SchoolCalendar;
+import com.srtianxia.bleattendance.utils.ToastUtil;
 import com.srtianxia.bleattendance.widget.CourseTableView;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import butterknife.BindView;
 /**
  * Created by 梅梅 on 2017/1/20.
  */
-public class CourseFragment extends BaseFragment implements CoursePresenter.ICourseView {
+public class CourseFragment extends ViewPagerFragment implements CoursePresenter.ICourseView {
     @BindView(R.id.text_month)
     TextView mMonth;
     @BindView(R.id.linearlayout_weekday)
@@ -48,6 +48,8 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     public static final String BUNDLE_KEY = "WEEK_NUM";
 
+    private boolean isPrepared = false;     //这个用来标记 onCreateView()是否已经执行,用于fragment的懒加载函数lazyload()
+
     private int mWeek;      //记录用户选择的周数
     private StuEntity mStu;
 
@@ -60,9 +62,15 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     @Override
     protected void initView() {
-        mWeek = getArguments().getInt(BUNDLE_KEY);
 
-        coursePresenter = new CoursePresenter(this);
+        fitScreen();
+        initData();
+        initListener();
+        initDraw();
+
+    }
+
+    private void fitScreen() {
         int mScreenHeight = DensityUtil.getScreenHeight(getContext());
 
         //适配屏幕高度大于700dp的设备
@@ -70,12 +78,16 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
             mCourse_Time.setLayoutParams(new LinearLayout.LayoutParams(DensityUtil.dp2px(getContext(), 40), mScreenHeight));
             mCourseTableView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mScreenHeight));
         }
+    }
 
-        initDraw();
+    private void initData() {
+        mWeek = getArguments().getInt(BUNDLE_KEY);
+        coursePresenter = new CoursePresenter(this);
+        isPrepared = true;
+        lazyload();
+    }
 
-        // todo:如果mWeek = 本周，则……
-        coursePresenter.loadData();
-
+    private void initListener() {
         mCourseTableView.setOnLongClickListener(courses -> {
             DialogUtils.getInstance().showDialog(getActivity(), "课程选择", "是否选择：第 " + getWeek() + "  周 " + courses.list.get(0).course + " ？",
                     new DialogUtils.OnButtonChooseListener() {
@@ -182,7 +194,7 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
 
     @Override
     public void showCourseFailure(Throwable throwable) {
-        mCourseSwipeRefreshLayout.setRefreshing(false);
+        ToastUtil.show(getActivity(),getResources().getString(R.string.login_error_not_network),true);
     }
 
     @Override
@@ -203,6 +215,28 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
         return mWeek + "";
     }
 
+    /**
+     *如果isPrepared为false,说明onCreateView()没执行，视图未初始化，就调用view加载数据，则会有空指针异常
+     * isPrepared = ture isVisible = ture ，则视图初始化完毕，并且用户滑到了本fragment，则可以开始加载数据
+     */
+    @Override
+    protected void lazyload() {
+        if (isPrepared && isVisible){
+            onVisible();
+        }
+    }
+
+    @Override
+    protected void onVisible() {
+        // todo:如果mWeek = 本周，则……
+        coursePresenter.loadData();
+    }
+
+    @Override
+    protected void onInVisible() {
+
+    }
+
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_course;
@@ -214,5 +248,6 @@ public class CourseFragment extends BaseFragment implements CoursePresenter.ICou
         fragment.setArguments(bundle);
         return fragment;
     }
+
 
 }

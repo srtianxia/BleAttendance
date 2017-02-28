@@ -80,16 +80,16 @@ public class LockService extends Service {
 
         //FLAG_UPDATE_CURRENT：如果该PendingIntent已经存在，则用新传入的Intent更新当前的数据。
         // 这个参数不填这个，则点击notification跳转到lockActivity 显示的时间是第一次传入的旧时间
-        PendingIntent pi_lock = PendingIntent.getActivity(this,0,intent_lock,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi_lock = PendingIntent.getActivity(this, 0, intent_lock, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (!isNotification){
+        if (!isNotification) {
             Notification.Builder builder = new Notification.Builder(this);
             builder.setSmallIcon(R.mipmap.ic_home);
             builder.setContentTitle("正在认真上课");
             builder.setContentText(TimeUtil.getNotificationTime());
             builder.setContentIntent(pi_lock);
             Notification notification = builder.build();
-            notificationManager.notify(NOTIFICATION_ID,notification);
+            notificationManager.notify(NOTIFICATION_ID, notification);
             isNotification = true;
         }
 
@@ -105,7 +105,7 @@ public class LockService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.i("TAG","onDestroy");
+        Log.i("TAG", "onDestroy");
         super.onDestroy();
 
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -135,15 +135,15 @@ public class LockService extends Service {
                     public void call(Integer nowTime) {
                         mNowTime = nowTime;
                         Log.i("TAG", nowTime + "");
-                        if (nowTime.equals(0)){
-                            Intent intent = new Intent(getApplication(),LockService.class);
+                        if (nowTime.equals(0)) {
+                            Intent intent = new Intent(getApplication(), LockService.class);
                             getApplication().stopService(intent);
                         }
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.i("TAG",throwable.toString());
+                        Log.i("TAG", throwable.toString());
 
                     }
                 });

@@ -39,9 +39,6 @@ public class CourseContainerFragment extends BaseFragment {
     protected void initView() {
         initData();
         initListener();
-        mAdapter = new BetterVpAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
-        mViewPager.setAdapter(mAdapter);
-        mTabs.setupWithViewPager(mViewPager);
         Log.i(TAG,"initview");
 //        countDown(20);
 
@@ -61,6 +58,9 @@ public class CourseContainerFragment extends BaseFragment {
             }
         }
 
+        mAdapter = new BetterVpAdapter(getActivity().getSupportFragmentManager(), mFragmentList, mTitles);
+        mViewPager.setAdapter(mAdapter);
+        mTabs.setupWithViewPager(mViewPager);
     }
 
     private void initListener() {
@@ -95,5 +95,6 @@ public class CourseContainerFragment extends BaseFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
+
 
 }

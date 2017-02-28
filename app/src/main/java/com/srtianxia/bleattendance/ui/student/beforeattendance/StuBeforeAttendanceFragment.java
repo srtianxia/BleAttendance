@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
@@ -42,6 +43,7 @@ public class StuBeforeAttendanceFragment extends BaseFragment implements StuBefo
 
     public void loadFailure(String throwable){
         ToastUtil.show(getActivity(),getResources().getString(R.string.request_error_for_net),true);
+        Log.i("TAG",throwable);
     }
 
     public void loading(){

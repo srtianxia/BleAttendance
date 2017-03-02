@@ -20,14 +20,7 @@ public class MainActivity extends BaseActivity {
         openBlueTooth();
         mFragmentManager = getSupportFragmentManager();
         initFragment();
-//        if (!ProcessUtil.isPermission(this)) {
-//            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
-//            Toast.makeText(this, "权限不够\n请打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾",
-//                Toast.LENGTH_LONG).show();
-//        }
-//        startService(new Intent(this, LockService.class));
+
     }
 
 

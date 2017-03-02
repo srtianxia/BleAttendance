@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.student.attendance;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -17,6 +18,7 @@ import com.srtianxia.bleattendance.ui.student.home.StudentHomeActivity;
 import com.srtianxia.bleattendance.utils.DialogUtils;
 import com.srtianxia.bleattendance.utils.ProcessUtil;
 import com.srtianxia.bleattendance.utils.ToastUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,6 +33,8 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
 
     private static final String UN_ATT = "未考勤";
     private static final String ATT = "已考勤";
+
+    RxPermissions mRxPermissions = new RxPermissions(getActivity()); // where this is an Activity instance
 
 
     //    @BindView(R.id.btn_advertise)
@@ -61,6 +65,15 @@ public class StudentAttendanceFragment extends BaseFragment implements StuAttend
         imgAdvState.setBackground(mFrameAnim);
         tvAttentionState.setText(mAttState);
         dialogOpenAccess();
+
+        mRxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+
+                    } else {
+
+                    }
+                });
     }
 
     @Override

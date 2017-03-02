@@ -68,6 +68,7 @@ public class TeacherScanPresenter extends BasePresenter<TeacherScanPresenter.ITe
     public void startScan(String uuid) {
         if (isScanning()) {
             mScanSubscription.unsubscribe();
+            mScanSubscription = null;
         } else {
             mScanSubscription = mTeacherScanModel
                     .startScan(UUID.fromString(uuid))

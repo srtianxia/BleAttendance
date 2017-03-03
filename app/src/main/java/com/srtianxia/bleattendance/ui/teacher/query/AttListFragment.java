@@ -105,7 +105,6 @@ public class AttListFragment extends BaseListFragment<String, AttListAdapter> im
     }
 
 
-    // 这里写的 太差了  = =
     public void postAttInfo() {
         if (mHomeActivity.getCourseInfo() != null) {
             DialogUtils.getInstance().showProgressDialog(getActivity(), "考勤信息上传中,请稍后");

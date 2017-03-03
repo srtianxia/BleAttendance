@@ -22,7 +22,7 @@ import java.util.List;
 
 public class AttConditionPresenter extends BasePresenter<AttConditionPresenter.IAttConditionView> {
     private Api mApi;
-    private static final int UN_ATT = 0;
+    private static final int UN_ATT = 2;
     private static final int ATT = 1;
 
 

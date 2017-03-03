@@ -14,7 +14,8 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         initStatusBarColor();
         super.onCreate(savedInstanceState);
         setContentView(getLayoutRes());
@@ -36,7 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //            } else {
 //                getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
 //            }
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
     }
 

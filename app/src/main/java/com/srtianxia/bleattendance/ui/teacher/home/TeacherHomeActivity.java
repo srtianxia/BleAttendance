@@ -84,7 +84,7 @@ public class TeacherHomeActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             initFragment();
         }
     }
@@ -105,7 +105,7 @@ public class TeacherHomeActivity extends BaseActivity
 
     }
 
-    private void initFragment(){
+    private void initFragment() {
         mTeacherScanFragment = TeacherScanFragment.newInstance();
         mCourseContainerFragment = CourseContainerFragment.newInstance();
         mAttendanceFragment = AttendanceFragment.newInstance();

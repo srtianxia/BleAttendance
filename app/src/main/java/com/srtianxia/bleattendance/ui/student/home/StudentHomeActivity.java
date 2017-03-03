@@ -1,6 +1,7 @@
 package com.srtianxia.bleattendance.ui.student.home;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -51,7 +52,25 @@ public class StudentHomeActivity extends BaseActivity
     private String mUUid;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null){
+            initFragment();
+        }
+    }
+
+    @Override
     protected void initView() {
+        bottomViewStudent.setOnNavigationItemSelectedListener(this);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar_title.setText(getString(R.string.student_page_toolbar));
+
+//        openUsageAccess();
+    }
+
+    protected void initFragment() {
         mAttendanceFragment = StudentAttendanceFragment.newInstance();
         mCourseContainerFragment = CourseContainerFragment.newInstance();
         mBeforeAttendanceFragment = StuBeforeAttendanceFragment.newInstance();
@@ -64,13 +83,6 @@ public class StudentHomeActivity extends BaseActivity
                 .hide(mBeforeAttendanceFragment)
                 .show(mAttendanceFragment)
                 .commit();
-        bottomViewStudent.setOnNavigationItemSelectedListener(this);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar_title.setText(getString(R.string.student_page_toolbar));
-
-//        openUsageAccess();
     }
 
     @Override

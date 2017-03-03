@@ -14,7 +14,6 @@ public class MainActivity extends BaseActivity {
     private LoginFragment mLoginFragment;
     private FragmentManager mFragmentManager;
 
-
     @Override
     protected void initView() {
         openBlueTooth();

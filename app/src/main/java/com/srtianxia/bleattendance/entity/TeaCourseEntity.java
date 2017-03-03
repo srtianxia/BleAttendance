@@ -12,5 +12,6 @@ public class TeaCourseEntity{
     public String message;
     public String version;
     public List<TeaCourse> data;
+    public int nowWeek;
 
 }

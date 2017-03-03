@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.teacher.home;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
@@ -60,17 +61,17 @@ public class TeacherHomeActivity extends BaseActivity
 //    Button btnPost;
 
 
-    private TeacherScanFragment mTeacherScanFragment = TeacherScanFragment.newInstance();
+    private TeacherScanFragment mTeacherScanFragment;
 
 //    private AttConditionFragment mAttConditionFragment = AttConditionFragment.newInstance();
 
-    private AttendanceFragment mAttendanceFragment = AttendanceFragment.newInstance();
+    private AttendanceFragment mAttendanceFragment;
 
-    private TeaBeforeAttendanceFragment mTeaBeforeAttendanceFragment = TeaBeforeAttendanceFragment.newInstance();
-
-    private List<Integer> mNumberList = new ArrayList<>();
+    private TeaBeforeAttendanceFragment mTeaBeforeAttendanceFragment;
 
     private CourseContainerFragment mCourseContainerFragment;
+
+    private List<Integer> mNumberList = new ArrayList<>();
 
     public List<Integer> mStuNumber = new ArrayList<>();
 
@@ -81,19 +82,15 @@ public class TeacherHomeActivity extends BaseActivity
     private String mUuid;
 
     @Override
-    protected void initView() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null){
+            initFragment();
+        }
+    }
 
-        mCourseContainerFragment = CourseContainerFragment.newInstance();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, mTeacherScanFragment)
-                .add(R.id.fragment_container, mAttendanceFragment)
-                .add(R.id.fragment_container, mCourseContainerFragment)
-                .add(R.id.fragment_container, mTeaBeforeAttendanceFragment)
-                .show(mTeacherScanFragment)
-                .hide(mAttendanceFragment)
-                .hide(mCourseContainerFragment)
-                .hide(mTeaBeforeAttendanceFragment)
-                .commit();
+    @Override
+    protected void initView() {
 
 //        tvCurrentCourse.setText(getPrefixText() + getText(R.string.current_course_no_choose));
 
@@ -106,6 +103,24 @@ public class TeacherHomeActivity extends BaseActivity
 
         toolbar_title.setText(getString(R.string.teacher_page_toolbar));
 
+    }
+
+    private void initFragment(){
+        mTeacherScanFragment = TeacherScanFragment.newInstance();
+        mCourseContainerFragment = CourseContainerFragment.newInstance();
+        mAttendanceFragment = AttendanceFragment.newInstance();
+        mTeaBeforeAttendanceFragment = TeaBeforeAttendanceFragment.newInstance();
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, mTeacherScanFragment)
+                .add(R.id.fragment_container, mAttendanceFragment)
+                .add(R.id.fragment_container, mCourseContainerFragment)
+                .add(R.id.fragment_container, mTeaBeforeAttendanceFragment)
+                .show(mTeacherScanFragment)
+                .hide(mAttendanceFragment)
+                .hide(mCourseContainerFragment)
+                .hide(mTeaBeforeAttendanceFragment)
+                .commit();
     }
 
     @Override

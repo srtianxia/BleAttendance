@@ -22,6 +22,7 @@ public class TeaCourse{
     public String rawWeek;
     public String period;
     public List<Integer> week;
+//    public int priod;
     //操作系统（04011403）
     public String course_class;
 

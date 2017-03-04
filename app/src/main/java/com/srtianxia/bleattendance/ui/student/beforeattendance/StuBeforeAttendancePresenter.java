@@ -48,16 +48,23 @@ public class StuBeforeAttendancePresenter extends BasePresenter<StuBeforeAttenda
         getView().loadFinish();
     }
 
+    /**
+     * 把从服务器获取的数据转换为显示所要求的数据格式
+     * @param entity    服务器获取的数据
+     * @return
+     */
     private List<StuAttInfoEntity.ShowData> stuAttInfoFiler(StuAttInfoEntity entity) {
 
         List<StuAttInfoEntity.ShowData> dataList = new ArrayList<>();
-        List<String> stringList = new ArrayList<>();
+        List<String> jxbIDList = new ArrayList<>();
+        List<String> courseList = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap();
 
         for (int i = 0; i < entity.data.size(); i++) {
             if (!map.containsKey(entity.data.get(i).jxbID)) {
                 map.put(entity.data.get(i).jxbID, 0);
-                stringList.add(entity.data.get(i).jxbID);
+                jxbIDList.add(entity.data.get(i).jxbID);
+                courseList.add(entity.data.get(i).course);
             }
         }
 
@@ -70,8 +77,9 @@ public class StuBeforeAttendancePresenter extends BasePresenter<StuBeforeAttenda
 
         for (int k = 0; k < map.size(); k++) {
             StuAttInfoEntity.ShowData tempData = new StuAttInfoEntity.ShowData();
-            tempData.jxbID = stringList.get(k);
-            tempData.att_num = map.get(stringList.get(k));
+            tempData.jxbID = jxbIDList.get(k);
+            tempData.att_num = map.get(jxbIDList.get(k));
+            tempData.course =  courseList.get(k);
             dataList.add(tempData);
         }
         return dataList;

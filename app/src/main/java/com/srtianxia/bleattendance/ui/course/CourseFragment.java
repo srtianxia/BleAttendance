@@ -88,24 +88,26 @@ public class CourseFragment extends ViewPagerFragment implements CoursePresenter
     }
 
     private void initListener() {
-        mCourseTableView.setOnLongClickListener(courses -> {
-            DialogUtils.getInstance().showDialog(getActivity(), "课程选择", "是否选择：第 " + getWeek() + "  周 " + courses.list.get(0).course + " ？",
-                    new DialogUtils.OnButtonChooseListener() {
-                        @Override
-                        public void onPositive() {
-                            if (mTeacherHomeActivity != null) {
-                                mTeacherHomeActivity.setAttCourse(courses, getWeek());
-                            } else if (mStudentHomeActivity != null) {
-                                mStudentHomeActivity.setAttCourse(courses, getWeek());
+        if (!getWeek().equals("0")){
+            mCourseTableView.setOnLongClickListener(courses -> {
+                DialogUtils.getInstance().showDialog(getActivity(), "课程选择", "是否选择：第 " + getWeek() + "  周 " + courses.list.get(0).course + " ？",
+                        new DialogUtils.OnButtonChooseListener() {
+                            @Override
+                            public void onPositive() {
+                                if (mTeacherHomeActivity != null) {
+                                    mTeacherHomeActivity.setAttCourse(courses, getWeek());
+                                } else if (mStudentHomeActivity != null) {
+                                    mStudentHomeActivity.setAttCourse(courses, getWeek());
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onNegative() {
+                            @Override
+                            public void onNegative() {
 
-                        }
-                    });
-        });
+                            }
+                        });
+            });
+        }
 
         mCourseSwipeRefreshLayout.setOnRefreshListener(() -> {
             coursePresenter.updateData();

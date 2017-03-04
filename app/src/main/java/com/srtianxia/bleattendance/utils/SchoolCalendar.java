@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
  */
 public class SchoolCalendar {
     //本学期开开学第一天 Calender的月份需要真实月份 -1
-    private Calendar firstDay = new GregorianCalendar(2016, 9 - 1, 5);
+    private Calendar firstDay = new GregorianCalendar(2017, 2 - 1, 27);
     private Calendar currentDay;
 
     /**

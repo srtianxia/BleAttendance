@@ -57,7 +57,7 @@ public class StuBeforeAttendanceAdapter extends RecyclerView.Adapter{
         }
 
         public void setData(int position){
-            mCourseName.setText(dataList.get(position).jxbID);
+            mCourseName.setText(dataList.get(position).course);
             mAttendance.setText(dataList.get(position).att_num+"");
         }
 

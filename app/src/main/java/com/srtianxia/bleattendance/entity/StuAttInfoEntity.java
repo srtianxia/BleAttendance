@@ -32,11 +32,13 @@ public class StuAttInfoEntity {
         public String hash_lesson;
         public String status;
         public String jxbID;
+        public String course;
     }
 
     public static class ShowData{
         public String jxbID;
         public int att_num;
+        public String course;
     }
 
 }

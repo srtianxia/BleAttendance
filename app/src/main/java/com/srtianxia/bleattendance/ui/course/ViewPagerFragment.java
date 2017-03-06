@@ -11,7 +11,7 @@ import com.srtianxia.bleattendance.base.view.BaseFragment;
 /**
  * Created by 梅梅 on 2017/2/27.
  */
-public abstract class ViewPagerFragment extends BaseFragment{
+public abstract class ViewPagerFragment extends BaseFragment {
 
     protected boolean isVisible = false;
 
@@ -23,15 +23,16 @@ public abstract class ViewPagerFragment extends BaseFragment{
 
     /**
      * 该方法在每次fragment切换时回调，由isVisibleToUser判断fragment是否显示
-     * @param isVisibleToUser   当fragment显示时为ture,隐藏时为false
+     *
+     * @param isVisibleToUser 当fragment显示时为ture,隐藏时为false
      */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
+        if (isVisibleToUser) {
             isVisible = true;
             onVisible();
-        }else {
+        } else {
             isVisible = false;
             onInVisible();
         }

@@ -30,17 +30,22 @@ public abstract class ViewPagerFragment extends BaseFragment{
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
             isVisible = true;
-            lazyload();
+            onVisible();
         }else {
             isVisible = false;
+            onInVisible();
         }
     }
 
     //// TODO: 2017/2/27 从一个fragment 滑到 另一个fragment的过程，serUserVisibleHint()方法执行吗？仿类似微信的处理（加载中……）
     protected abstract void lazyload();
 
-    protected abstract void onVisible();
+    protected void onVisible() {
+        lazyload();
+    }
 
-    protected abstract void onInVisible();
+    protected void onInVisible() {
+
+    }
 
 }

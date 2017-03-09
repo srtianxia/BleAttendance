@@ -21,19 +21,20 @@ public abstract class BaseFragment extends RxAppCompatDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             boolean isHidden = savedInstanceState.getBoolean(IS_HIDDEN);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            if (isHidden){
+            if (isHidden) {
                 transaction.hide(this);
-            }else {
+            } else {
                 transaction.show(this);
             }
             transaction.commit();
         }
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutRes(), container, false);
@@ -50,7 +51,7 @@ public abstract class BaseFragment extends RxAppCompatDialogFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(IS_HIDDEN,isHidden());
+        outState.putBoolean(IS_HIDDEN, isHidden());
     }
 
     protected abstract void initView();

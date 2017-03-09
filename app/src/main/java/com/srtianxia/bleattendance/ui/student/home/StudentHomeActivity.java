@@ -18,6 +18,7 @@ import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.student.attendance.StudentAttendanceFragment;
 import com.srtianxia.bleattendance.ui.student.beforeattendance.StuBeforeAttendanceFragment;
+import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ProcessUtil;
 import com.srtianxia.bleattendance.utils.UiHelper;
@@ -61,19 +62,26 @@ public class StudentHomeActivity extends BaseActivity
 
     @Override
     protected void initView() {
+        mAttendanceFragment = StudentAttendanceFragment.newInstance();
+        mCourseContainerFragment = CourseContainerFragment.newInstance();
+        mBeforeAttendanceFragment = StuBeforeAttendanceFragment.newInstance();
+
         bottomViewStudent.setOnNavigationItemSelectedListener(this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar_title.setText(getString(R.string.student_page_toolbar));
 
+
+        Intent intent = new Intent(this, TeacherHomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+
 //        openUsageAccess();
     }
 
     protected void initFragment() {
-        mAttendanceFragment = StudentAttendanceFragment.newInstance();
-        mCourseContainerFragment = CourseContainerFragment.newInstance();
-        mBeforeAttendanceFragment = StuBeforeAttendanceFragment.newInstance();
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mAttendanceFragment)

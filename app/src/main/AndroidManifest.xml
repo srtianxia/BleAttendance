@@ -18,17 +18,21 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppThemeNoActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.teacher.home.TeacherHomeActivity"/>
-        <activity android:name=".ui.student.home.StudentHomeActivity"/>
+        <activity
+            android:name=".ui.teacher.home.TeacherHomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.student.home.StudentHomeActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".service.LockService"></service>
 
@@ -37,7 +41,8 @@
         <activity
             android:theme="@style/AppThemeNoActionbar"
             android:name=".ui.lock.LockActivity"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

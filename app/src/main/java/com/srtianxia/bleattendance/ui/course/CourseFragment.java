@@ -224,10 +224,10 @@ public class CourseFragment extends ViewPagerFragment implements CoursePresenter
     @Override
     protected void lazyload() {
         if (isPrepared && isVisible){
-            // todo:如果mWeek = 本周，则……
             coursePresenter.loadData();
         }
     }
+    // todo:如果mWeek = 本周，则……
 
     @Override
     protected void onInVisible() {

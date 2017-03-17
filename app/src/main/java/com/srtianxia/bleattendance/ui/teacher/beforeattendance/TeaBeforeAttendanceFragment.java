@@ -6,17 +6,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.srtianxia.bleattendance.BleApplication;
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
 import com.srtianxia.bleattendance.entity.AttInfoEntity;
 import com.srtianxia.bleattendance.entity.TeaCourse;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
-import com.srtianxia.bleattendance.utils.ToastUtil;
+import com.srtianxia.bleattendance.utils.NetWorkUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by 梅梅 on 2017/2/9.
@@ -29,18 +33,22 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_tea_before)
     SwipeRefreshLayout mSwipeRefresh;
+    @BindView(R.id.linearlayout_request_error_info)
+    LinearLayout mReqeustErrorInfo;
+    @BindView(R.id.tv_request_again)
+    TextView mRequestAgain;
 
     private TeaBeforeAttendancePresenter mPresenter = new TeaBeforeAttendancePresenter(this);
 
     private TeaBeforeAttendanceAdapter mAdapter = new TeaBeforeAttendanceAdapter();
 
-    private AttendInfoFragment mAttInfoFragment;
+    private AttendInfoFragment mAttInfoFragment = AttendInfoFragment.newInstance();
 
-    private AttInfoEntity mAttInfoEntity;
+    private AttInfoEntity mAttInfoEntity = null;
 
     private String mJxbID;
-    private Boolean isShowAttInfoFragment = false;
-    private Boolean havaAttInfoFragment = false;
+    private Boolean isShowAttInfoFragment = false;  //判断attInfofragment是否正在显示
+    private Boolean havaAttInfoFragment = false;    //判断是否已经add过fragment
 
 
     @Override
@@ -70,13 +78,29 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
     public void showAttInfoFragment() {
 
         ((TeacherHomeActivity) getActivity()).showHome();
+        mRecyclerView.setVisibility(View.GONE);
+        mReqeustErrorInfo.setVisibility(View.GONE);
+        addAttInfoFragment();
 
-        mRecyclerView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showAttInfoFailure() {
+        mRecyclerView.setVisibility(View.GONE);
+        mReqeustErrorInfo.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showTeaDataFailure() {
+        mReqeustErrorInfo.setVisibility(View.VISIBLE);
+    }
+
+    private void addAttInfoFragment() {
 
         if (!havaAttInfoFragment) {
-            mAttInfoFragment = AttendInfoFragment.newInstance();
             getChildFragmentManager().beginTransaction()
                     .add(R.id.framelayout_before, mAttInfoFragment)
+                    .show(mAttInfoFragment)
                     .commit();
             havaAttInfoFragment = true;
             isShowAttInfoFragment = true;
@@ -84,9 +108,13 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
             getChildFragmentManager().beginTransaction()
                     .show(mAttInfoFragment)
                     .commit();
-            mAttInfoFragment.loadData();
             isShowAttInfoFragment = true;
+            mAttInfoFragment.loadData();
         }
+
+        /*if (mAttInfoEntity != null){//不为空说明请求数据成功
+            mAttInfoFragment.loadData();
+        }*/
 
     }
 
@@ -94,6 +122,11 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
         mAttInfoEntity = entity;
     }
 
+    /**
+     * 返回详细信息 AttInfoEntity 给 AttendInfoFragment
+     *
+     * @return
+     */
     public AttInfoEntity getAttInfoEntity() {
         if (mAttInfoEntity != null) {
             return mAttInfoEntity;
@@ -101,9 +134,8 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
         return null;
     }
 
-    @Override
-    public void showFailure() {
-        ToastUtil.show(getActivity(), getResources().getString(R.string.request_error_for_net), true);
+    public void updataAttInfo() {
+        mPresenter.requestAttInfoForNet(mJxbID);
     }
 
     public void loading() {
@@ -118,6 +150,7 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
     public void showBeforeAttFragment() {
 
         mRecyclerView.setVisibility(View.VISIBLE);
+        mReqeustErrorInfo.setVisibility(View.GONE);
 
         getChildFragmentManager().beginTransaction()
                 .hide(mAttInfoFragment)
@@ -127,8 +160,21 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
     }
 
     public void loadData(List<TeaCourse> teaCourseList) {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mReqeustErrorInfo.setVisibility(View.GONE);
         mAdapter.loadData(teaCourseList);
     }
+
+    @Override
+    public void showFailureForNetWork() {
+        mReqeustErrorInfo.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideCourseName() {
+        mRecyclerView.setVisibility(View.GONE);
+    }
+
 
     public boolean isShowAttInfoFragment() {
 
@@ -138,13 +184,46 @@ public class TeaBeforeAttendanceFragment extends BaseFragment implements TeaBefo
     @Override
     public void onRefresh() {
 
-        if (!isShowAttInfoFragment()) {
+        /*if (!isShowAttInfoFragment() && mJxbID.equals("")) {    //在第一个fragment，并且课程名还没出来的情况
             mPresenter.getData();
-
-        } else {
-            mAttInfoFragment.onRefresh();
         }
+        if (!isShowAttInfoFragment() && !mJxbID.equals("")){    //在第一个fragment，课程名出来了，点击但是没网加载的情况
+            mPresenter.requestAttInfoForNet(mJxbID);
+        }
+        if (isShowAttInfoFragment()){   //在第二个fragment，实现他本身的刷新
+            mAttInfoFragment.updataAttInfo();
+        }*/
+        if (!NetWorkUtils.isNetworkConnected(BleApplication.getContext())){
+            mReqeustErrorInfo.setVisibility(View.GONE);
+        }else {
+            if (!isShowAttInfoFragment()){
+                mPresenter.getData();
+            }
+            if (isShowAttInfoFragment()){
+                mPresenter.requestAttInfoForNet(mJxbID);
+            }
+
+        }
+
         loadFinish();
+
+    }
+
+    @OnClick(R.id.tv_request_again)
+    void doRequestAgain() {
+
+        /*if (mJxbID.equals("")){
+            mPresenter.getData();
+        }else {
+            mPresenter.requestAttInfoForNet(mJxbID);
+        }
+*/
+        if (isShowAttInfoFragment()){
+            mPresenter.requestAttInfoForNet(mJxbID);
+        }
+        if (!isShowAttInfoFragment()){
+            mPresenter.getData();
+        }
 
     }
 

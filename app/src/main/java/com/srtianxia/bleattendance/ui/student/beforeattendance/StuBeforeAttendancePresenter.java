@@ -1,10 +1,12 @@
 package com.srtianxia.bleattendance.ui.student.beforeattendance;
 
+import com.srtianxia.bleattendance.BleApplication;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.entity.StuAttInfoEntity;
 import com.srtianxia.bleattendance.http.ApiUtil;
 import com.srtianxia.bleattendance.http.api.Api;
+import com.srtianxia.bleattendance.utils.NetWorkUtils;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 
@@ -31,6 +33,13 @@ public class StuBeforeAttendancePresenter extends BasePresenter<StuBeforeAttenda
 
     public void requestStuAttForNet() {
         getView().loading();
+
+        if (!NetWorkUtils.isNetworkConnected(BleApplication.getContext())){
+            getView().showFailureForNetWork();
+            getView().loadFinish();
+            return;
+        }
+
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_STUDENT, "");
         mApi.getStuAttendanceInfo(token, 0, 0, 0)
                 .compose(RxSchedulersHelper.io2main())
@@ -39,6 +48,7 @@ public class StuBeforeAttendancePresenter extends BasePresenter<StuBeforeAttenda
 
     private void requestStuAttSuccess(StuAttInfoEntity entity) {
         List<StuAttInfoEntity.ShowData> dataList = stuAttInfoFiler(entity);
+        getView().hideFailureForNetWork();
         getView().loadData(dataList);
         getView().loadFinish();
     }
@@ -93,5 +103,9 @@ public class StuBeforeAttendancePresenter extends BasePresenter<StuBeforeAttenda
         void loadFinish();
 
         void loading();
+
+        void showFailureForNetWork();
+
+        void hideFailureForNetWork();
     }
 }

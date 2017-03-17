@@ -110,5 +110,6 @@
     <string name="login_error_passwork_error">账号或密码错误</string>
 
     <string name="request_error_for_net">网络请求失败,请检查网络设置</string>
+    <string name="request_again">重新加载</string>
 
 </resources>

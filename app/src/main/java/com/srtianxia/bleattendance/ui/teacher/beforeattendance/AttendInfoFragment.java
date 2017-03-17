@@ -31,12 +31,20 @@ public class AttendInfoFragment extends BaseFragment implements AttendInfoPresen
 
     public void loadData() {
         AttInfoEntity firstEntity = ((TeaBeforeAttendanceFragment) getParentFragment()).getAttInfoEntity();
-        AttInfoEntity secondEntity = mPresenter.absenceFiler(firstEntity);
+        if (firstEntity != null){
 
-        mAdapter.loadData(mPresenter.sortForAbsence(secondEntity.data));
+            AttInfoEntity secondEntity = mPresenter.absenceFiler(firstEntity);
+            mAdapter.loadData(mPresenter.sortForAbsence(secondEntity.data));
+
+        }
     }
 
     public void onRefresh() {
+        updataAttInfo();
+    }
+
+    public void updataAttInfo(){
+        ((TeaBeforeAttendanceFragment)getParentFragment()).updataAttInfo();
         loadData();
     }
 

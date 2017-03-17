@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 import com.srtianxia.bleattendance.BleApplication;
 
+import java.util.HashSet;
+
 /**
  * Created by srtianxia on 2016/7/30.
  */
@@ -24,6 +26,9 @@ public class PreferenceManager {
     public static final String SP_LOGIN_FLAG = "FLAG";
     public static final String SP_LOGIN_FLAG_STU = "FLAG_S";
     public static final String SP_LOGIN_FLAG_TEA = "FLAG_T";
+
+    public static final String SP_IS_TEA_COURSE = "IS_TEA_C";
+    public static final String SP_IS_STU_COURSE = "IS_STU_C";
 
     public static PreferenceManager getInstance() {
         return PreferenceInstance.instance;
@@ -58,4 +63,15 @@ public class PreferenceManager {
     public int getInteger(String key) {
         return mSettings.getInt(key, DEFAULT_NUMBER);
     }
+
+    public void setHashSet(String key, HashSet<String> set){
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putStringSet(key,set);
+        editor.apply();
+    }
+
+    public HashSet<String> getHashSet(String key){
+        return (HashSet<String>) mSettings.getStringSet(key,new HashSet<String>());
+    }
+
 }

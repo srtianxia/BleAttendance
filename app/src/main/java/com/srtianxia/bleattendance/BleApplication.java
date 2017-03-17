@@ -10,6 +10,7 @@ import io.realm.Realm;
  * Created by srtianxia on 2016/7/30.
  */
 public class BleApplication extends Application {
+
     private static Context mContext;
     private RxBleClient mClient;
 
@@ -19,7 +20,6 @@ public class BleApplication extends Application {
         mClient = RxBleClient.create(this);
         initRealm();
     }
-
 
     public static Context getContext() {
         return mContext;

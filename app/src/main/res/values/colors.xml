@@ -66,5 +66,6 @@
 
 
     <color name="toolbar_text_Color_Primary">#1D8AE7</color>
+    <color name="net_error_text_color">#66666666</color>
 
 </resources>

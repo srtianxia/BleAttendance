@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends RxAppCompatDialogFragment {
 
-    private static String IS_HIDDEN = "IS_HIDDEN";      //用来标记该fragment是否被内存回收
+    private final String IS_HIDDEN = "IS_HIDDEN";      //用来标记该fragment是否被内存回收
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

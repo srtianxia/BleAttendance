@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.teacher.attendance;
 
+import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import com.srtianxia.bleattendance.di.component.DaggerTeacherComponent;
 import com.srtianxia.bleattendance.di.module.TeacherModule;
 import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.ToastUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import javax.inject.Inject;
 
@@ -21,6 +23,10 @@ public class TeacherScanFragment extends BaseListFragment<RxBleScanResult, Teach
     private TeacherScanAdapter mAdapter = new TeacherScanAdapter();
 
     private TeacherHomeActivity mHomeActivity;
+
+
+    private RxPermissions mRxPermissions; // where this is an Activity instance
+
 
     public static TeacherScanFragment newInstance() {
         Bundle args = new Bundle();
@@ -43,11 +49,21 @@ public class TeacherScanFragment extends BaseListFragment<RxBleScanResult, Teach
     @Override
     protected void initView() {
         super.initView();
+        mRxPermissions = new RxPermissions(getActivity());
         DaggerTeacherComponent.builder()
                 .teacherModule(new TeacherModule(this))
                 .build()
                 .inject(this);
         initRecyclerViewAdapter();
+
+        mRxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+
+                    } else {
+
+                    }
+                });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.srtianxia.bleattendance.ui.teacher.beforeattendance;
 
+import com.srtianxia.bleattendance.BleApplication;
 import com.srtianxia.bleattendance.base.presenter.BasePresenter;
 import com.srtianxia.bleattendance.base.view.BaseView;
 import com.srtianxia.bleattendance.entity.AttInfoEntity;
@@ -7,6 +8,7 @@ import com.srtianxia.bleattendance.entity.TeaCourse;
 import com.srtianxia.bleattendance.entity.TeaCourseEntity;
 import com.srtianxia.bleattendance.http.ApiUtil;
 import com.srtianxia.bleattendance.http.api.Api;
+import com.srtianxia.bleattendance.utils.NetWorkUtils;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.RxSchedulersHelper;
 import com.srtianxia.bleattendance.utils.database.DataBaseManager;
@@ -34,7 +36,16 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
         return getView();
     }
 
-    public List<TeaCourse> getData() {
+    public void getData() {
+
+        getView().loading();
+
+        if (!NetWorkUtils.isNetworkConnected(BleApplication.getContext())){
+            getView().hideCourseName();
+            getView().showFailureForNetWork();
+            getView().loadFinish();
+            return;
+        }
 
         if (!DataBaseManager.getInstance().isTeaCourse(0)) {
             requestTeaDataForNet("0");
@@ -42,7 +53,7 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
             DataBaseManager.getInstance().queryTeaCourse(0, new OnQueryTeaSuccessListener() {
                 @Override
                 public void onSuccess(TeaCourseEntity teaCourse) {
-                    loadTeaSuccess(teaCourse);
+                    requestTeaDataSuccess(teaCourse);
                 }
             });
         }
@@ -55,7 +66,6 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
             }
             return teaCourseList;
         }*/
-        return null;
     }
 
     public List<TeaCourse> classFilter(TeaCourseEntity teaCourseEntity) {
@@ -85,11 +95,11 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
         String teaToken = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getTeaCourse(teaToken, week)
                 .compose(RxSchedulersHelper.io2main())
-                .subscribe(this::loadTeaSuccess, this::loadFailure);
+                .subscribe(this::requestTeaDataSuccess, this::loadTeaDataFailure);
 
     }
 
-    private void loadTeaSuccess(TeaCourseEntity teaCourseEntity) {
+    private void requestTeaDataSuccess(TeaCourseEntity teaCourseEntity) {
 
         this.teaCourseEntity = teaCourseEntity;
 
@@ -103,24 +113,39 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
         }
 
         getView().loadData(teaCourseList);
+        getView().loadFinish();
     }
 
     public void requestAttInfoForNet(String jxbID) {
         getView().loading();
+
+        if (!NetWorkUtils.isNetworkConnected(BleApplication.getContext())){
+            getView().hideCourseName();
+            getView().showFailureForNetWork();
+            getView().loadFinish();
+            return;
+        }
+
         String token = PreferenceManager.getInstance().getString(PreferenceManager.SP_TOKEN_TEACHER, "");
         mApi.getAttendanceInfo(token, jxbID, 0, 0, 0)
                 .compose(RxSchedulersHelper.io2main())
-                .subscribe(this::requestAttInfoSuccess, this::loadFailure);
+                .subscribe(this::requestAttInfoSuccess, this::loadAttInfoFailure);
     }
 
     private void requestAttInfoSuccess(AttInfoEntity entity) {
         getView().saveAttInfoEntity(entity);
         getView().showAttInfoFragment();
         getView().loadFinish();
+
     }
 
-    private void loadFailure(Throwable throwable) {
-        getView().showFailure();
+    private void loadTeaDataFailure(Throwable throwable) {
+        getView().showTeaDataFailure();
+        getView().loadFinish();
+    }
+
+    private void loadAttInfoFailure(Throwable throwable) {
+        getView().showAttInfoFailure();
         getView().loadFinish();
     }
 
@@ -134,9 +159,15 @@ public class TeaBeforeAttendancePresenter extends BasePresenter<TeaBeforeAttenda
 
         void showAttInfoFragment();
 
-        void showFailure();
+        void showAttInfoFailure();
+
+        void showTeaDataFailure();
 
         void loadData(List<TeaCourse> teaCourseList);
+
+        void showFailureForNetWork();
+
+        void hideCourseName();
     }
 
 }

@@ -21,7 +21,6 @@ public abstract class BaseListFragment<E, T extends BaseAdapter<E>> extends Base
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-
     @Override
     protected int getLayoutRes() {
         return R.layout.base_list_fragment;
@@ -40,7 +39,6 @@ public abstract class BaseListFragment<E, T extends BaseAdapter<E>> extends Base
         getAdapter().clearData();
         loadListData();
     }
-
 
     // 添加一个item数据
     public void addData(E data) {

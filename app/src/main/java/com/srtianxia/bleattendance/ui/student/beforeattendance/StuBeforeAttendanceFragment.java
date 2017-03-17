@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.srtianxia.bleattendance.R;
 import com.srtianxia.bleattendance.base.view.BaseFragment;
@@ -14,6 +16,7 @@ import com.srtianxia.bleattendance.utils.ToastUtil;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by 梅梅 on 2017/2/11.
@@ -22,6 +25,8 @@ public class StuBeforeAttendanceFragment extends BaseFragment implements StuBefo
 
     @BindView(R.id.swipe_refresh_stu_before)SwipeRefreshLayout mSwipeRefresh;
     @BindView(R.id.recycler_view_stu_before)RecyclerView mRecyclerView;
+    @BindView(R.id.linearlayout_request_error_info)LinearLayout mRequestError;
+    @BindView(R.id.tv_request_again)TextView mRequestAgain;
 
     private StuBeforeAttendancePresenter mPresenter = new StuBeforeAttendancePresenter(this);
 
@@ -43,11 +48,22 @@ public class StuBeforeAttendanceFragment extends BaseFragment implements StuBefo
 
     public void loadFailure(String throwable){
         ToastUtil.show(getActivity(),getResources().getString(R.string.request_error_for_net),true);
-        Log.i("TAG",throwable);
     }
 
     public void loading(){
         mSwipeRefresh.setRefreshing(true);
+    }
+
+    @Override
+    public void showFailureForNetWork() {
+        mRecyclerView.setVisibility(View.GONE);
+        mRequestError.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideFailureForNetWork() {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mRequestError.setVisibility(View.GONE);
     }
 
     public void loadFinish(){
@@ -58,6 +74,11 @@ public class StuBeforeAttendanceFragment extends BaseFragment implements StuBefo
     public void onRefresh() {
         mPresenter.requestStuAttForNet();
         loadFinish();
+    }
+
+    @OnClick(R.id.tv_request_again)
+    void doRequestAgain(){
+        onRefresh();
     }
 
     @Override

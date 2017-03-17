@@ -4,9 +4,10 @@ import com.srtianxia.bleattendance.entity.Course;
 import com.srtianxia.bleattendance.entity.NewCourseEntity;
 import com.srtianxia.bleattendance.entity.TeaCourse;
 import com.srtianxia.bleattendance.entity.TeaCourseEntity;
+import com.srtianxia.bleattendance.utils.PreferenceManager;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -23,9 +24,6 @@ public class DataBaseManager {
     private Realm realm;
 
     private static DataBaseManager dataBaseManager;
-
-    private List<Integer> isTeaCourse = new ArrayList<>();
-    private List<Integer> isStuCourse = new ArrayList<>();
 
     public DataBaseManager() {
         RealmConfiguration config = new RealmConfiguration.Builder()
@@ -82,10 +80,16 @@ public class DataBaseManager {
                 @Override
                 public void execute(Realm realm) {
 
-//                    DBTeaCourseEntity teaCourses = realm.createObject(DBTeaCourseEntity.class,week);
+                    // todo: 没有判断存储是否成功
+
+                    HashSet<String> isTeaCourse = new HashSet<String>(PreferenceManager.getInstance().getHashSet(PreferenceManager.SP_IS_TEA_COURSE));
+
+                    isTeaCourse.add(String.valueOf(week));
+                    PreferenceManager.getInstance().setHashSet(PreferenceManager.SP_IS_TEA_COURSE,isTeaCourse);
+
+                    //DBTeaCourseEntity teaCourses = realm.createObject(DBTeaCourseEntity.class,week);
                     realm.copyToRealmOrUpdate(teaCourses);
-                    //// todo: 没有判断是否成功
-                    isTeaCourse.add(week);
+
                 }
             });
         }
@@ -134,9 +138,15 @@ public class DataBaseManager {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
+
+                    // todo: 没有判断存储是否成功
+
+                    HashSet<String> isStuCourse = new HashSet<String>(PreferenceManager.getInstance().getHashSet(PreferenceManager.SP_IS_STU_COURSE));
+
+                    isStuCourse.add(String.valueOf(week));
+                    PreferenceManager.getInstance().setHashSet(PreferenceManager.SP_IS_STU_COURSE,isStuCourse);
+
                     realm.copyToRealmOrUpdate(stuCourses);
-                    //// todo: 没有判断是否成功
-                    isStuCourse.add(week);
                 }
             });
         }
@@ -256,8 +266,15 @@ public class DataBaseManager {
                 if (results.size() == 0) {
                     return;
                 }
+
+
+                HashSet isTeaCourse = PreferenceManager.getInstance().getHashSet(PreferenceManager.SP_IS_TEA_COURSE);
+                if (isTeaCourse != null){
+                    isTeaCourse.clear();
+                }
+
                 results.deleteAllFromRealm();
-                isTeaCourse.clear();
+
             }
         });
         return true;
@@ -271,24 +288,29 @@ public class DataBaseManager {
                 if (results.size() == 0) {
                     return;
                 }
+
+                HashSet isStuCourse = PreferenceManager.getInstance().getHashSet(PreferenceManager.SP_IS_STU_COURSE);
+                if (isStuCourse != null){
+                    isStuCourse.clear();
+                }
+
                 results.deleteAllFromRealm();
-                isStuCourse.clear();
+
             }
         });
         return true;
     }
 
     public boolean isTeaCourse(int week) {
-        /*if (DataBaseManager.getInstance().queryTeaCourse(week) == null)
-            return false;
-        return true;*/
-        return isTeaCourse.contains(week);
+        HashSet<String> isTeaCourse = PreferenceManager.getInstance().getHashSet(PreferenceManager.SP_IS_TEA_COURSE);
+
+        return isTeaCourse.contains(String.valueOf(week));
+
     }
 
     public boolean isStuCourse(int week) {
-        /*if (DataBaseManager.getInstance().queryStuCourse(week) == null)
-            return false;
-        return true;*/
-        return isStuCourse.contains(week);
+        HashSet<String> isStuCourse = PreferenceManager.getInstance().getHashSet(PreferenceManager.SP_IS_STU_COURSE);
+
+        return isStuCourse.contains(String.valueOf(week));
     }
 }

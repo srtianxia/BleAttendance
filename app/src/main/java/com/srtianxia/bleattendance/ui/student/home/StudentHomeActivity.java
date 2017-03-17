@@ -18,7 +18,6 @@ import com.srtianxia.bleattendance.ui.MainActivity;
 import com.srtianxia.bleattendance.ui.course.CourseContainerFragment;
 import com.srtianxia.bleattendance.ui.student.attendance.StudentAttendanceFragment;
 import com.srtianxia.bleattendance.ui.student.beforeattendance.StuBeforeAttendanceFragment;
-import com.srtianxia.bleattendance.ui.teacher.home.TeacherHomeActivity;
 import com.srtianxia.bleattendance.utils.PreferenceManager;
 import com.srtianxia.bleattendance.utils.ProcessUtil;
 import com.srtianxia.bleattendance.utils.UiHelper;
@@ -71,12 +70,6 @@ public class StudentHomeActivity extends BaseActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar_title.setText(getString(R.string.student_page_toolbar));
-
-
-        Intent intent = new Intent(this, TeacherHomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-
 
 //        openUsageAccess();
     }
